@@ -1,14 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="Base">
 <head>
-    <meta charset="UTF-8"></meta>
-    <title>Person #{xd}</title>
+    <title th:text="'Person ' + ${person.displayName}"></title>
 </head>
 <body>
-<h1 th:text="${person.displayName}"></h1>
-<ul>
-    <li>First name: <span th:text="${person.firstName}"></span></li>
-    <li>Last name: <span th:text="${person.lastName}"></span></li>
-</ul>
+<div layout:fragment="content">
+    <h1 class="uk-heading-primary" th:text="${person.displayName}"></h1>
+    <dl class="uk-description-list">
+        <dt th:unless="${#strings.isEmpty(person.firstName)}">First name</dt>
+        <dd th:unless="${#strings.isEmpty(person.firstName)}" th:text="${person.firstName}"></dd>
+        <dt th:unless="${#strings.isEmpty(person.middleName)}">Middle name</dt>
+        <dd th:unless="${#strings.isEmpty(person.middleName)}" th:text="${person.middleName}"></dd>
+        <dt th:unless="${#strings.isEmpty(person.lastName)}">Last name</dt>
+        <dd th:unless="${#strings.isEmpty(person.lastName)}" th:text="${person.lastName}"></dd>
+    </dl>
+</div>
 </body>
 </html>
