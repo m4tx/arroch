@@ -1,8 +1,6 @@
 .gradle
-/build/
 !gradle/wrapper/gradle-wrapper.jar
 out/
-
 ### STS ###
 .apt_generated
 .classpath
@@ -17,10 +15,15 @@ out/
 *.iml
 *.ipr
 
-### NetBeans ###
-nbproject/private/
 build/
-nbbuild/
 dist/
-nbdist/
-.nb-gradle/
+logs
+project/project
+project/target
+target
+tmp
+.history
+/.idea_modules
+/.classpath
+/.project
+/RUNNING_PID
