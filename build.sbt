@@ -10,6 +10,8 @@ libraryDependencies ++= Seq( javaJdbc ,  cache , javaWs )
 
 libraryDependencies ++= Seq(
   javaJpa,
+  "org.postgresql" % "postgresql" % "42.0.0",
+  "dom4j" % "dom4j" % "1.6.1",
   "org.hibernate" % "hibernate-core" % "5.2.10.Final"
 ) //Hibernate ORM
 
@@ -17,4 +19,4 @@ PlayKeys.externalizeResources := false
 
 unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  
 
-resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"  
+resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
