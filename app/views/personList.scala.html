@@ -1,0 +1,11 @@
+@import java.util
+@(people: util.List[Person])
+
+@main("People") {
+    <h1 class="uk-heading-primary">People</h1>
+    <ul>
+    @for(person <- people) {
+        <li><a href="@routes.People.person(person.getId)">@person.getDisplayName</a></li>
+    }
+    </ul>
+}

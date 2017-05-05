@@ -6,15 +6,29 @@ import play.db.jpa.Transactional;
 import play.mvc.Result;
 import views.html.index;
 import views.html.person;
+import views.html.personList;
 
 import javax.persistence.EntityManager;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 import static play.mvc.Results.ok;
 
 public class People {
+    @Transactional
+    public Result people() {
+        EntityManager em = JPA.em();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<Person> query = criteriaBuilder.createQuery(Person.class);
+        Root<Person> from = query.from(Person.class);
+        List<Person> people = em.createQuery(query.select(from)).getResultList();
+        return ok(personList.render(people));
+    }
+
     @Transactional
     public Result person(Integer id) {
         EntityManager em = JPA.em();
