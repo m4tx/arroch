@@ -5,7 +5,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "property_types")
 public class PropertyType {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "property_id", nullable = false)
     private int propertyId;
 

@@ -5,7 +5,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "sources")
 public class DataSource {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "source_id")
     private int id;
 

@@ -1,10 +1,12 @@
 package models;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "people_info")
 public class PersonInfo {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column
     private long id;
 

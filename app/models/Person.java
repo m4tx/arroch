@@ -7,7 +7,8 @@ import java.util.List;
 @Entity
 @Table(name = "people")
 public class Person {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "person_id")
     private int id;
 
