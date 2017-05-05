@@ -13,6 +13,16 @@
         <title>@title</title>
     </head>
     <body>
-        @content
+        <nav class="uk-navbar-container">
+            <div class="uk-navbar-left">
+                <a class="uk-navbar-item uk-logo" href="/">Arroch</a>
+                <ul class="uk-navbar-nav">
+                    <li class="uk-active"><a href="/person/1">People</a></li>
+                </ul>
+            </div>
+        </nav>
+        <div class="uk-container">
+            @content
+        </div>
     </body>
 </html>
