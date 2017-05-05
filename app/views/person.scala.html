@@ -1,0 +1,19 @@
+@(person: Person)
+
+@main("Arroch") {
+    <h1 class="uk-heading-primary">@person.getDisplayName</h1>
+    <dl class="uk-description-list">
+        @if(person.getFirstName) {
+            <dt>First name</dt>
+            <dd>@person.getFirstName</dd>
+        }
+        @if(person.getMiddleName) {
+            <dt>Middle name</dt>
+            <dd>@person.getMiddleName</dd>
+        }
+        @if(person.getLastName) {
+            <dt>Last name</dt>
+            <dd>@person.getLastName</dd>
+        }
+    </dl>
+}
