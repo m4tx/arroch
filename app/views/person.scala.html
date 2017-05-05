@@ -1,6 +1,6 @@
 @(person: Person)
 
-@main("Arroch") {
+@main(person.getDisplayName) {
     <h1 class="uk-heading-primary">@person.getDisplayName</h1>
     <dl class="uk-description-list">
         @if(person.getFirstName) {
