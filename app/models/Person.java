@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "people")
@@ -20,6 +21,9 @@ public class Person {
 
     @Column(name = "display_name", nullable = false)
     private String displayName;
+
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
+    private List<PersonInfo> info;
 
     public int getId() {
         return id;
@@ -55,5 +59,9 @@ public class Person {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public List<PersonInfo> getInfo() {
+        return info;
     }
 }

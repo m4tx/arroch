@@ -15,5 +15,9 @@
             <dt>Last name</dt>
             <dd>@person.getLastName</dd>
         }
+        @for(properity <- person.getInfo) {
+            <dt>@properity.getType.getName</dt>
+            <dd>@properity.getValue</dd>
+        }
     </dl>
 }

@@ -9,7 +9,7 @@ public class PropertyType {
     @Column(name = "property_id", nullable = false)
     private int propertyId;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
     @Column
