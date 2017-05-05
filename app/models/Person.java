@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,8 +23,8 @@ public class Person {
     @Column(name = "display_name", nullable = false)
     private String displayName;
 
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY)
-    private List<PersonInfo> info;
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PersonInfo> info = new ArrayList<>();
 
     public int getId() {
         return id;

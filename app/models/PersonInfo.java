@@ -37,4 +37,8 @@ public class PersonInfo {
     public PropertyType getType() {
         return type;
     }
+
+    public void setType(PropertyType type) {
+        this.type = type;
+    }
 }
