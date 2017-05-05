@@ -4,15 +4,15 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "property_types")
-public class Property {
+public class PropertyType {
     @Id @GeneratedValue
     @Column(name = "property_id", nullable = false)
     private int propertyId;
 
-    @Column(name = "name")
+    @Column
     private String name;
 
-    @Column(name = "icon")
+    @Column
     private String icon;
 
     public int getPropertyId() {
