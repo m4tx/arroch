@@ -25,7 +25,11 @@ public class People {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Person> query = criteriaBuilder.createQuery(Person.class);
         Root<Person> from = query.from(Person.class);
-        List<Person> people = em.createQuery(query.select(from)).getResultList();
+        query.select(from).orderBy(
+                criteriaBuilder.asc(from.get("lastName")),
+                criteriaBuilder.asc(from.get("firstName"))
+        );
+        List<Person> people = em.createQuery(query).getResultList();
         return ok(personList.render(people));
     }
 
