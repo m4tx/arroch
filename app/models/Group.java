@@ -25,6 +25,14 @@ public class Group {
     @JoinColumn(name = "file_id")
     @Column
     private File photo;
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "members",
+            joinColumns = {@JoinColumn(name = "group_id")},
+            inverseJoinColumns = {@JoinColumn(name = "person_id")}
+    )
+    private Set<Person> members;
 
     public int getId() {
         return id;
@@ -60,5 +68,9 @@ public class Group {
 
     public void setPhoto(File photo) {
         this.photo = photo;
+    }
+    
+    public Set<Person> getMembers() {
+        return members;
     }
 }
