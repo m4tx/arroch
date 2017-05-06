@@ -9,10 +9,10 @@ public class Conversation {
     @Column(name = "conversation_id", nullable = false)
     private int conversationId;
 
-    @Column(name = "name")
+    @Column
     private int name;
 
-    @Column(name = "source")
+    @Column
     private String source;
 
     public int getConversationId() {
