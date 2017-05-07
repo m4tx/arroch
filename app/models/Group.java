@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "groups")
@@ -14,16 +15,14 @@ public class Group {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-    @Column(nullable = false)
+    @JoinColumn(name = "id", nullable = false)
     private GroupType type;
 
     @Column
     private String description;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "file_id")
-    @Column
     private File photo;
     
     @ManyToMany(fetch = FetchType.LAZY)

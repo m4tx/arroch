@@ -12,12 +12,10 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "message_id", nullable = false)
-    @Column
     private Message thread;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    @Column(name = "group_id", nullable = false)
+    @JoinColumn(name = "group_id", nullable = false)
     private Group groupId;
 
     public long getId() {
