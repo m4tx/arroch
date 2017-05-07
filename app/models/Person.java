@@ -44,6 +44,9 @@ public class Person {
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Message> taggedIn = new ArrayList<>();
+
     public int getId() {
         return id;
     }
@@ -110,6 +113,10 @@ public class Person {
 
     public List<Message> getMessages() {
         return messages;
+    }
+    
+    public List<Message> getTaggedIn() {
+        return taggedIn;
     }
 
     static {
