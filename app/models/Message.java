@@ -24,7 +24,16 @@ public class Message {
 
     @Column(name = "body")
     private String body;
-    
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "tags",
+            joinColumns = {@JoinColumn(name = "message_id")},
+            inverseJoinColumns = {@JoinColumn(name = "person_id")}
+    )
+
+
+
 
 
     public int getMessage() {
