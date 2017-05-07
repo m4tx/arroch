@@ -74,6 +74,8 @@ public class DatabasePreloader {
                 if (em.createQuery(query).getSingleResult() != 0) {
                     Logger.info("Database not empty, skipping preload");
                     enabled = false;
+                    defaultTasks.clear();
+                    testTasks.clear();
                     return;
                 }
 

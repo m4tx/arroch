@@ -39,26 +39,4 @@ public class People {
         Person p = em.find(Person.class, id);
         return ok(person.render(p));
     }
-
-    /**
-     * (Very) temporary (for test purposes) controller that creates a random new Person.
-     */
-    @Transactional
-    public Result testCreate() {
-        EntityManager em = JPA.em();
-        Person person = new Person();
-        Random random = new Random();
-        person.setFirstName(randomString(random, 10));
-        person.setLastName(randomString(random, 10));
-        person.setDisplayName(person.getFirstName() + " " + person.getLastName());
-        em.persist(person);
-        return ok(index.render("ID: " + person.getId()));
-    }
-
-    private static String randomString(Random random, final int maxLength) {
-        final int length = 1 + random.nextInt(maxLength);
-        return random.ints(length, 'a', 'z' + 1)
-                .mapToObj(i -> Character.toString((char) i))
-                .collect(Collectors.joining());
-    }
 }

@@ -7,7 +7,6 @@ GET     /                           controllers.Application.index
 
 # People
 GET     /person/                    controllers.People.people
-GET     /person/testCreate          controllers.People.testCreate
 GET     /person/:id                 controllers.People.person(id: Integer)
 
 # Map static resources from the /public folder to the /assets URL path
