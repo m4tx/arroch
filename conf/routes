@@ -7,6 +7,8 @@ GET     /                           controllers.Application.index
 
 # People
 GET     /person/                    controllers.People.people
+GET     /person/:id/edit            controllers.People.editPerson(id: Integer)
+POST    /person/:id/edit            controllers.People.editPersonPost(id: Integer)
 GET     /person/:id                 controllers.People.person(id: Integer)
 
 # Map static resources from the /public folder to the /assets URL path

@@ -1,7 +1,10 @@
 @(person: Person)
 
 @main(person.getDisplayName) {
-    <h1 class="uk-heading-primary">@person.getDisplayName</h1>
+    <h1 class="uk-heading-primary">
+        @person.getDisplayName
+        <a class="uk-icon-link" uk-icon="icon: pencil; ratio: 2" href="@routes.People.editPerson(person.getId)"></a>
+    </h1>
     <dl class="uk-description-list">
         @if(person.getFirstName) {
             <dt>First name</dt>

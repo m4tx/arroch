@@ -1,0 +1,15 @@
+@import helper._
+@import forms.UIKitFieldConstructor._
+@(person: Person, form: Form[Person])
+
+@main("Edit " + person.getDisplayName) {
+    <h1 class="uk-heading-primary">@person.getDisplayName</h1>
+    @helper.form(action = routes.People.editPersonPost(person.getId), args = 'class -> "uk-form-stacked") {
+        @inputText(form("firstName"), args = 'class -> "uk-input", '_label -> "First name")
+        @inputText(form("middleName"), args = 'class -> "uk-input", '_label -> "Middle name")
+        @inputText(form("lastName"), args = 'class -> "uk-input", '_label -> "Last name")
+        @inputText(form("displayName"), args = 'class -> "uk-input", '_label -> "Display name")
+
+        <button class="uk-button uk-button-default" type="submit">Save</button>
+    }
+}
