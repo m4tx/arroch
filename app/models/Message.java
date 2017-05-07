@@ -1,28 +1,33 @@
 package models;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "messages")
 public class Message {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "message_id", nullable = false)
-    private int messageId;
+    private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id", nullable = false)
-    private Person parent;
+    private Message parent;
+
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Message> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Person author;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "timestamp")
-    private Date date;
+    @Column
+    private Date timestamp;
 
-    @Column(name = "body")
+    @Column(length = 10000)
     private String body;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -31,25 +36,39 @@ public class Message {
             joinColumns = {@JoinColumn(name = "message_id")},
             inverseJoinColumns = {@JoinColumn(name = "person_id")}
     )
+    private List<Person> tags = new ArrayList<>();
 
 
-
-
-
-    public int getMessage() {
-        return messageId;
+    public int getId() {
+        return id;
     }
 
-    public int getConversation_id() {
-        return messageId;
+    public Message getParent() {
+        return parent;
     }
 
-    public Date getDate() {
-        return date;
+    public void setParent(Message parent) {
+        this.parent = parent;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public List<Message> getComments() {
+        return comments;
+    }
+
+    public Person getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Person author) {
+        this.author = author;
+    }
+
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getBody() {
@@ -60,11 +79,7 @@ public class Message {
         this.body = body;
     }
 
-    public void setParent(Person parent) {
-        this.parent = parent;
-    }
-
-    public Person getAuthor() {
-        return author;
+    public List<Person> getTags() {
+        return tags;
     }
 }

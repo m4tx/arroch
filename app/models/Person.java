@@ -41,6 +41,9 @@ public class Person {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Group selfGroup;
 
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Message> messages = new ArrayList<>();
+
     public int getId() {
         return id;
     }
@@ -103,6 +106,10 @@ public class Person {
 
     public void setSelfGroup(Group selfGroup) {
         this.selfGroup = selfGroup;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
     }
 
     static {
