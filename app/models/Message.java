@@ -10,12 +10,15 @@ public class Message {
     @Column(name = "message_id", nullable = false)
     private int messageId;
 
-    @Column(name = "parent_id", nullable = false)
-    private int parentId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id", nullable = false)
+    private Person parent;
 
-    @Column(name = "author_id", nullable = false)
-    private int authorId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    private Person author;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "timestamp")
     private Date date;
 
@@ -32,10 +35,6 @@ public class Message {
         return messageId;
     }
 
-    public int getAuthor_id() {
-        return authorId;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -50,5 +49,13 @@ public class Message {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public void setParent(Person parent) {
+        this.parent = parent;
+    }
+
+    public Person getAuthor() {
+        return author;
     }
 }
