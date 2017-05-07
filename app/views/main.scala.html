@@ -24,5 +24,11 @@
         <div class="uk-container">
             @content
         </div>
+
+        @if(flash.containsKey("success")) {
+            <script>
+                UIkit.notification("<span uk-icon='icon: check'></span> @flash.get("success")", {status:'success'});
+            </script>
+        }
     </body>
 </html>

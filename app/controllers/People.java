@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+import static play.mvc.Controller.flash;
 import static play.mvc.Results.ok;
 import static play.mvc.Results.redirect;
 
@@ -68,6 +69,7 @@ public class People {
         person.setMiddleName(newPerson.getMiddleName());
         person.setLastName(newPerson.getLastName());
         person.setDisplayName(newPerson.getDisplayName());
+        flash("success", "The person has been edited");
         return redirect(routes.People.person(id));
     }
 }
