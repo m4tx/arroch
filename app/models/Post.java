@@ -10,13 +10,13 @@ public class Post {
     @Column(name = "post_id")
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "message_id", nullable = false)
     private Message thread;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id", nullable = false)
-    private Group groupId;
+    @JoinColumn(nullable = false)
+    private Group group;
 
     public long getId() {
         return id;
@@ -31,10 +31,10 @@ public class Post {
     }
 
     public Group getGroupId() {
-        return groupId;
+        return group;
     }
 
     public void setGroupId(Group groupId) {
-        this.groupId = groupId;
+        this.group = groupId;
     }
 }

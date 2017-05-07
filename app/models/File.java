@@ -4,8 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "files")
-public class File
-{
+public class File {
     @Id
     @GeneratedValue
     @Column(name = "file_id")

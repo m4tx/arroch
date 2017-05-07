@@ -5,20 +5,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "group_types")
 public class GroupType {
-@Id
-@GeneratedValue
-@Column(name = "group_type_id")
+    @Id
+    @GeneratedValue
+    @Column(name = "group_type_id")
     private int id;
 
-@Column
+    @Column
     private String type;
 
     public int getId() {
         return id;
     }
 
-    public String getType()
-    {
+    public String getType() {
         return type;
     }
 

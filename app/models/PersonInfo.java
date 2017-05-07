@@ -36,6 +36,10 @@ public class PersonInfo {
         return person;
     }
 
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
     public PropertyType getType() {
         return type;
     }

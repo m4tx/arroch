@@ -29,8 +29,17 @@ public class Person {
     @Column(name = "display_name", nullable = false)
     private String displayName;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private File photo;
+
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PersonInfo> info = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Group> memberOf = new ArrayList<>();
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Group selfGroup;
 
     public int getId() {
         return id;
@@ -76,9 +85,29 @@ public class Person {
         return info;
     }
 
+    public List<Group> getMemeberOf() {
+        return memberOf;
+    }
+
+    public File getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(File photo) {
+        this.photo = photo;
+    }
+
+    public Group getSelfGroup() {
+        return selfGroup;
+    }
+
+    public void setSelfGroup(Group selfGroup) {
+        this.selfGroup = selfGroup;
+    }
+
     static {
         DatabasePreloader.addTest((em -> {
-            for(int i = 0; i < 100; i++) {
+            for (int i = 0; i < 100; i++) {
                 Person person = new Person();
                 person.setFirstName(capitalizeFully(randomAlphabetic(10)));
                 person.setLastName(capitalizeFully(randomAlphabetic(15)));
