@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
 
 @Entity
 @Table(name = "people")
@@ -75,8 +76,8 @@ public class Person {
         DatabasePreloader.addTest((em -> {
             for(int i = 0; i < 100; i++) {
                 Person person = new Person();
-                person.setFirstName(randomAlphabetic(10));
-                person.setLastName(randomAlphabetic(15));
+                person.setFirstName(capitalizeFully(randomAlphabetic(10)));
+                person.setLastName(capitalizeFully(randomAlphabetic(15)));
                 person.setDisplayName(person.getFirstName() + " " + person.getLastName());
                 em.persist(person);
             }
