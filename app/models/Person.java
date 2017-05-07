@@ -47,6 +47,9 @@ public class Person {
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Message> taggedIn = new ArrayList<>();
 
+    @ManyToMany(mappedBy = "upvotes", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Message> upvotesIn = new ArrayList<>();
+
     public int getId() {
         return id;
     }
