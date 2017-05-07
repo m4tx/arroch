@@ -38,6 +38,21 @@ public class Message {
     )
     private List<Person> tags = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "upvotes",
+            joinColumns = {@JoinColumn(name = "message_id")},
+            inverseJoinColumns = {@JoinColumn(name = "person_id")}
+    )
+    private List<Person> upvotes = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "message_attachments",
+            joinColumns = {@JoinColumn(name = "message_id")},
+            inverseJoinColumns = {@JoinColumn(name = "person_id")}
+    )
+    private List<Person> messageAttachment = new ArrayList<>();
 
     public int getId() {
         return id;
