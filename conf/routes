@@ -3,16 +3,15 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
+GET         /                               controllers.Application.index
 
 # People
-GET     /person/                    controllers.People.people
-GET     /person/:id/edit            controllers.People.editPerson(id: Integer)
-POST    /person/:id/edit            controllers.People.editPersonPost(id: Integer)
-GET     /person/:id                 controllers.People.person(id: Integer)
-GET     /person/:id/info/:infoId    controllers.People.editPersonInfo(id: Integer, infoId: Long)
-POST    /person/:id/info/:infoId    controllers.People.editPersonInfoPost(id: Integer, infoId: Long)
+GET         /person/                        controllers.People.people
+GET         /person/:id/edit                controllers.People.editPerson(id: Integer)
+POST        /person/:id/edit                controllers.People.editPersonPost(id: Integer)
+GET         /person/:id                     controllers.People.person(id: Integer)
+GET         /person/:id/info/:infoId        controllers.People.editPersonInfo(id: Integer, infoId: Long)
+POST        /person/:id/info/:infoId        controllers.People.editPersonInfoPost(id: Integer, infoId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
-
+GET         /assets/*file                   controllers.Assets.at(path="/public", file)
