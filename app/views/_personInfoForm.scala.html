@@ -1,0 +1,18 @@
+@import helper._
+@import forms.UIKitFieldConstructor._
+
+@(personInfo: PersonInfo, form: Form[PersonInfo], types: java.util.List[PropertyType])
+
+<div class="uk-margin">
+    <label class="uk-form-label" for="type">Type</label>
+    <div class="uk-form-controls">
+        <select id="type" name="type" class="uk-select">
+            @for(propertyType <- types) {
+                <option value="@propertyType.getPropertyId" @if(personInfo != null && personInfo.getType.equals(propertyType)) {selected}>
+                    @propertyType.getName
+                </option>
+            }
+        </select>
+    </div>
+</div>
+@inputText(form("value"), args = 'class -> "uk-input", '_label -> "Value")
