@@ -6,4 +6,5 @@ package models;
 public class PropertyTypeData {
     public static PropertyType PHONE_NUMBER = new PropertyType("phoneNumber", "Phone number", "phone");
     public static PropertyType WORK_PHONE_NUMBER = new PropertyType("workPhoneNumber", "Work phone number", "phone");
+    public static PropertyType BIRTHDATE = new PropertyType("birthdate", "Date of birth", "calendar");
 }

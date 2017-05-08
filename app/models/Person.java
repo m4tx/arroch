@@ -3,14 +3,17 @@ package models;
 import modules.preloader.DatabasePreloader;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static models.PropertyTypeData.BIRTHDATE;
 import static models.PropertyTypeData.PHONE_NUMBER;
 import static models.PropertyTypeData.WORK_PHONE_NUMBER;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
+import static utils.RandomUtils.randomDate;
 
 @Entity
 @Table(name = "people")
@@ -136,6 +139,8 @@ public class Person {
 
                 em.persist(new PersonInfo(person, PHONE_NUMBER, randomNumeric(9)));
                 em.persist(new PersonInfo(person, WORK_PHONE_NUMBER, randomNumeric(9)));
+                em.persist(new PersonInfo(person, BIRTHDATE,
+                        new SimpleDateFormat("yyyy-mm-dd").format(randomDate(1950, 2015))));
             }
         }), 10);
     }
