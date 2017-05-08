@@ -140,7 +140,7 @@ public class Person {
                 em.persist(new PersonInfo(person, PHONE_NUMBER, randomNumeric(9)));
                 em.persist(new PersonInfo(person, WORK_PHONE_NUMBER, randomNumeric(9)));
                 em.persist(new PersonInfo(person, BIRTHDATE,
-                        new SimpleDateFormat("yyyy-mm-dd").format(randomDate(1950, 2015))));
+                        new SimpleDateFormat("yyyy-MM-dd").format(randomDate(1950, 2015))));
             }
         }), 10);
     }
