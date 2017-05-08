@@ -19,7 +19,7 @@
             <dd>@person.getLastName</dd>
         }
         @for(property <- person.getInfo) {
-            <dt>@property.getType.getName</dt>
+            <dt>@if(property.getType.getIcon) {<span uk-icon="icon: @property.getType.getIcon"></span> }@property.getType.getName</dt>
             <dd>@property.getValue</dd>
         }
     </dl>

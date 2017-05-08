@@ -11,14 +11,23 @@ public class PersonInfo {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "person_id")
+    @JoinColumn(name = "person_id", nullable = false)
     private Person person;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "property_id")
+    @JoinColumn(name = "property_id", nullable = false)
     private PropertyType type;
 
     private String value;
+
+    public PersonInfo() {
+    }
+
+    public PersonInfo(Person person, PropertyType type, String value) {
+        this.person = person;
+        this.type = type;
+        this.value = value;
+    }
 
     public long getId() {
         return id;

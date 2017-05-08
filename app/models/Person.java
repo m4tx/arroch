@@ -6,7 +6,10 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static models.PropertyTypeData.PHONE_NUMBER;
+import static models.PropertyTypeData.WORK_PHONE_NUMBER;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
 
 @Entity
@@ -130,7 +133,10 @@ public class Person {
                 person.setLastName(capitalizeFully(randomAlphabetic(15)));
                 person.setDisplayName(person.getFirstName() + " " + person.getLastName());
                 em.persist(person);
+
+                em.persist(new PersonInfo(person, PHONE_NUMBER, randomNumeric(9)));
+                em.persist(new PersonInfo(person, WORK_PHONE_NUMBER, randomNumeric(9)));
             }
-        }), 0);
+        }), 10);
     }
 }
