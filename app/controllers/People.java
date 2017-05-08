@@ -9,10 +9,7 @@ import play.data.FormFactory;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
-import views.html.editPerson;
-import views.html.editPersonInfo;
-import views.html.person;
-import views.html.personList;
+import views.html.*;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -76,9 +73,8 @@ public class People {
         Person person = em.find(Person.class, id);
         PersonInfo personInfo = em.find(PersonInfo.class, infoId);
         form = form.fill(personInfo);
-
-        return ok(editPersonInfo.render(person, personInfo, form,
-                (new SimpleQuery<>(JPA.em(), PropertyType.class)).getResultList()));
+        List<PropertyType> options = (new SimpleQuery<>(JPA.em(), PropertyType.class)).getResultList();
+        return ok(editPersonInfo.render(person, personInfo, form, options));
     }
 
     @Transactional
@@ -91,6 +87,36 @@ public class People {
         personInfo.setType(newPersonInfo.getType());
         personInfo.setValue(newPersonInfo.getValue());
         flash("success", "This person's info has been edited");
+        return redirect(routes.People.person(id));
+    }
+
+    @Transactional
+    public Result removePersonInfoPost(Long id, Long infoId) {
+        EntityManager em = JPA.em();
+        PersonInfo personInfo = em.find(PersonInfo.class, infoId);
+        em.remove(personInfo);
+        flash("success", "Information removed");
+        return redirect(routes.People.person(id));
+    }
+
+    @Transactional
+    public Result addPersonInfo(Long id) {
+        EntityManager em = JPA.em();
+        Form<PersonInfo> form = formFactory.form(PersonInfo.class);
+        Person person = em.find(Person.class, id);
+        List<PropertyType> options = (new SimpleQuery<>(JPA.em(), PropertyType.class)).getResultList();
+        return ok(addPersonInfo.render(person, form, options));
+    }
+
+    @Transactional
+    public Result addPersonInfoPost(Long id) {
+        EntityManager em = JPA.em();
+        Form<PersonInfo> form = formFactory.form(PersonInfo.class);
+        PersonInfo newPersonInfo = form.bindFromRequest().get();
+        Person person = em.find(Person.class, id);
+        newPersonInfo.setPerson(person);
+        em.persist(newPersonInfo);
+        flash("success", "New information added");
         return redirect(routes.People.person(id));
     }
 }

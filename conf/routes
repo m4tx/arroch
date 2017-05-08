@@ -10,6 +10,9 @@ GET         /person/                        controllers.People.people
 GET         /person/:id/edit                controllers.People.editPerson(id: Long)
 POST        /person/:id/edit                controllers.People.editPersonPost(id: Long)
 GET         /person/:id                     controllers.People.person(id: Long)
+GET         /person/:id/info/add            controllers.People.addPersonInfo(id: Long)
+POST        /person/:id/info/add            controllers.People.addPersonInfoPost(id: Long)
+POST        /person/:id/info/:infoId/remove controllers.People.removePersonInfoPost(id: Long, infoId: Long)
 GET         /person/:id/info/:infoId        controllers.People.editPersonInfo(id: Long, infoId: Long)
 POST        /person/:id/info/:infoId        controllers.People.editPersonInfoPost(id: Long, infoId: Long)
 
