@@ -47,6 +47,14 @@ public class PropertyType {
         this.icon = icon;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PropertyType && ((PropertyType) obj).getPropertyId().equals(getPropertyId())) {
+            return true;
+        }
+        return super.equals(obj);
+    }
+
     static {
         DatabasePreloader.addDefault((em -> {
             for (Field field : PropertyTypeData.class.getFields()) {

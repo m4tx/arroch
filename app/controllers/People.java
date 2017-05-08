@@ -1,12 +1,15 @@
 package controllers;
 
 import models.Person;
+import models.PersonInfo;
+import models.PropertyType;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
 import views.html.editPerson;
+import views.html.editPersonInfo;
 import views.html.person;
 import views.html.personList;
 
@@ -70,6 +73,39 @@ public class People {
         person.setLastName(newPerson.getLastName());
         person.setDisplayName(newPerson.getDisplayName());
         flash("success", "The person has been edited");
+        return redirect(routes.People.person(id));
+    }
+
+    private List<PropertyType> getAvailablePropertyTypes() {
+        EntityManager em = JPA.em();
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+        CriteriaQuery<PropertyType> query = criteriaBuilder.createQuery(PropertyType.class);
+        query.from(PropertyType.class);
+        return em.createQuery(query).getResultList();
+    }
+
+    @Transactional
+    public Result editPersonInfo(Integer id, Long infoId) {
+        EntityManager em = JPA.em();
+        Form<PersonInfo> form = formFactory.form(PersonInfo.class);
+        Person person = em.find(Person.class, id);
+        PersonInfo personInfo = em.find(PersonInfo.class, infoId);
+        form = form.fill(personInfo);
+
+        return ok(editPersonInfo.render(person, personInfo, form, getAvailablePropertyTypes()));
+    }
+
+    @Transactional
+    public Result editPersonInfoPost(Integer id, Long infoId) {
+        EntityManager em = JPA.em();
+        Form<PersonInfo> form = formFactory.form(PersonInfo.class);
+        Person person = em.find(Person.class, id);
+        PersonInfo personInfo = em.find(PersonInfo.class, infoId);
+
+        PersonInfo newPersonInfo = form.bindFromRequest().get();
+        personInfo.setType(newPersonInfo.getType());
+        personInfo.setValue(newPersonInfo.getValue());
+        flash("success", "This person's info has been edited");
         return redirect(routes.People.person(id));
     }
 }

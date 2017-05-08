@@ -19,7 +19,10 @@
             <dd>@person.getLastName</dd>
         }
         @for(property <- person.getInfo) {
-            <dt>@if(property.getType.getIcon) {<span uk-icon="icon: @property.getType.getIcon"></span> }@property.getType.getName</dt>
+            <dt>
+                @if(property.getType.getIcon) {<span uk-icon="icon: @property.getType.getIcon"></span> }@property.getType.getName
+                <a class="uk-icon-link" uk-icon="icon: pencil" href="@routes.People.editPersonInfo(person.getId, property.getId)"></a>
+            </dt>
             <dd>@property.getValue</dd>
         }
     </dl>
