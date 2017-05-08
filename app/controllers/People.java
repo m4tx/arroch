@@ -1,5 +1,6 @@
 package controllers;
 
+import controllers.utils.SimpleQuery;
 import models.Person;
 import play.data.Form;
 import play.data.FormFactory;
@@ -12,9 +13,6 @@ import views.html.personList;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
 
 import static play.mvc.Controller.flash;
@@ -31,15 +29,10 @@ public class People {
 
     @Transactional
     public Result people() {
-        EntityManager em = JPA.em();
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<Person> query = criteriaBuilder.createQuery(Person.class);
-        Root<Person> from = query.from(Person.class);
-        query.select(from).orderBy(
-                criteriaBuilder.asc(from.get("lastName")),
-                criteriaBuilder.asc(from.get("firstName"))
-        );
-        List<Person> people = em.createQuery(query).getResultList();
+        List<Person> people = (new SimpleQuery<>(JPA.em(), Person.class)
+                .orderByAsc("lastName")
+                .orderByAsc("firstName"))
+                .getResultList();
         return ok(personList.render(people));
     }
 

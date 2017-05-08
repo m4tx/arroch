@@ -3,7 +3,7 @@
 @main(person.getDisplayName) {
     <h1 class="uk-heading-primary">
         @person.getDisplayName
-        <a class="uk-icon-link" uk-icon="icon: pencil; ratio: 2" href="@routes.People.editPerson(person.getId)"></a>
+        <a class="uk-icon-link" data-uk-icon="icon: pencil; ratio: 2" href="@routes.People.editPerson(person.getId)"></a>
     </h1>
     <dl class="uk-description-list">
         @if(person.getFirstName) {
@@ -19,7 +19,7 @@
             <dd>@person.getLastName</dd>
         }
         @for(property <- person.getInfo) {
-            <dt>@if(property.getType.getIcon) {<span uk-icon="icon: @property.getType.getIcon"></span> }@property.getType.getName</dt>
+            <dt>@if(property.getType.getIcon) {<span data-uk-icon="icon: @property.getType.getIcon"></span> }@property.getType.getName</dt>
             <dd>@property.getValue</dd>
         }
     </dl>
