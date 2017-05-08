@@ -1,6 +1,12 @@
 package models;
 
+import modules.preloader.DatabasePreloader;
+import utils.SimpleQuery;
+
 import javax.persistence.*;
+import java.util.List;
+
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 
 @Entity
 @Table(name = "people_info")
@@ -55,5 +61,17 @@ public class PersonInfo {
 
     public void setType(PropertyType type) {
         this.type = type;
+    }
+
+    static {
+        DatabasePreloader.addTest((em -> {
+            List<Person> people = (new SimpleQuery<>(em, Person.class)).getResultList();
+            List<PropertyType> prop = (new SimpleQuery<>(em, PropertyType.class)).getResultList();
+            for (Person p : people) {
+                for (PropertyType a : prop) {
+                    em.persist(new PersonInfo(p, a, randomAlphabetic(10)));
+                }
+            }
+        }), 20);
     }
 }

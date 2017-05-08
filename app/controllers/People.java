@@ -1,5 +1,6 @@
 package controllers;
 
+import utils.SimpleQuery;
 import models.Person;
 import models.PersonInfo;
 import models.PropertyType;
@@ -15,9 +16,6 @@ import views.html.personList;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.List;
 
 import static play.mvc.Controller.flash;
@@ -34,15 +32,10 @@ public class People {
 
     @Transactional
     public Result people() {
-        EntityManager em = JPA.em();
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<Person> query = criteriaBuilder.createQuery(Person.class);
-        Root<Person> from = query.from(Person.class);
-        query.select(from).orderBy(
-                criteriaBuilder.asc(from.get("lastName")),
-                criteriaBuilder.asc(from.get("firstName"))
-        );
-        List<Person> people = em.createQuery(query).getResultList();
+        List<Person> people = (new SimpleQuery<>(JPA.em(), Person.class)
+                .orderByAsc("lastName")
+                .orderByAsc("firstName"))
+                .getResultList();
         return ok(personList.render(people));
     }
 
@@ -76,14 +69,6 @@ public class People {
         return redirect(routes.People.person(id));
     }
 
-    private List<PropertyType> getAvailablePropertyTypes() {
-        EntityManager em = JPA.em();
-        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-        CriteriaQuery<PropertyType> query = criteriaBuilder.createQuery(PropertyType.class);
-        query.from(PropertyType.class);
-        return em.createQuery(query).getResultList();
-    }
-
     @Transactional
     public Result editPersonInfo(Long id, Long infoId) {
         EntityManager em = JPA.em();
@@ -92,7 +77,8 @@ public class People {
         PersonInfo personInfo = em.find(PersonInfo.class, infoId);
         form = form.fill(personInfo);
 
-        return ok(editPersonInfo.render(person, personInfo, form, getAvailablePropertyTypes()));
+        return ok(editPersonInfo.render(person, personInfo, form,
+                (new SimpleQuery<>(JPA.em(), PropertyType.class)).getResultList()));
     }
 
     @Transactional
