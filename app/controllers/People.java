@@ -85,7 +85,6 @@ public class People {
     public Result editPersonInfoPost(Long id, Long infoId) {
         EntityManager em = JPA.em();
         Form<PersonInfo> form = formFactory.form(PersonInfo.class);
-        Person person = em.find(Person.class, id);
         PersonInfo personInfo = em.find(PersonInfo.class, infoId);
 
         PersonInfo newPersonInfo = form.bindFromRequest().get();

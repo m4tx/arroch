@@ -117,7 +117,7 @@ public class Person {
     public List<Message> getMessages() {
         return messages;
     }
-    
+
     public List<Message> getTaggedIn() {
         return taggedIn;
     }

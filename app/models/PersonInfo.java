@@ -4,9 +4,12 @@ import modules.preloader.DatabasePreloader;
 import utils.SimpleQuery;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
+import static utils.RandomUtils.randomDate;
 
 @Entity
 @Table(name = "people_info")
@@ -69,7 +72,15 @@ public class PersonInfo {
             List<PropertyType> prop = (new SimpleQuery<>(em, PropertyType.class)).getResultList();
             for (Person p : people) {
                 for (PropertyType a : prop) {
-                    em.persist(new PersonInfo(p, a, randomAlphabetic(10)));
+                    String value;
+                    if (a.getName().contains("Date") || a.getName().contains("date")) {
+                        value = new SimpleDateFormat("yyyy-mm-dd").format(randomDate(1950, 2015));
+                    } else if (a.getName().contains("number")) {
+                        value = randomNumeric(9);
+                    } else {
+                        value = randomAlphabetic(10);
+                    }
+                    em.persist(new PersonInfo(p, a, value));
                 }
             }
         }), 20);
