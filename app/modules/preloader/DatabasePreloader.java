@@ -22,9 +22,9 @@ public class DatabasePreloader {
 
     private final static Config conf = ConfigFactory.load();
     private static Boolean enabled =
-            conf.hasPath("databasePreloade.enable") && conf.getBoolean("databasePreloade.enable");
+            conf.hasPath("databasePreloader.enable") && conf.getBoolean("databasePreloade.enable");
     private static Boolean testEnabled =
-            conf.hasPath("databasePreloade.addTestData") && conf.getBoolean("databasePreloade.addTestData");
+            conf.hasPath("databasePreloader.addTestData") && conf.getBoolean("databasePreloade.addTestData");
 
     private static PriorityQueue<Entry<Integer, Preloadable>> defaultTasks = new PriorityQueue<>(Comparator.comparingInt(Entry::getKey));
     private static PriorityQueue<Entry<Integer, Preloadable>> testTasks = new PriorityQueue<>(Comparator.comparingInt(Entry::getKey));
