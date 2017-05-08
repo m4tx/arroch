@@ -6,7 +6,7 @@
             <h1 class="uk-heading-primary">@personInfo.getType.getName</h1>
             <div class="subtitle">@person.getDisplayName</div>
         </div>
-        @helper.form(action = routes.People.editPersonInfoPost(person.getId, personInfo.getId), args = 'class -> "uk-form-stacked uk-display-inline") {
+        @helper.form(action = people.routes.EditPersonInfo.post(person.getId, personInfo.getId), args = 'class -> "uk-form-stacked uk-display-inline") {
             <div class="uk-margin">
                 <label class="uk-form-label" for="type">Type</label>
                 <div class="uk-form-controls">
@@ -23,9 +23,9 @@
             @inputText(form("value"), args = 'class -> "uk-input", '_label -> "Value")
 
             <button class="uk-button uk-button-default" type="submit"><span data-uk-icon="icon: check"></span></button>
-            <a class="uk-button uk-button-default" href="@routes.People.person(person.getId)"><span data-uk-icon="icon: close"></span></a>
+            <a class="uk-button uk-button-default" href="@people.routes.Person.get(person.getId)"><span data-uk-icon="icon: close"></span></a>
         }
-        @helper.form(action = routes.People.removePersonInfoPost(person.getId, personInfo.getId), args = 'class -> "uk-float-right") {
+        @helper.form(action = people.routes.RemovePersonInfo.post(person.getId, personInfo.getId), args = 'class -> "uk-float-right") {
             <button class="uk-button uk-button-default"><span data-uk-icon="icon: trash"></span></button>
         }
     }

@@ -6,7 +6,7 @@
         <h1 class="uk-heading-primary">New information</h1>
         <div class="subtitle">@person.getDisplayName</div>
     </div>
-    @helper.form(action = routes.People.addPersonInfoPost(person.getId), args = 'class -> "uk-form-stacked") {
+    @helper.form(action = people.routes.AddPersonInfo.post(person.getId), args = 'class -> "uk-form-stacked") {
         <div class="uk-margin">
             <label class="uk-form-label" for="type">Type</label>
             <div class="uk-form-controls">

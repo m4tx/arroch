@@ -6,15 +6,15 @@
 GET         /                               controllers.Application.index
 
 # People
-GET         /person/                        controllers.People.people
-GET         /person/:id/edit                controllers.People.editPerson(id: Long)
-POST        /person/:id/edit                controllers.People.editPersonPost(id: Long)
-GET         /person/:id                     controllers.People.person(id: Long)
-GET         /person/:id/info/add            controllers.People.addPersonInfo(id: Long)
-POST        /person/:id/info/add            controllers.People.addPersonInfoPost(id: Long)
-POST        /person/:id/info/:infoId/remove controllers.People.removePersonInfoPost(id: Long, infoId: Long)
-GET         /person/:id/info/:infoId        controllers.People.editPersonInfo(id: Long, infoId: Long)
-POST        /person/:id/info/:infoId        controllers.People.editPersonInfoPost(id: Long, infoId: Long)
+GET         /person/                        controllers.people.People.get
+GET         /person/:id/edit                controllers.people.EditPerson.get(id: Long)
+POST        /person/:id/edit                controllers.people.EditPerson.post(id: Long)
+GET         /person/:id                     controllers.people.Person.get(id: Long)
+GET         /person/:id/info/add            controllers.people.AddPersonInfo.get(id: Long)
+POST        /person/:id/info/add            controllers.people.AddPersonInfo.post(id: Long)
+POST        /person/:id/info/:infoId/remove controllers.people.RemovePersonInfo.post(id: Long, infoId: Long)
+GET         /person/:id/info/:infoId        controllers.people.EditPersonInfo.get(id: Long, infoId: Long)
+POST        /person/:id/info/:infoId        controllers.people.EditPersonInfo.post(id: Long, infoId: Long)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file                   controllers.Assets.at(path="/public", file)

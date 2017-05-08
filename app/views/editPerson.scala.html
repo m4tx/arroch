@@ -4,7 +4,7 @@
 
 @main("Edit " + person.getDisplayName) {
     <h1 class="uk-heading-primary">@person.getDisplayName</h1>
-    @helper.form(action = routes.People.editPersonPost(person.getId), args = 'class -> "uk-form-stacked") {
+    @helper.form(action = people.routes.EditPerson.post(person.getId), args = 'class -> "uk-form-stacked") {
         @inputText(form("firstName"), args = 'class -> "uk-input", '_label -> "First name")
         @inputText(form("middleName"), args = 'class -> "uk-input", '_label -> "Middle name")
         @inputText(form("lastName"), args = 'class -> "uk-input", '_label -> "Last name")
