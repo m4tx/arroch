@@ -21,7 +21,7 @@ public class Person {
     @Id
     @GeneratedValue
     @Column(name = "person_id")
-    private int id;
+    private long id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -56,11 +56,11 @@ public class Person {
     @ManyToMany(mappedBy = "upvotes", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Message> upvotesIn = new ArrayList<>();
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

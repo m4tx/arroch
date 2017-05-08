@@ -8,12 +8,12 @@ public class GroupType {
     @Id
     @GeneratedValue
     @Column(name = "group_type_id")
-    private int id;
+    private long id;
 
     @Column
     private String type;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

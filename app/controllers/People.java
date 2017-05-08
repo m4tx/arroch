@@ -47,14 +47,14 @@ public class People {
     }
 
     @Transactional
-    public Result person(Integer id) {
+    public Result person(Long id) {
         EntityManager em = JPA.em();
         Person p = em.find(Person.class, id);
         return ok(person.render(p));
     }
 
     @Transactional
-    public Result editPerson(Integer id) {
+    public Result editPerson(Long id) {
         EntityManager em = JPA.em();
         Person person = em.find(Person.class, id);
         Form<Person> form = formFactory.form(Person.class);
@@ -63,7 +63,7 @@ public class People {
     }
 
     @Transactional
-    public Result editPersonPost(Integer id) {
+    public Result editPersonPost(Long id) {
         EntityManager em = JPA.em();
         Form<Person> form = formFactory.form(Person.class);
         Person person = em.find(Person.class, id);
@@ -85,7 +85,7 @@ public class People {
     }
 
     @Transactional
-    public Result editPersonInfo(Integer id, Long infoId) {
+    public Result editPersonInfo(Long id, Long infoId) {
         EntityManager em = JPA.em();
         Form<PersonInfo> form = formFactory.form(PersonInfo.class);
         Person person = em.find(Person.class, id);
@@ -96,7 +96,7 @@ public class People {
     }
 
     @Transactional
-    public Result editPersonInfoPost(Integer id, Long infoId) {
+    public Result editPersonInfoPost(Long id, Long infoId) {
         EntityManager em = JPA.em();
         Form<PersonInfo> form = formFactory.form(PersonInfo.class);
         Person person = em.find(Person.class, id);
