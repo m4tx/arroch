@@ -4,9 +4,6 @@ import play.Application;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.test.WithApplication;
 
-/**
- * Created by Adam on 2017-05-09.
- */
 public abstract class WithTestDatabase extends WithApplication {
     @Override
     protected final Application provideApplication() {
