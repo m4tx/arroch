@@ -7,6 +7,7 @@
     </div>
     @helper.form(action = people.routes.AddPersonInfo.post(person.getId), args = 'class -> "uk-form-stacked") {
         @_personInfoForm(null, form, types)
-        <button class="uk-button uk-button-default" type="submit">Save</button>
+        <a class="uk-button uk-button-default" href="@people.routes.Person.get(person.getId)">Cancel</a>
+        <button class="uk-button uk-button-default" type="submit">Add</button>
     }
 }

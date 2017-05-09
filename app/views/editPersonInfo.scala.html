@@ -7,10 +7,10 @@
         </div>
         @helper.form(action = people.routes.EditPersonInfo.post(person.getId, personInfo.getId), args = 'class -> "uk-form-stacked uk-display-inline") {
             @_personInfoForm(personInfo, form, types)
-            <button class="uk-button uk-button-default" type="submit"><span data-uk-icon="icon: check"></span></button>
-            <a class="uk-button uk-button-default" href="@people.routes.Person.get(person.getId)"><span data-uk-icon="icon: close"></span></a>
+            <a class="uk-button uk-button-default" href="@people.routes.Person.get(person.getId)">Cancel</a>
+            <button class="uk-button uk-button-default" type="submit">Apply</button>
         }
         @helper.form(action = people.routes.RemovePersonInfo.post(person.getId, personInfo.getId), args = 'class -> "uk-float-right") {
-            <button class="uk-button uk-button-default"><span data-uk-icon="icon: trash"></span></button>
+            <button class="uk-button uk-button-danger">Delete</button>
         }
     }
