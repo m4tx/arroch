@@ -1,6 +1,7 @@
 package models;
 
 import modules.preloader.DatabasePreloader;
+import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class Person {
     private File photo;
 
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy(clause = "type")
     private List<PersonInfo> info = new ArrayList<>();
 
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
