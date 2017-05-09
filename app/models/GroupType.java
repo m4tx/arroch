@@ -34,11 +34,17 @@ public class GroupType {
         this.type = type;
     }
 
+    static class DefaultTypes {
+        static final String selfGroup = "selfGroup";
+        static final String conversation = "conversation";
+        static final String social = "social";
+    }
+
     static {
         DatabasePreloader.addDefault((em -> {
-            em.persist(new GroupType("selfGroup", "Person Group"));
-            em.persist(new GroupType("conversation", "Conversation"));
-            em.persist(new GroupType("social", "Social group"));
+            em.persist(new GroupType(DefaultTypes.selfGroup, "Person Group"));
+            em.persist(new GroupType(DefaultTypes.conversation, "Conversation"));
+            em.persist(new GroupType(DefaultTypes.social, "Social group"));
         }), 0);
     }
 }

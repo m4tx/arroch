@@ -12,7 +12,7 @@ public class Group {
     @Column(name = "group_id")
     private long id;
 
-    @Column(nullable = false)
+    @Column
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
