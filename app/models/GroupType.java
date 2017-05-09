@@ -34,10 +34,10 @@ public class GroupType {
         this.type = type;
     }
 
-    static class DefaultTypes {
-        static final String selfGroup = "selfGroup";
-        static final String conversation = "conversation";
-        static final String social = "social";
+    public static class DefaultTypes {
+        public static final String selfGroup = "selfGroup";
+        public static final String conversation = "conversation";
+        public static final String social = "social";
     }
 
     static {
