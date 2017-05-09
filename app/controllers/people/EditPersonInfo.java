@@ -45,7 +45,6 @@ public class EditPersonInfo {
         PersonInfo personInfo = em.find(PersonInfo.class, infoId);
 
         PersonInfo newPersonInfo = form.bindFromRequest().get();
-        personInfo.setType(newPersonInfo.getType());
         personInfo.setValue(newPersonInfo.getValue());
         flash("success", "This person's info has been edited");
         return redirect(controllers.people.routes.Person.get(id));
