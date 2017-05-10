@@ -14,51 +14,20 @@ import javax.persistence.criteria.CriteriaQuery;
 import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Map.Entry;
-import java.util.PriorityQueue;
+import java.util.ArrayList;
 
 @Singleton
 public class DatabasePreloader {
-    private static DatabasePreloader singleton = null;
-
     private final static Config conf = ConfigFactory.load();
+    private static DatabasePreloader singleton = null;
     private static Boolean enabled =
             conf.hasPath("databasePreloader.enable") && conf.getBoolean("databasePreloader.enable");
     private static Boolean testEnabled =
             conf.hasPath("databasePreloader.addTestData") && conf.getBoolean("databasePreloader.addTestData");
 
-    private static PriorityQueue<Entry<Integer, Preloadable>> defaultTasks = new PriorityQueue<>(Comparator.comparingInt(Entry::getKey));
-    private static PriorityQueue<Entry<Integer, Preloadable>> testTasks = new PriorityQueue<>(Comparator.comparingInt(Entry::getKey));
-
-    public static void addDefault(Preloadable task, int priority) {
-        synchronized (conf) {
-            if (singleton != null)
-                throw new RuntimeException("Cannot register register new default db preload after database initialization!");
-            if (!enabled) return;
-            defaultTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
-        }
-    }
-
-    public static void addTest(Preloadable task, int priority) {
-        synchronized (conf) {
-            if (!enabled || !testEnabled) return;
-            if (singleton == null) testTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
-            else singleton.loadTest(task);
-        }
-    }
-
+    private static ArrayList<Entry<Integer, Preloadable>> defaultTasks = new ArrayList<>();
+    private static ArrayList<Entry<Integer, Preloadable>> testTasks = new ArrayList<>();
     private JPAApi jpa;
-
-    private void load(Preloadable task) {
-        jpa.withTransaction(() -> task.run(jpa.em()));
-    }
-
-    private void loadDefault(Preloadable task) {
-        if (enabled) load(task);
-    }
-
-    private void loadTest(Preloadable task) {
-        if (enabled && testEnabled) load(task);
-    }
 
     @Inject
     DatabasePreloader(JPAApi jpa) {
@@ -74,19 +43,44 @@ public class DatabasePreloader {
                 if (em.createQuery(query).getSingleResult() != 0) {
                     Logger.info("Database not empty, skipping preload");
                     enabled = false;
-                    defaultTasks.clear();
-                    testTasks.clear();
                     return;
                 }
 
                 Logger.info("Preloading database");
-                while (!defaultTasks.isEmpty()) {
-                    loadDefault(defaultTasks.poll().getValue());
+                defaultTasks.sort(Comparator.comparingInt(Entry::getKey));
+                for (Entry<Integer, Preloadable> a : defaultTasks) {
+                    a.getValue().run(em);
                 }
-                while (!testTasks.isEmpty()) {
-                    loadDefault(testTasks.poll().getValue());
+                if (testEnabled) {
+                    testTasks.sort(Comparator.comparingInt(Entry::getKey));
+                    for (Entry<Integer, Preloadable> a : testTasks) {
+                        a.getValue().run(em);
+                    }
                 }
             });
         }
+    }
+
+    public static void addDefault(Preloadable task, int priority) {
+        synchronized (conf) {
+            if (singleton != null)
+                throw new RuntimeException("Cannot register register new default db preload after database initialization!");
+            defaultTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
+        }
+    }
+
+    public static void addTest(Preloadable task, int priority) {
+        synchronized (conf) {
+            testTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
+            if (singleton != null && enabled && testEnabled) singleton.loadTest(task);
+        }
+    }
+
+    private void load(Preloadable task) {
+        jpa.withTransaction(() -> task.run(jpa.em()));
+    }
+
+    private void loadTest(Preloadable task) {
+        if (enabled && testEnabled) load(task);
     }
 }
