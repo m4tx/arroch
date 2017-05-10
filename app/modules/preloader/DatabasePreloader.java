@@ -4,6 +4,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import models.DataSource;
 import play.Logger;
+import play.api.inject.ApplicationLifecycle;
 import play.db.jpa.JPAApi;
 
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.ArrayList;
+import java.util.concurrent.CompletableFuture;
 
 @Singleton
 public class DatabasePreloader {
@@ -27,11 +29,16 @@ public class DatabasePreloader {
     private JPAApi jpa;
 
     @Inject
-    DatabasePreloader(JPAApi jpa) {
+    DatabasePreloader(JPAApi jpa, ApplicationLifecycle lifecycle) {
         synchronized (DatabasePreloader.class) {
             if(singleton != null) throw new IllegalStateException("Only one instance of a singleton allowed");
             this.jpa = jpa;
             singleton = this;
+
+            lifecycle.addStopHook(() -> {
+                singleton = null;
+                return CompletableFuture.completedFuture(null);
+            });
 
             Config conf = ConfigFactory.load();
             enabled = conf.hasPath("databasePreloader.enable") && conf.getBoolean("databasePreloader.enable");
