@@ -18,12 +18,9 @@ import java.util.ArrayList;
 
 @Singleton
 public class DatabasePreloader {
-    private final static Config conf = ConfigFactory.load();
     private static DatabasePreloader singleton = null;
-    private static Boolean enabled =
-            conf.hasPath("databasePreloader.enable") && conf.getBoolean("databasePreloader.enable");
-    private static Boolean testEnabled =
-            conf.hasPath("databasePreloader.addTestData") && conf.getBoolean("databasePreloader.addTestData");
+    private static Boolean enabled = false;
+    private static Boolean testEnabled = false;
 
     private static ArrayList<Entry<Integer, Preloadable>> defaultTasks = new ArrayList<>();
     private static ArrayList<Entry<Integer, Preloadable>> testTasks = new ArrayList<>();
@@ -31,9 +28,14 @@ public class DatabasePreloader {
 
     @Inject
     DatabasePreloader(JPAApi jpa) {
-        synchronized (conf) {
+        synchronized (DatabasePreloader.class) {
+            if(singleton != null) throw new IllegalStateException("Only one instance of a singleton allowed");
             this.jpa = jpa;
             singleton = this;
+
+            Config conf = ConfigFactory.load();
+            enabled = conf.hasPath("databasePreloader.enable") && conf.getBoolean("databasePreloader.enable");
+            testEnabled = conf.hasPath("databasePreloader.addTestData") && conf.getBoolean("databasePreloader.addTestData");
 
             jpa.withTransaction(() -> {
                 EntityManager em = jpa.em();
@@ -61,19 +63,16 @@ public class DatabasePreloader {
         }
     }
 
-    public static void addDefault(Preloadable task, int priority) {
-        synchronized (conf) {
-            if (singleton != null)
-                throw new RuntimeException("Cannot register register new default db preload after database initialization!");
-            defaultTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
-        }
+    public static synchronized void addDefault(Preloadable task, int priority) {
+        if (singleton != null)
+            throw new RuntimeException("Cannot register register new default db preload after database initialization!");
+        defaultTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
+
     }
 
-    public static void addTest(Preloadable task, int priority) {
-        synchronized (conf) {
-            testTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
-            if (singleton != null && enabled && testEnabled) singleton.loadTest(task);
-        }
+    public static synchronized void addTest(Preloadable task, int priority) {
+        testTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
+        if (singleton != null && enabled && testEnabled) singleton.loadTest(task);
     }
 
     private void load(Preloadable task) {
