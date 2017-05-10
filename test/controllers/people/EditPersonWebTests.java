@@ -1,8 +1,7 @@
 package controllers.people;
 
-import models.Group;
-import models.GroupType;
 import models.Person;
+import models.PersonFactory;
 import org.junit.Test;
 import play.db.jpa.JPAApi;
 import utils.WithBrowserAndTestDatabase;
@@ -16,24 +15,17 @@ public class EditPersonWebTests extends WithBrowserAndTestDatabase {
     private static final String TEST_DISPLAY_NAME = "Dwight K. Schrute III";
 
     private Person createTestPerson(JPAApi jpaApi) {
-        Person person = new Person();
+        final Person[] person = new Person[1];
         jpaApi.withTransaction(() -> {
-            // Person
-            person.setFirstName(TEST_FIRST_NAME);
-            person.setMiddleName(TEST_MIDDLE_NAME);
-            person.setLastName(TEST_LAST_NAME);
-            person.setDisplayName(TEST_DISPLAY_NAME);
-
-            // Group
-            GroupType selfGroup = jpaApi.em().find(GroupType.class, GroupType.DefaultTypes.selfGroup);
-            Group group = new Group();
-            group.setType(selfGroup);
-            person.setSelfGroup(group);
-            person.getSelfGroup().getMembers().add(person);
-
-            jpaApi.em().persist(person);
+            person[0] = new PersonFactory(jpaApi.em())
+                    .setFirstName(TEST_FIRST_NAME)
+                    .setMiddleName(TEST_MIDDLE_NAME)
+                    .setLastName(TEST_LAST_NAME)
+                    .setDisplayName(TEST_DISPLAY_NAME)
+                    .build();
         });
-        return person;
+
+        return person[0];
     }
 
     @Test

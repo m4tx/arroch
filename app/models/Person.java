@@ -127,17 +127,14 @@ public class Person {
 
     static {
         DatabasePreloader.addTest((em -> {
-            GroupType selfGroup = em.find(GroupType.class, GroupType.DefaultTypes.selfGroup);
             for (int i = 0; i < 100; i++) {
-                Person person = new Person();
-                person.setFirstName(capitalizeFully(randomAlphabetic(10)));
-                person.setLastName(capitalizeFully(randomAlphabetic(15)));
-                person.setDisplayName(person.getFirstName() + " " + person.getLastName());
-                Group group = new Group();
-                group.setType(selfGroup);
-                person.setSelfGroup(group);
-                person.getSelfGroup().getMembers().add(person);
-                em.persist(person);
+                String firstName = capitalizeFully(randomAlphabetic(10));
+                String lastName = capitalizeFully(randomAlphabetic(10));
+                new PersonFactory(em)
+                        .setFirstName(firstName)
+                        .setLastName(lastName)
+                        .setDisplayName(firstName + " " + lastName)
+                        .build();
             }
         }), 10);
     }
