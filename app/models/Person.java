@@ -53,6 +53,17 @@ public class Person {
     @ManyToMany(mappedBy = "upvotes", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Message> upvotesIn = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "friends",
+            joinColumns = {@JoinColumn(name = "person_id")},
+            inverseJoinColumns = {@JoinColumn(name = "friend_id")}
+    )
+    private List<Person> friends = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "friends", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Person> friendOf = new ArrayList<>();
+
     public int getId() {
         return id;
     }
