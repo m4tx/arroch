@@ -1,8 +1,16 @@
 package models;
 
+import modules.preloader.DatabasePreloader;
+import utils.SimpleQuery;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
 
 @Entity
 @Table(name = "groups")
@@ -78,5 +86,26 @@ public class Group {
 
     public List<Post> getPosts() {
         return posts;
+    }
+
+    static {
+        DatabasePreloader.addTest((em -> {
+            for (int i = 0; i < 100; i++) {
+                Group group = new Group();
+                String groupName = capitalizeFully(randomAlphabetic(10));
+                group.setName(groupName);
+                GroupType groupType;
+                if(i > 50)  groupType = em.find(GroupType.class, GroupType.DefaultTypes.social);
+                else  groupType = em.find(GroupType.class, GroupType.DefaultTypes.conversation);
+                group.setType(groupType);
+                String description = capitalizeFully(randomAlphabetic(20));
+                group.setDescription(description);
+                List<Person> people = (new SimpleQuery(em, Person.class)).getResultList();
+                int random = new Random().nextInt(people.size());
+                ThreadLocalRandom.current().ints(0, people.size()).distinct().limit(random).forEach(index -> group.members.add(people.get(index)));
+                em.persist(group);
+            }
+        }), 30);
+
     }
 }
