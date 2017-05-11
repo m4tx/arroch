@@ -1,15 +1,13 @@
 package models;
 
 import modules.preloader.DatabasePreloader;
+import org.hibernate.annotations.OrderBy;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static models.PropertyTypeData.PHONE_NUMBER;
-import static models.PropertyTypeData.WORK_PHONE_NUMBER;
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
 
 @Entity
@@ -18,7 +16,7 @@ public class Person {
     @Id
     @GeneratedValue
     @Column(name = "person_id")
-    private int id;
+    private long id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -36,12 +34,14 @@ public class Person {
     private File photo;
 
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy(clause = "type")
     private List<PersonInfo> info = new ArrayList<>();
 
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Group> memberOf = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(nullable = false, unique = true)
     private Group selfGroup;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -64,11 +64,11 @@ public class Person {
     @ManyToMany(mappedBy = "friends", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Person> friendOf = new ArrayList<>();
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -131,7 +131,7 @@ public class Person {
     public List<Message> getMessages() {
         return messages;
     }
-    
+
     public List<Message> getTaggedIn() {
         return taggedIn;
     }
@@ -139,14 +139,13 @@ public class Person {
     static {
         DatabasePreloader.addTest((em -> {
             for (int i = 0; i < 100; i++) {
-                Person person = new Person();
-                person.setFirstName(capitalizeFully(randomAlphabetic(10)));
-                person.setLastName(capitalizeFully(randomAlphabetic(15)));
-                person.setDisplayName(person.getFirstName() + " " + person.getLastName());
-                em.persist(person);
-
-                em.persist(new PersonInfo(person, PHONE_NUMBER, randomNumeric(9)));
-                em.persist(new PersonInfo(person, WORK_PHONE_NUMBER, randomNumeric(9)));
+                String firstName = capitalizeFully(randomAlphabetic(10));
+                String lastName = capitalizeFully(randomAlphabetic(10));
+                new PersonFactory(em)
+                        .setFirstName(firstName)
+                        .setLastName(lastName)
+                        .setDisplayName(firstName + " " + lastName)
+                        .build();
             }
         }), 10);
     }

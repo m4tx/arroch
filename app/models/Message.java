@@ -11,7 +11,7 @@ public class Message {
     @Id
     @GeneratedValue
     @Column(name = "message_id", nullable = false)
-    private int id;
+    private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Message parent;
@@ -54,7 +54,7 @@ public class Message {
     )
     private List<Person> messageAttachment = new ArrayList<>();
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

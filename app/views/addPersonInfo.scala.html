@@ -1,0 +1,27 @@
+@import helper._
+@import forms.UIKitFieldConstructor._
+
+@(person: Person, form: Form[PersonInfo], types: java.util.List[PropertyType])
+
+@main(s"Add ${person.getDisplayName}'s info") {
+    <div class="subtitle-header">
+        <h1 class="uk-heading-primary">New information</h1>
+        <div class="subtitle">@person.getDisplayName</div>
+    </div>
+    @helper.form(action = people.routes.AddPersonInfo.post(person.getId), args = 'class -> "uk-form-stacked") {
+        <div class="uk-margin">
+            <label class="uk-form-label" for="type">Type</label>
+            <div class="uk-form-controls">
+                <select id="type" name="type" class="uk-select">
+                @for(propertyType <- types) {
+                    <option value="@propertyType.getPropertyId">
+                    @propertyType.getName
+                    </option>
+                }
+                </select>
+            </div>
+        </div>
+        @inputText(form("value"), args = 'class -> "uk-input", '_label -> "Value")
+        <button class="uk-button uk-button-default" type="submit">Save</button>
+    }
+}

@@ -47,17 +47,22 @@ public class PropertyType {
         this.icon = icon;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PropertyType && ((PropertyType) obj).getPropertyId().equals(getPropertyId())) {
+            return true;
+        }
+        return super.equals(obj);
+    }
+
     static {
         DatabasePreloader.addDefault((em -> {
-            for (Field field : PropertyTypeData.class.getFields()) {
-                if (field.getType() == PropertyType.class) {
-                    try {
-                        field.set(null, em.merge(field.get(null)));
-                    } catch (IllegalAccessException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
+            em.persist(new PropertyType("phoneNumber", "Phone number", "phone"));
+            em.persist(new PropertyType("workPhoneNumber", "Work phone number", "phone"));
+            em.persist(new PropertyType("birthdate", "Date of birth", "calendar"));
+            em.persist(new PropertyType("company", "Company", ""));
+            em.persist(new PropertyType("education", "Education", ""));
+            em.persist(new PropertyType("homeAddress", "Home Address", "home"));
         }), 0);
     }
 }

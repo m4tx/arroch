@@ -1,7 +1,6 @@
 package models;
 
 import modules.preloader.DatabasePreloader;
-import modules.preloader.Preloadable;
 
 import javax.persistence.*;
 
@@ -11,12 +10,12 @@ public class DataSource {
     @Id
     @GeneratedValue
     @Column(name = "source_id")
-    private int id;
+    private long id;
 
     @Column
     private String name;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

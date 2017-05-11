@@ -1,6 +1,15 @@
 package models;
 
+import modules.preloader.DatabasePreloader;
+import utils.SimpleQuery;
+
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
+import static utils.RandomUtils.randomDate;
 
 @Entity
 @Table(name = "people_info")
@@ -55,5 +64,25 @@ public class PersonInfo {
 
     public void setType(PropertyType type) {
         this.type = type;
+    }
+
+    static {
+        DatabasePreloader.addTest((em -> {
+            List<Person> people = (new SimpleQuery<>(em, Person.class)).getResultList();
+            List<PropertyType> prop = (new SimpleQuery<>(em, PropertyType.class)).getResultList();
+            for (Person p : people) {
+                for (PropertyType a : prop) {
+                    String value;
+                    if (a.getName().contains("Date") || a.getName().contains("date")) {
+                        value = new SimpleDateFormat("yyyy-mm-dd").format(randomDate(1950, 2015));
+                    } else if (a.getName().contains("number")) {
+                        value = randomNumeric(9);
+                    } else {
+                        value = randomAlphabetic(10);
+                    }
+                    em.persist(new PersonInfo(p, a, value));
+                }
+            }
+        }), 20);
     }
 }

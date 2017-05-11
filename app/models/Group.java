@@ -10,9 +10,9 @@ public class Group {
     @Id
     @GeneratedValue
     @Column(name = "group_id")
-    private int id;
+    private long id;
 
-    @Column(nullable = false)
+    @Column
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -36,7 +36,7 @@ public class Group {
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

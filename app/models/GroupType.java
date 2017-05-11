@@ -1,19 +1,20 @@
 package models;
 
+import modules.preloader.DatabasePreloader;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "group_types")
 public class GroupType {
     @Id
-    @GeneratedValue
     @Column(name = "group_type_id")
-    private int id;
+    private String id;
 
     @Column
     private String type;
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -23,5 +24,27 @@ public class GroupType {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public GroupType() {
+    }
+
+    public GroupType(String id, String type) {
+        this.id = id;
+        this.type = type;
+    }
+
+    public static class DefaultTypes {
+        public static final String selfGroup = "selfGroup";
+        public static final String conversation = "conversation";
+        public static final String social = "social";
+    }
+
+    static {
+        DatabasePreloader.addDefault((em -> {
+            em.persist(new GroupType(DefaultTypes.selfGroup, "Person Group"));
+            em.persist(new GroupType(DefaultTypes.conversation, "Conversation"));
+            em.persist(new GroupType(DefaultTypes.social, "Social group"));
+        }), 0);
     }
 }

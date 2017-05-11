@@ -1,0 +1,19 @@
+@import helper._
+@import forms.UIKitFieldConstructor._
+
+@(person: Person, personInfo: PersonInfo, form: Form[PersonInfo], types: java.util.List[PropertyType])
+
+    @main(s"Edit ${person.getDisplayName}'s ${personInfo.getType.getName}") {
+        <div class="subtitle-header">
+            <h1 class="uk-heading-primary">@personInfo.getType.getName</h1>
+            <div class="subtitle">@person.getDisplayName</div>
+        </div>
+        @helper.form(action = people.routes.EditPersonInfo.post(person.getId, personInfo.getId), args = 'class -> "uk-form-stacked uk-display-inline") {
+            @inputText(form("value"), args = 'class -> "uk-input", '_label -> "Value")
+            <a class="uk-button uk-button-default" href="@people.routes.Person.get(person.getId)">Cancel</a>
+            <button class="uk-button uk-button-default" type="submit">Apply</button>
+        }
+        @helper.form(action = people.routes.RemovePersonInfo.post(person.getId, personInfo.getId), args = 'class -> "uk-float-right") {
+            <button class="uk-button uk-button-danger">Delete</button>
+        }
+    }
