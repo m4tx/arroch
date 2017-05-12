@@ -3,10 +3,14 @@ package utils;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class RandomUtilsTests {
@@ -42,5 +46,15 @@ public class RandomUtilsTests {
         for (int i = 0; i < 10; i++) {
             testRandomDateBetween(1000 + i * 100, 1200 + i * 100);
         }
+    }
+
+    @Test
+    public void testRandomImage() throws Exception {
+        String testFile = "test-image.jpg";
+        RandomUtils.randomImage(100, 100, testFile);
+        File f = new File(testFile);
+        BufferedImage img = ImageIO.read(f);
+        assertEquals(BufferedImage.TYPE_3BYTE_BGR, img.getType());
+        assertTrue(f.delete());
     }
 }
