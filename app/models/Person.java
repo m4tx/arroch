@@ -2,10 +2,13 @@ package models;
 
 import modules.preloader.DatabasePreloader;
 import org.hibernate.annotations.OrderBy;
+import utils.SimpleQuery;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
@@ -136,6 +139,14 @@ public class Person {
         return taggedIn;
     }
 
+    public List<Person> getFriends() {
+        return friends;
+    }
+
+    public List<Person> getFriendOf() {
+        return friendOf;
+    }
+
     static {
         DatabasePreloader.addTest((em -> {
             for (int i = 0; i < 100; i++) {
@@ -146,6 +157,12 @@ public class Person {
                         .setLastName(lastName)
                         .setDisplayName(firstName + " " + lastName)
                         .build();
+            }
+
+            List<Person> people = (new SimpleQuery<>(em, Person.class)).getResultList();
+            for(Person person : people) {
+                int random = new Random().nextInt(people.size());
+                ThreadLocalRandom.current().ints(0, people.size()).distinct().limit(random).forEach(index -> person.friends.add(people.get(index)));
             }
         }), 10);
     }
