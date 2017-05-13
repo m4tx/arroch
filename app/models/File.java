@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "files")
@@ -11,9 +12,11 @@ public class File {
     private long id;
 
     @Column(nullable = false)
+    @Size(max = 15)
     private String extension;
 
     @Column(name = "mime_type", nullable = false)
+    @Size(max = 255)
     private String mimeType;
 
     public long getId() {

@@ -4,6 +4,7 @@ import modules.preloader.DatabasePreloader;
 import utils.SimpleQuery;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,6 +22,7 @@ public class Group {
     private long id;
 
     @Column
+    @Size(max = 70)
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -28,6 +30,7 @@ public class Group {
     private GroupType type;
 
     @Column
+    @Size(max = 120)
     private String description;
 
     @OneToOne(fetch = FetchType.LAZY)

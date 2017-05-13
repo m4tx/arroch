@@ -3,15 +3,18 @@ package models;
 import modules.preloader.DatabasePreloader;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "group_types")
 public class GroupType {
     @Id
     @Column(name = "group_type_id")
+    @Size(max = 30)
     private String id;
 
     @Column
+    @Size(max = 50)
     private String type;
 
     public String getId() {

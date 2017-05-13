@@ -3,6 +3,7 @@ package models;
 import modules.preloader.DatabasePreloader;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.lang.reflect.Field;
 
 @Entity
@@ -10,12 +11,15 @@ import java.lang.reflect.Field;
 public class PropertyType {
     @Id
     @Column(name = "property_id", nullable = false)
+    @Size(max = 50)
     private String propertyId;
 
     @Column(nullable = false)
+    @Size(max = 70)
     private String name;
 
     @Column
+    @Size(max = 50)
     private String icon;
 
     public PropertyType() {
