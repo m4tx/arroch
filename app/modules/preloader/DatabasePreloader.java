@@ -44,6 +44,8 @@ public class DatabasePreloader {
             enabled = conf.hasPath("databasePreloader.enable") && conf.getBoolean("databasePreloader.enable");
             testEnabled = conf.hasPath("databasePreloader.addTestData") && conf.getBoolean("databasePreloader.addTestData");
 
+            if(!enabled) return;
+
             jpa.withTransaction(() -> {
                 EntityManager em = jpa.em();
                 CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
