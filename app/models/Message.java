@@ -1,6 +1,8 @@
 package models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +27,7 @@ public class Message {
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column
+    @Past
     private Date timestamp;
 
     @Column(length = 10000)

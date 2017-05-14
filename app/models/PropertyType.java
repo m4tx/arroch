@@ -3,19 +3,20 @@ package models;
 import modules.preloader.DatabasePreloader;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.lang.reflect.Field;
 
 @Entity
 @Table(name = "property_types")
 public class PropertyType {
     @Id
-    @Column(name = "property_id", nullable = false)
+    @Column(name = "property_id", nullable = false, length = 50)
     private String propertyId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 70)
     private String name;
 
-    @Column
+    @Column(length = 50)
     private String icon;
 
     public PropertyType() {

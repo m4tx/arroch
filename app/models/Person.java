@@ -5,6 +5,7 @@ import org.hibernate.annotations.OrderBy;
 import utils.SimpleQuery;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,16 +22,16 @@ public class Person {
     @Column(name = "person_id")
     private long id;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", nullable = false, length = 30)
     private String firstName;
 
-    @Column(name = "middle_name")
+    @Column(name = "middle_name", length = 30)
     private String middleName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
-    @Column(name = "display_name", nullable = false)
+    @Column(name = "display_name", nullable = false, length = 81)
     private String displayName;
 
     @OneToOne(fetch = FetchType.LAZY)
