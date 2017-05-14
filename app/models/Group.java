@@ -4,6 +4,7 @@ import modules.preloader.DatabasePreloader;
 import utils.SimpleQuery;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -20,14 +21,14 @@ public class Group {
     @Column(name = "group_id")
     private long id;
 
-    @Column
+    @Column(length = 70)
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private GroupType type;
 
-    @Column
+    @Column(length = 120)
     private String description;
 
     @OneToOne(fetch = FetchType.LAZY)
