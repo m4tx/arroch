@@ -13,8 +13,7 @@ public class DataSource {
     @Column(name = "source_id")
     private long id;
 
-    @Column
-    @Size(max = 50)
+    @Column(length = 50)
     private String name;
 
     public long getId() {

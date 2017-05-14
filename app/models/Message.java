@@ -31,7 +31,6 @@ public class Message {
     private Date timestamp;
 
     @Column(length = 10000)
-    @Size(max = 10000)
     private String body;
 
     @ManyToMany(fetch = FetchType.LAZY)

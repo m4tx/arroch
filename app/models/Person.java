@@ -22,20 +22,16 @@ public class Person {
     @Column(name = "person_id")
     private long id;
 
-    @Column(name = "first_name", nullable = false)
-    @Size(max = 30)
+    @Column(name = "first_name", nullable = false, length = 30)
     private String firstName;
 
-    @Column(name = "middle_name")
-    @Size(max = 30)
+    @Column(name = "middle_name", length = 30)
     private String middleName;
 
-    @Column(name = "last_name", nullable = false)
-    @Size(max = 50)
+    @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
-    @Column(name = "display_name", nullable = false)
-    @Size(max = 81)
+    @Column(name = "display_name", nullable = false, length = 81)
     private String displayName;
 
     @OneToOne(fetch = FetchType.LAZY)

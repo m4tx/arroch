@@ -11,12 +11,10 @@ public class File {
     @Column(name = "file_id")
     private long id;
 
-    @Column(nullable = false)
-    @Size(max = 15)
+    @Column(nullable = false, length = 15)
     private String extension;
 
-    @Column(name = "mime_type", nullable = false)
-    @Size(max = 255)
+    @Column(name = "mime_type", nullable = false, length = 255)
     private String mimeType;
 
     public long getId() {

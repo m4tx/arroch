@@ -21,16 +21,14 @@ public class Group {
     @Column(name = "group_id")
     private long id;
 
-    @Column
-    @Size(max = 70)
+    @Column(length = 70)
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false)
     private GroupType type;
 
-    @Column
-    @Size(max = 120)
+    @Column(length = 120)
     private String description;
 
     @OneToOne(fetch = FetchType.LAZY)

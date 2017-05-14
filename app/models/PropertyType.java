@@ -10,16 +10,13 @@ import java.lang.reflect.Field;
 @Table(name = "property_types")
 public class PropertyType {
     @Id
-    @Column(name = "property_id", nullable = false)
-    @Size(max = 50)
+    @Column(name = "property_id", nullable = false, length = 50)
     private String propertyId;
 
-    @Column(nullable = false)
-    @Size(max = 70)
+    @Column(nullable = false, length = 70)
     private String name;
 
-    @Column
-    @Size(max = 50)
+    @Column(length = 50)
     private String icon;
 
     public PropertyType() {

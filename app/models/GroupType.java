@@ -9,12 +9,10 @@ import javax.validation.constraints.Size;
 @Table(name = "group_types")
 public class GroupType {
     @Id
-    @Column(name = "group_type_id")
-    @Size(max = 30)
+    @Column(name = "group_type_id", length = 30)
     private String id;
 
-    @Column
-    @Size(max = 50)
+    @Column(length = 50)
     private String type;
 
     public String getId() {
