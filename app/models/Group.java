@@ -93,13 +93,16 @@ public class Group {
         DatabasePreloader.addTest((em -> {
             for (int i = 0; i < 100; i++) {
                 Group group = new Group();
-                String groupName = capitalizeFully(randomAlphabetic(10));
+                Random randomLength = new Random();
+                int length = randomLength.nextInt(10) + 4;
+                String groupName = capitalizeFully(randomAlphabetic(length));
                 group.setName(groupName);
                 GroupType groupType;
                 if(i > 50)  groupType = em.find(GroupType.class, GroupType.DefaultTypes.social);
                 else  groupType = em.find(GroupType.class, GroupType.DefaultTypes.conversation);
                 group.setType(groupType);
-                String description = capitalizeFully(randomAlphabetic(20));
+                length = randomLength.nextInt(15) + 5;
+                String description = capitalizeFully(randomAlphabetic(length));
                 group.setDescription(description);
                 List<Person> people = (new SimpleQuery(em, Person.class)).getResultList();
                 int random = new Random().nextInt(people.size());
