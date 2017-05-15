@@ -1,11 +1,19 @@
 package models;
 
+import modules.preloader.DatabasePreloader;
+import utils.SimpleQuery;
+
 import javax.persistence.*;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
+
+import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
+import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
 
 @Entity
 @Table(name = "messages")
@@ -99,5 +107,35 @@ public class Message {
 
     public List<Person> getTags() {
         return tags;
+    }
+
+    static {
+        DatabasePreloader.addTest((em -> {
+            for (int i = 0; i < 100; i++) {
+                Message message = new Message();
+                List<Person> people = (new SimpleQuery(em, Person.class)).getResultList();
+                int random = new Random().nextInt(people.size());
+                Person author = people.get(random);
+                message.setAuthor(author);
+                message.setParent(message);
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                long offset = Timestamp.valueOf("2012-01-01 00:00:00").getTime();
+                long end = timestamp.getTime();
+                long diff = end - offset + 1;
+                Timestamp rand = new Timestamp(offset + (long)(Math.random() * diff));
+                message.setTimestamp(rand);
+                int blanks = new Random().nextInt(10) + 1;
+                StringBuilder body = new StringBuilder();
+                for(int j = 0; j <= blanks; j++){
+                    Random randomLength = new Random();
+                    int length = randomLength.nextInt(15) + 1;
+                    body.append(capitalizeFully(randomAlphabetic(length)));
+                    body.append(" ");
+                }
+                message.setBody(body.toString());
+                em.persist(message);
+            }
+        }), 50);
+
     }
 }
