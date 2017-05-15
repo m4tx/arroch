@@ -111,13 +111,22 @@ public class Message {
 
     static {
         DatabasePreloader.addTest((em -> {
+            List<Message> parentList = new ArrayList<>();
             for (int i = 0; i < 100; i++) {
                 Message message = new Message();
                 List<Person> people = (new SimpleQuery(em, Person.class)).getResultList();
                 int random = new Random().nextInt(people.size());
                 Person author = people.get(random);
                 message.setAuthor(author);
-                message.setParent(message);
+                random = new Random().nextInt(6);
+                if(i == 0 || random == 1) {
+                    parentList.add(message);
+                }
+                else{
+                    random = new Random().nextInt(parentList.size());
+                    message.setParent(parentList.get(random));
+                }
+
                 Timestamp timestamp = new Timestamp(System.currentTimeMillis());
                 long offset = Timestamp.valueOf("2012-01-01 00:00:00").getTime();
                 long end = timestamp.getTime();
