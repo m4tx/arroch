@@ -9,6 +9,7 @@
         <div class="subtitle">@person.getDisplayName</div>
     </div>
     @helper.form(action = people.routes.AddPersonInfo.post(person.getId), args = 'class -> "uk-form-stacked") {
+        @CSRF.formField
         <div class="uk-margin">
             <label class="uk-form-label" for="type">Type</label>
             <div class="uk-form-controls">

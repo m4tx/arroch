@@ -9,11 +9,13 @@
             <div class="subtitle">@person.getDisplayName</div>
         </div>
         @helper.form(action = people.routes.EditPersonInfo.post(person.getId, personInfo.getId), args = 'class -> "uk-form-stacked uk-display-inline") {
+            @CSRF.formField
             @inputText(form("value"), args = 'class -> "uk-input", '_label -> "Value")
             <a class="uk-button uk-button-default" href="@people.routes.Person.get(person.getId)">Cancel</a>
             <button class="uk-button uk-button-default" type="submit">Apply</button>
         }
         @helper.form(action = people.routes.RemovePersonInfo.post(person.getId, personInfo.getId), args = 'class -> "uk-float-right") {
+            @CSRF.formField
             <button class="uk-button uk-button-danger">Delete</button>
         }
     }
