@@ -1,6 +1,7 @@
 package models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "files")

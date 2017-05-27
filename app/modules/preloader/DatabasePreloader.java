@@ -26,26 +26,17 @@ public class DatabasePreloader {
 
     private static ArrayList<Entry<Integer, Preloadable>> defaultTasks = new ArrayList<>();
     private static ArrayList<Entry<Integer, Preloadable>> testTasks = new ArrayList<>();
-    private static ArrayList<Entry<Integer, Preloadable>> testCleanupTasks = new ArrayList<>();
     private JPAApi jpa;
 
     @Inject
     DatabasePreloader(JPAApi jpa, ApplicationLifecycle lifecycle) {
         synchronized (DatabasePreloader.class) {
-            if (singleton != null) throw new IllegalStateException("Only one instance of a singleton allowed");
+            if(singleton != null) throw new IllegalStateException("Only one instance of a singleton allowed");
             this.jpa = jpa;
             singleton = this;
 
             lifecycle.addStopHook(() -> {
                 singleton = null;
-                if (enabled && testEnabled) {
-                    jpa.withTransaction(() -> {
-                        EntityManager em = jpa.em();
-                        for (Entry<Integer, Preloadable> a : testCleanupTasks) {
-                            a.getValue().run(em);
-                        }
-                    });
-                }
                 return CompletableFuture.completedFuture(null);
             });
 
@@ -53,7 +44,7 @@ public class DatabasePreloader {
             enabled = conf.hasPath("databasePreloader.enable") && conf.getBoolean("databasePreloader.enable");
             testEnabled = conf.hasPath("databasePreloader.addTestData") && conf.getBoolean("databasePreloader.addTestData");
 
-            if (!enabled) return;
+            if(!enabled) return;
 
             jpa.withTransaction(() -> {
                 EntityManager em = jpa.em();
@@ -91,10 +82,6 @@ public class DatabasePreloader {
     public static synchronized void addTest(Preloadable task, int priority) {
         testTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
         if (singleton != null && enabled && testEnabled) singleton.loadTest(task);
-    }
-
-    public static synchronized void addTestCleanup(Preloadable task, int priority) {
-        testCleanupTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
     }
 
     private void load(Preloadable task) {
