@@ -14,8 +14,11 @@ public class FileMeta {
     @Column(nullable = false, length = 15)
     private String extension;
 
-    @Column(name = "mime_type", nullable = false, length = 255)
+    @Column(name = "mime_type", nullable = false, length = 100)
     private String mimeType;
+
+    @Column(name = "original_name", length = 260)
+    private String orignalName;
 
     public long getId() {
         return id;
@@ -35,5 +38,13 @@ public class FileMeta {
 
     public void setMimeType(String mimeType) {
         this.mimeType = mimeType;
+    }
+
+    public String getOrignalName() {
+        return orignalName;
+    }
+
+    public void setOrignalName(String orignalName) {
+        this.orignalName = orignalName;
     }
 }
