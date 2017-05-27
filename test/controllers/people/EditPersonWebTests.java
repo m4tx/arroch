@@ -4,7 +4,7 @@ import models.Person;
 import models.PersonFactory;
 import org.junit.Test;
 import play.db.jpa.JPAApi;
-import utils.WithBrowserAndTestDatabase;
+import tools.WithBrowserAndTestDatabase;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

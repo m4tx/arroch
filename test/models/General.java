@@ -1,7 +1,7 @@
 package models;
 
 import org.junit.Test;
-import utils.WithTestDatabase;
+import tools.WithTestDatabase;
 
 public class General extends WithTestDatabase {
     @Test

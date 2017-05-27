@@ -1,12 +1,10 @@
-package utils;
+package tools;
 
 import play.Application;
 import play.inject.guice.GuiceApplicationBuilder;
 import play.test.WithBrowser;
 
 import java.util.concurrent.TimeUnit;
-
-import static utils.WithTestDatabase.configureTestDatabase;
 
 
 public class WithBrowserAndTestDatabase extends WithBrowser {
@@ -16,6 +14,6 @@ public class WithBrowserAndTestDatabase extends WithBrowser {
 
     @Override
     protected final Application provideApplication() {
-        return configureTestDatabase(new GuiceApplicationBuilder()).build();
+        return WithTestDatabase.configureTestDatabase(new GuiceApplicationBuilder()).build();
     }
 }
