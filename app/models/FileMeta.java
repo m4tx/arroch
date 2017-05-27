@@ -5,7 +5,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "files")
-public class File {
+public class FileMeta {
     @Id
     @GeneratedValue
     @Column(name = "file_id")

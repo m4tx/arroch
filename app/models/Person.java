@@ -34,7 +34,7 @@ public class Person {
     private String displayName;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private File photo;
+    private FileMeta photo;
 
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy(clause = "type")
@@ -118,11 +118,11 @@ public class Person {
         return memberOf;
     }
 
-    public File getPhoto() {
+    public FileMeta getPhoto() {
         return photo;
     }
 
-    public void setPhoto(File photo) {
+    public void setPhoto(FileMeta photo) {
         this.photo = photo;
     }
 

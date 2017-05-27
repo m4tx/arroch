@@ -4,7 +4,6 @@ import modules.preloader.DatabasePreloader;
 import utils.SimpleQuery;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -32,7 +31,7 @@ public class Group {
     private String description;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private File photo;
+    private FileMeta photo;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -73,11 +72,11 @@ public class Group {
         this.description = description;
     }
 
-    public File getPhoto() {
+    public FileMeta getPhoto() {
         return photo;
     }
 
-    public void setPhoto(File photo) {
+    public void setPhoto(FileMeta photo) {
         this.photo = photo;
     }
 
