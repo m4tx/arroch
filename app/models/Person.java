@@ -5,6 +5,7 @@ import org.hibernate.annotations.OrderBy;
 import utils.SimpleQuery;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -173,5 +174,18 @@ public class Person {
                 ThreadLocalRandom.current().ints(0, people.size()).distinct().limit(random).forEach(index -> person.friends.add(people.get(index)));
             }
         }), 10);
+
+        DatabasePreloader.addTestCleanup((em -> {
+            List<Person> people = (new SimpleQuery<>(em, Person.class)).getResultList();
+            for (Person person : people) {
+                FileMeta pic = person.getPhoto();
+                person.setPhoto(null);
+                try {
+                    FileManager.deleteFile(pic, em);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }), 0);
     }
 }
