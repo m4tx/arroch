@@ -12,7 +12,7 @@ import java.nio.file.Files;
 public class FileManager {
     private static String filePath = ConfigFactory.load().getString("filePath");
 
-    static FileMeta addFile(File data, EntityManager em) throws IOException {
+    public static FileMeta addFile(File data, EntityManager em) throws IOException {
         FileMeta f = new FileMeta();
         f.setExtension(FilenameUtils.getExtension(data.getName()));
         f.setMimeType(Files.probeContentType(data.toPath()));
@@ -23,25 +23,25 @@ public class FileManager {
         return f;
     }
 
-    static String getFilePath(FileMeta meta) {
+    public static String getFilePath(FileMeta meta) {
         return filePath + '/' + meta.getId() + '.' + meta.getExtension();
     }
 
-    static void deleteFile(FileMeta file, EntityManager em) throws IOException {
+    public static void deleteFile(FileMeta file, EntityManager em) throws IOException {
         if (!new File(getFilePath(file)).delete()) throw new IOException("Cannot delete file");
         em.remove(file);
     }
 
-    static File createFile(String name, String mimeType, EntityManager em) {
+    public static FileMeta createFile(String name, String mimeType, EntityManager em) {
         FileMeta f = new FileMeta();
         f.setExtension(FilenameUtils.getExtension(name));
         f.setMimeType(mimeType);
         f.setOrignalName(name);
         em.persist(f);
-        return getFile(f);
+        return f;
     }
 
-    static File getFile(FileMeta meta) {
+    public static File getFile(FileMeta meta) {
         return new File(getFilePath(meta));
     }
 }
