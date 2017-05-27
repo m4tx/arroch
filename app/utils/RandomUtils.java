@@ -2,6 +2,7 @@ package utils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
@@ -26,7 +27,7 @@ public class RandomUtils {
         return new Date(ms);
     }
 
-    public static void randomImage(int height, int width, String savePath) throws IOException {
+    public static void randomImage(int height, int width, File saveTo) throws IOException {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
         for (int i = 0; i < height; i++) {
@@ -38,7 +39,6 @@ public class RandomUtils {
             }
         }
 
-        java.io.File f = new java.io.File(savePath);
-        ImageIO.write(img, "jpg", f);
+        ImageIO.write(img, "jpg", saveTo);
     }
 }

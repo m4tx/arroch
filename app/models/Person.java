@@ -163,6 +163,7 @@ public class Person {
                         .setFirstName(firstName)
                         .setLastName(lastName)
                         .setDisplayName(firstName + " " + lastName)
+                        .genPhoto(100, 100)
                         .build();
             }
 

@@ -50,9 +50,9 @@ public class RandomUtilsTests {
 
     @Test
     public void testRandomImage() throws Exception {
-        String testFile = "test-image.jpg";
-        RandomUtils.randomImage(100, 100, testFile);
-        File f = new File(testFile);
+        File f = new File("test-image.jpg");
+        RandomUtils.randomImage(100, 100, f);
+
         BufferedImage img = ImageIO.read(f);
         assertEquals(BufferedImage.TYPE_3BYTE_BGR, img.getType());
         assertTrue(f.delete());

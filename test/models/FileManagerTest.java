@@ -14,8 +14,8 @@ public class FileManagerTest extends WithTestDatabase {
     @Test
     public void testAddFile() throws IOException {
         JPAApi jpaApi = app.injector().instanceOf(JPAApi.class);
-        RandomUtils.randomImage(100, 100, "test.jpg");
         File img = new File("test.jpg");
+        RandomUtils.randomImage(100, 100, img);
         jpaApi.withTransaction(() -> {
             try {
                 FileMeta m = FileManager.addFile(img, jpaApi.em());

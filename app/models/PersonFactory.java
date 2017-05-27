@@ -1,6 +1,9 @@
 package models;
 
+import utils.RandomUtils;
+
 import javax.persistence.EntityManager;
+import java.io.IOException;
 
 /**
  * Utility class to simplify creating {@link Person} instances.
@@ -57,6 +60,18 @@ public class PersonFactory {
         assert !built;
         this.selfGroup = selfGroup;
         person.setSelfGroup(selfGroup);
+        return this;
+    }
+
+    public PersonFactory genPhoto(int height, int width) {
+        assert !built;
+        FileMeta pic = FileManager.createFile(person.getDisplayName() + ".jpg", "image/jpeg", em);
+        try {
+            RandomUtils.randomImage(height, width, FileManager.getFile(pic));
+        } catch (IOException e) {
+            assert false;
+        }
+        person.setPhoto(pic);
         return this;
     }
 
