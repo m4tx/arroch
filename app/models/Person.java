@@ -5,7 +5,6 @@ import org.hibernate.annotations.OrderBy;
 import utils.SimpleQuery;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -67,6 +66,9 @@ public class Person {
 
     @ManyToMany(mappedBy = "friends", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Person> friendOf = new ArrayList<>();
+
+    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<PersonAccount> accounts = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -148,6 +150,10 @@ public class Person {
         return friendOf;
     }
 
+    public List<PersonAccount> getAccounts() {
+        return accounts;
+    }
+
     static {
         DatabasePreloader.addTest((em -> {
             for (int i = 0; i < 100; i++) {
@@ -161,7 +167,7 @@ public class Person {
             }
 
             List<Person> people = (new SimpleQuery<>(em, Person.class)).getResultList();
-            for(Person person : people) {
+            for (Person person : people) {
                 int random = new Random().nextInt(people.size());
                 ThreadLocalRandom.current().ints(0, people.size()).distinct().limit(random).forEach(index -> person.friends.add(people.get(index)));
             }
