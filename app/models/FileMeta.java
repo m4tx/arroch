@@ -1,7 +1,10 @@
 package models;
 
+import modules.preloader.DatabasePreloader;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.IOException;
 
 @Entity
 @Table(name = "files")
@@ -46,5 +49,15 @@ public class FileMeta {
 
     public void setOrignalName(String orignalName) {
         this.orignalName = orignalName;
+    }
+
+    static {
+        DatabasePreloader.addTest(em -> {
+            try {
+                FileManager.deleteAllFiles();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }, 0);
     }
 }

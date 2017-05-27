@@ -3,6 +3,7 @@ package models;
 import com.typesafe.config.ConfigFactory;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import play.Logger;
 
 import javax.persistence.EntityManager;
 import java.io.File;
@@ -39,6 +40,11 @@ public class FileManager {
         f.setOrignalName(name);
         em.persist(f);
         return f;
+    }
+
+    public static void deleteAllFiles() throws IOException {
+        Logger.warn("!!!Purging files directory!!!");
+        FileUtils.cleanDirectory(new File(filePath));
     }
 
     public static File getFile(FileMeta meta) {
