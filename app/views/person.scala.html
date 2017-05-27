@@ -1,67 +1,80 @@
 @(person: Person)
 
-@main(person.getDisplayName) {
-    <h1 class="uk-heading-primary">
-        @person.getDisplayName
-        <a class="uk-icon-link" data-uk-icon="icon: pencil; ratio: 2" href="@people.routes.EditPerson.get(person.getId)"></a>
-    </h1>
-    <ul data-uk-tab>
-        <li><a href="#">Info</a></li>
-        <li><a href="#">Accounts</a></li>
-        <li><a href="#">Friends</a></li>
-        <li><a href="#">Friend of</a></li>
-    </ul>
-    <div class="uk-switcher">
-        <div>
-            <dl class="uk-description-list">
-                @if(person.getFirstName) {
-                    <dt>First name</dt>
-                    <dd>@person.getFirstName</dd>
+    @main(person.getDisplayName) {
+        <h1 class="uk-heading-primary">
+            @person.getDisplayName
+            <a class="uk-icon-link" data-uk-icon="icon: pencil; ratio: 2" href="@people.routes.EditPerson.get(person.getId)"></a>
+        </h1>
+        <hr>
+        <div class="uk-flex">
+            <div class="uk-margin-right">
+                @if(person.getPhoto == null) {
+                    <span class="uk-icon" data-uk-icon="icon: user; ratio: 10"></span>
+                } else {
+                    <img src="@routes.File.get(person.getPhoto.getId)" width="200em">
                 }
-                @if(person.getMiddleName) {
-                    <dt>Middle name</dt>
-                    <dd>@person.getMiddleName</dd>
+            </div>
+            <div class="uk-margin-left">
+                <dl class="uk-description-list">
+                    @if(person.getFirstName) {
+                        <dt>First name</dt>
+                        <dd>@person.getFirstName</dd>
+                    }
+                    @if(person.getMiddleName) {
+                        <dt>Middle name</dt>
+                        <dd>@person.getMiddleName</dd>
+                    }
+                    @if(person.getLastName) {
+                        <dt>Last name</dt>
+                        <dd>@person.getLastName</dd>
+                    }
+                </dl>
+            </div>
+        </div>
+        <ul data-uk-tab>
+            <li><a href="#">Info</a></li>
+            <li><a href="#">Accounts</a></li>
+            <li><a href="#">Friends</a></li>
+            <li><a href="#">Friend of</a></li>
+        </ul>
+        <div class="uk-switcher">
+            <div>
+                <dl class="uk-description-list">
+                    @for(property <- person.getInfo) {
+                        <dt>
+                            @if(property.getType.getIcon) {
+                                <span data-uk-icon="icon: @property.getType.getIcon"></span>
+                            } @property.getType.getName
+                        <a class="uk-icon-link" data-uk-icon="icon: pencil" href="@people.routes.EditPersonInfo.get(person.getId, property.getId)"></a>
+                        </dt>
+                        <dd>@property.getValue</dd>
+                    }
+                    <a class="uk-icon-link uk-margin" data-uk-icon="icon: plus-circle; ratio: 1.5" href="@people.routes.AddPersonInfo.get(person.getId)"></a>
+                </dl>
+            </div>
+            <div>
+                <ul class="uk-list">
+                @for(account <- person.getAccounts) {
+                    <li><a class="uk-link-reset" href="@account.getSource.getUrl @account.getAccount"><span data-uk-icon="icon: @account.getSource.getIcon"></span>
+                        @account.getAccount</a>
+                    </li>
                 }
-                @if(person.getLastName) {
-                    <dt>Last name</dt>
-                    <dd>@person.getLastName</dd>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                @for(friend <- person.getFriends) {
+                    <li><a href="@people.routes.Person.get(friend.getId)">@friend.getDisplayName</a></li>
                 }
-                <hr>
-                @for(property <- person.getInfo) {
-                    <dt>
-                        @if(property.getType.getIcon) {
-                            <span data-uk-icon="icon: @property.getType.getIcon"></span>
-                        } @property.getType.getName
-                    <a class="uk-icon-link" data-uk-icon="icon: pencil" href="@people.routes.EditPersonInfo.get(person.getId, property.getId)"></a>
-                    </dt>
-                    <dd>@property.getValue</dd>
+                </ul>
+            </div>
+            <div>
+                <ul>
+                @for(friend <- person.getFriendOf) {
+                    <li><a href="@people.routes.Person.get(friend.getId)">@friend.getDisplayName</a></li>
                 }
-                <a class="uk-icon-link uk-margin" data-uk-icon="icon: plus-circle; ratio: 1.5" href="@people.routes.AddPersonInfo.get(person.getId)"></a>
-            </dl>
+                </ul>
+            </div>
         </div>
-        <div>
-            <ul class="uk-list">
-            @for(account <- person.getAccounts) {
-                <li><a class="uk-link-reset" href="@account.getSource.getUrl @account.getAccount"><span data-uk-icon="icon: @account.getSource.getIcon"></span>
-                    @account.getAccount</a>
-                </li>
-            }
-            </ul>
-        </div>
-        <div>
-            <ul>
-            @for(friend <- person.getFriends) {
-                <li><a href="@people.routes.Person.get(friend.getId)">@friend.getDisplayName</a></li>
-            }
-            </ul>
-        </div>
-        <div>
-            <ul>
-            @for(friend <- person.getFriendOf) {
-                <li><a href="@people.routes.Person.get(friend.getId)">@friend.getDisplayName</a></li>
-            }
-            </ul>
-        </div>
-    </div>
 
-}
+    }
