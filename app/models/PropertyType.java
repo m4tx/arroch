@@ -65,6 +65,9 @@ public class PropertyType {
         public static PropertyType workPhoneNumber = new PropertyType("workPhoneNumber", "Work phone number", "phone");
 
         @DefaultValue
+        public static PropertyType homePhoneNumber = new PropertyType("homePhoneNumber", "Home phone number", "phone");
+
+        @DefaultValue
         public static PropertyType birthdate = new PropertyType("birthdate", "Date of birth", "calendar");
 
         @DefaultValue

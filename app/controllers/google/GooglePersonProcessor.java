@@ -1,8 +1,11 @@
 package controllers.google;
 
 import com.google.api.services.people.v1.model.Name;
+import com.google.api.services.people.v1.model.PhoneNumber;
 import models.Person;
 import models.PersonFactory;
+import models.PersonInfo;
+import models.PropertyType;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -17,7 +20,9 @@ public class GooglePersonProcessor {
     public Person processGooglePerson(com.google.api.services.people.v1.model.Person googlePerson) {
         PersonFactory personFactory = new PersonFactory(em);
         processNames(personFactory, googlePerson);
-        return personFactory.build();
+        Person person = personFactory.build();
+        processPhoneNumbers(person, googlePerson);
+        return person;
     }
 
     private void processNames(PersonFactory personFactory, com.google.api.services.people.v1.model.Person googlePerson) {
@@ -28,6 +33,29 @@ public class GooglePersonProcessor {
             personFactory.setFirstName(name.getGivenName());
             personFactory.setMiddleName(name.getMiddleName());
             personFactory.setLastName(name.getFamilyName());
+        }
+    }
+
+    private void processPhoneNumbers(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
+        List<PhoneNumber> phoneNumbers = googlePerson.getPhoneNumbers();
+        if (phoneNumbers != null && !phoneNumbers.isEmpty()) {
+            for (PhoneNumber phoneNumber : phoneNumbers) {
+                PropertyType type;
+                switch (phoneNumber.getType()) {
+                    case "home":
+                        type = PropertyType.PropertyTypeList.homePhoneNumber;
+                        break;
+                    case "work":
+                        type = PropertyType.PropertyTypeList.workPhoneNumber;
+                        break;
+                    default:
+                        type = PropertyType.PropertyTypeList.phoneNumber;
+                }
+
+                PersonInfo info = new PersonInfo(person, type, phoneNumber.getCanonicalForm());
+                person.getInfo().add(info);
+                em.persist(info);
+            }
         }
     }
 }
