@@ -23,6 +23,7 @@ GET         /group/                         controllers.groups.Groups.get
 GET         /group/:id                      controllers.groups.Group.get(id: Long)
 
 # File
+GET         /file/min/:id                   controllers.File.getPreview(id: Long)
 GET         /file/:id                       controllers.File.get(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
