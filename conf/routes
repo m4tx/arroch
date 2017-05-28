@@ -15,6 +15,8 @@ POST        /person/:id/info/add            controllers.people.AddPersonInfo.pos
 POST        /person/:id/info/:infoId/remove controllers.people.RemovePersonInfo.post(id: Long, infoId: Long)
 GET         /person/:id/info/:infoId        controllers.people.EditPersonInfo.get(id: Long, infoId: Long)
 POST        /person/:id/info/:infoId        controllers.people.EditPersonInfo.post(id: Long, infoId: Long)
+GET         /google                         controllers.google.Google.redirectToGoogle
+GET         /google/authenticated           controllers.google.Google.authenticated
 
 # Groups
 GET         /group/                         controllers.groups.Groups.get

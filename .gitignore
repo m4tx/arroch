@@ -4,6 +4,9 @@
 *.iml
 *.ipr
 
+# Google API client secrets file
+conf/client_secrets.json
+
 build/
 dist/
 logs

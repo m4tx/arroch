@@ -17,6 +17,7 @@ libraryDependencies += "org.assertj" % "assertj-core" % "3.6.2"
 libraryDependencies += "org.seleniumhq.selenium" % "selenium-server" % "3.4.0"
 libraryDependencies += "org.seleniumhq.selenium" % "selenium-java" % "3.4.0"
 libraryDependencies += "org.seleniumhq.selenium" % "selenium-htmlunit-driver" % "2.52.0"
+libraryDependencies += "com.google.apis" % "google-api-services-people" % "v1-rev110-1.22.0"
 
 PlayKeys.externalizeResources := false
 
