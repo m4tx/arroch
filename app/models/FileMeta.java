@@ -4,6 +4,7 @@ import modules.preloader.DatabasePreloader;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.File;
 import java.io.IOException;
 
 @Entity
@@ -52,6 +53,8 @@ public class FileMeta {
     }
 
     static {
+        FileManager.createDirectories();
+
         DatabasePreloader.addTest(em -> {
             try {
                 FileManager.deleteAllFiles();
