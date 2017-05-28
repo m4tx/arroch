@@ -28,8 +28,6 @@ public class GooglePersonProcessor {
             personFactory.setFirstName(name.getGivenName());
             personFactory.setMiddleName(name.getMiddleName());
             personFactory.setLastName(name.getFamilyName());
-        } else {
-            System.out.println(googlePerson);
         }
     }
 }
