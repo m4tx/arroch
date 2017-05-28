@@ -41,7 +41,7 @@ public class Google extends Controller {
     private HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
     private JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
     private GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory,
-            new InputStreamReader(Google.class.getResourceAsStream("/client_secrets.json")));
+            new InputStreamReader(Google.class.getResourceAsStream("/google_client_secrets.json")));
 
     public Google() throws GeneralSecurityException, IOException {
     }

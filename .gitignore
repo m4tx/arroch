@@ -5,7 +5,7 @@
 *.ipr
 
 # Google API client secrets file
-conf/client_secrets.json
+conf/google_client_secrets.json
 
 build/
 dist/
