@@ -1,9 +1,11 @@
 package models;
 
 import modules.preloader.DatabasePreloader;
+import utils.RandomUtils;
 import utils.SimpleQuery;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -97,15 +99,22 @@ public class Group {
                 String groupName = capitalizeFully(randomAlphabetic(length));
                 group.setName(groupName);
                 GroupType groupType;
-                if(i > 50)  groupType = em.find(GroupType.class, GroupType.DefaultTypes.social);
-                else  groupType = em.find(GroupType.class, GroupType.DefaultTypes.conversation);
+                if (i > 50) groupType = em.find(GroupType.class, GroupType.DefaultTypes.social);
+                else groupType = em.find(GroupType.class, GroupType.DefaultTypes.conversation);
                 group.setType(groupType);
                 length = randomLength.nextInt(15) + 5;
                 String description = capitalizeFully(randomAlphabetic(length));
                 group.setDescription(description);
-                List<Person> people = (new SimpleQuery(em, Person.class)).getResultList();
+                List<Person> people = (new SimpleQuery<>(em, Person.class)).getResultList();
                 int random = new Random().nextInt(people.size());
                 ThreadLocalRandom.current().ints(0, people.size()).distinct().limit(random).forEach(index -> group.members.add(people.get(index)));
+                FileMeta pic = FileManager.createFile(group.getName() + ".jpg", "image/jpeg", em);
+                try {
+                    RandomUtils.randomImage(250, 800, FileManager.getFile(pic));
+                } catch (IOException e) {
+                    assert false;
+                }
+                group.setPhoto(pic);
                 em.persist(group);
             }
         }), 30);
