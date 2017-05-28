@@ -84,7 +84,8 @@ public class Google extends Controller {
         String[] fields = {
                 "names",
                 "emailAddresses",
-                "phoneNumbers"
+                "phoneNumbers",
+                "addresses"
         };
         return Arrays.stream(fields).map(x -> "person." + x).collect(Collectors.joining(","));
     }

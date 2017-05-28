@@ -77,7 +77,13 @@ public class PropertyType {
         public static PropertyType education = new PropertyType("education", "Education", "");
 
         @DefaultValue
+        public static PropertyType address = new PropertyType("address", "Address", "home");
+
+        @DefaultValue
         public static PropertyType homeAddress = new PropertyType("homeAddress", "Home Address", "home");
+
+        @DefaultValue
+        public static PropertyType workAddress = new PropertyType("workAddress", "Work Address", "home");
     }
 
     static {
