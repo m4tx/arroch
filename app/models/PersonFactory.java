@@ -4,6 +4,7 @@ import utils.RandomUtils;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Utility class to simplify creating {@link Person} instances.
@@ -52,7 +53,7 @@ public class PersonFactory {
 
     public PersonFactory setDisplayName(String displayName) {
         assert !built;
-        person.setDisplayName(displayName);
+        person.setDisplayName(Objects.toString(displayName, ""));
         return this;
     }
 
