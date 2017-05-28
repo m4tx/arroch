@@ -1,15 +1,14 @@
 package controllers.google;
 
-import com.google.api.services.people.v1.model.Address;
-import com.google.api.services.people.v1.model.EmailAddress;
-import com.google.api.services.people.v1.model.Name;
-import com.google.api.services.people.v1.model.PhoneNumber;
+import com.google.api.services.people.v1.model.*;
 import models.Person;
 import models.PersonFactory;
 import models.PersonInfo;
 import models.PropertyType;
 
 import javax.persistence.EntityManager;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class GooglePersonProcessor {
@@ -26,6 +25,7 @@ public class GooglePersonProcessor {
         processPhoneNumbers(person, googlePerson);
         processAddresses(person, googlePerson);
         processEmailAddresses(person, googlePerson);
+        processBirthdays(person, googlePerson);
         return person;
     }
 
@@ -106,6 +106,25 @@ public class GooglePersonProcessor {
                 }
 
                 PersonInfo info = new PersonInfo(person, type, emailAddress.getValue());
+                person.getInfo().add(info);
+                em.persist(info);
+            }
+        }
+    }
+
+    private void processBirthdays(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
+        List<Birthday> birthdays = googlePerson.getBirthdays();
+        System.out.println(birthdays);
+        if (birthdays != null && !birthdays.isEmpty()) {
+            for (Birthday birthday : birthdays) {
+                Date date = birthday.getDate();
+                String dateText = birthday.getText();
+                if (date != null && date.getYear() != null && date.getMonth() != null && date.getDay() != null) {
+                    dateText = new SimpleDateFormat("yyyy-MM-dd").format(
+                            new GregorianCalendar(date.getYear(), date.getMonth() - 1, date.getDay()).getTime());
+                }
+
+                PersonInfo info = new PersonInfo(person, PropertyType.PropertyTypeList.birthdate, dateText);
                 person.getInfo().add(info);
                 em.persist(info);
             }
