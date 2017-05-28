@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.SingularAttribute;
 import java.util.List;
 
 public class SimpleQuery<T> {
@@ -28,6 +29,11 @@ public class SimpleQuery<T> {
 
     public SimpleQuery<T> orderByDesc(String field) {
         query = query.orderBy(builder.desc(from.get(field)));
+        return this;
+    }
+
+    public SimpleQuery<T> where(String attribute, Object value) {
+        query = query.where(builder.equal(from.get(attribute), value));
         return this;
     }
 
