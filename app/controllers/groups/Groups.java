@@ -17,6 +17,7 @@ public class Groups {
     public Result get() {
         List<Group> groups = (new SimpleQuery<>(JPA.em(), Group.class)
                 .where("type", JPA.em().find(GroupType.class, GroupType.DefaultTypes.social))
+                .orderByAsc("name")
         ).getResultList();
         return ok(groupList.render(groups));
     }

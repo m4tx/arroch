@@ -18,6 +18,7 @@ POST        /person/:id/info/:infoId        controllers.people.EditPersonInfo.po
 
 # Groups
 GET         /group/                         controllers.groups.Groups.get
+GET         /group/:id                      controllers.groups.Group.get(id: Long)
 
 # File
 GET         /file/:id                       controllers.File.get(id: Long)

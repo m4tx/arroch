@@ -1,0 +1,36 @@
+@(group: Group)
+
+@main(group.getName) {
+    <h1 class="uk-heading-primary">
+    @group.getName
+    </h1>
+    <hr>
+    <div>
+        @if(group.getPhoto != null) {
+            <img src="@routes.File.get(group.getPhoto.getId)" height="300em">
+        }
+        <dl class="uk-description-list">
+        @if(group.getDescription) {
+            <dt>About:</dt>
+            <dd>@group.getDescription</dd>
+        }
+        </dl>
+    </div>
+    <ul data-uk-tab>
+        <li><a href="#">Activity</a></li>
+        <li><a href="#">Memebers</a></li>
+    </ul>
+    <div class="uk-switcher">
+        <div>
+            TODO
+        </div>
+        <div>
+            <ul>
+            @for(member <- group.getMembers) {
+                <li><a href="@people.routes.Person.get(member.getId)">@member.getDisplayName</a></li>
+            }
+            </ul>
+        </div>
+    </div>
+
+}

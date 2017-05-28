@@ -5,7 +5,7 @@
     <h1 class="uk-heading-primary">Groups</h1>
     <ul>
     @for(group <- groupList) {
-        <li><a href="#">@group.getName</a></li>
+        <li><a href="@groups.routes.Group.get(group.getId)">@group.getName</a></li>
     }
     </ul>
 }
