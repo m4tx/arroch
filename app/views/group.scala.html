@@ -25,9 +25,9 @@
             TODO
         </div>
         <div>
-            <ul>
+            <ul class="uk-list">
             @for(member <- group.getMembers) {
-                <li><a href="@people.routes.Person.get(member.getId)">@member.getDisplayName</a></li>
+                <li>@personEntry(member)</li>
             }
             </ul>
         </div>

@@ -3,9 +3,9 @@
 
 @main("People") {
     <h1 class="uk-heading-primary">People</h1>
-    <ul>
+    <ul class="uk-list">
     @for(person <- personList) {
-        <li><a href="@people.routes.Person.get(person.getId)">@person.getDisplayName</a></li>
+        <li>@personEntry(person)</li>
     }
     </ul>
 }

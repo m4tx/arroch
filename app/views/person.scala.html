@@ -62,16 +62,16 @@
                 </ul>
             </div>
             <div>
-                <ul>
+                <ul class="uk-list">
                 @for(friend <- person.getFriends) {
-                    <li><a href="@people.routes.Person.get(friend.getId)">@friend.getDisplayName</a></li>
+                    <li>@personEntry(friend)</li>
                 }
                 </ul>
             </div>
             <div>
-                <ul>
+                <ul class="uk-list">
                 @for(friend <- person.getFriendOf) {
-                    <li><a href="@people.routes.Person.get(friend.getId)">@friend.getDisplayName</a></li>
+                    <li>@personEntry(friend)</li>
                 }
                 </ul>
             </div>
