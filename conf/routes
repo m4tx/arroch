@@ -16,6 +16,9 @@ POST        /person/:id/info/:infoId/remove controllers.people.RemovePersonInfo.
 GET         /person/:id/info/:infoId        controllers.people.EditPersonInfo.get(id: Long, infoId: Long)
 POST        /person/:id/info/:infoId        controllers.people.EditPersonInfo.post(id: Long, infoId: Long)
 
+# Groups
+GET         /group/                         controllers.groups.Groups.get
+
 # File
 GET         /file/:id                       controllers.File.get(id: Long)
 

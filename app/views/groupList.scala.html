@@ -1,0 +1,11 @@
+@import java.util
+@(groupList: util.List[Group])
+
+@main("Groups") {
+    <h1 class="uk-heading-primary">Groups</h1>
+    <ul>
+    @for(group <- groupList) {
+        <li><a href="#">@group.getName</a></li>
+    }
+    </ul>
+}
