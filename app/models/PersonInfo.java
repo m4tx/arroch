@@ -74,7 +74,7 @@ public class PersonInfo {
                 for (PropertyType a : prop) {
                     String value;
                     if (a.getName().contains("Date") || a.getName().contains("date")) {
-                        value = new SimpleDateFormat("yyyy-mm-dd").format(randomDate(1950, 2015));
+                        value = new SimpleDateFormat("yyyy-MM-dd").format(randomDate(1950, 2015));
                     } else if (a.getName().contains("number")) {
                         value = randomNumeric(9);
                     } else {
