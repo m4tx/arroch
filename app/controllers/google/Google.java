@@ -12,12 +12,14 @@ import com.google.api.services.people.v1.PeopleService;
 import com.google.api.services.people.v1.PeopleServiceScopes;
 import com.google.api.services.people.v1.model.ListConnectionsResponse;
 import com.google.api.services.people.v1.model.Person;
+import play.Logger;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
@@ -31,16 +33,29 @@ public class Google extends Controller {
     // fixme hardcoded server URL
     private static final String REDIRECT_URL = "http://localhost:9000/google/authenticated";
     private static final Collection<String> SCOPES = Collections.singletonList(PeopleServiceScopes.CONTACTS_READONLY);
+    private static final String SECRETS_FILENAME = "/google_client_secrets.json";
 
     private HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
     private JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-    private GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(jsonFactory,
-            new InputStreamReader(Google.class.getResourceAsStream("/google_client_secrets.json")));
+    private GoogleClientSecrets clientSecrets = loadClientSecrets();
 
     public Google() throws GeneralSecurityException, IOException {
     }
 
+    private GoogleClientSecrets loadClientSecrets() throws IOException {
+        InputStream secretsStream = Google.class.getResourceAsStream(SECRETS_FILENAME);
+        if (secretsStream == null) {
+            Logger.warn("Google: Could not load " + SECRETS_FILENAME);
+            return null;
+        }
+        return GoogleClientSecrets.load(jsonFactory, new InputStreamReader(secretsStream));
+    }
+
     private GoogleAuthorizationCodeFlow getAuthCodeFlow() {
+        if (clientSecrets == null) {
+            throw new RuntimeException(
+                    "Secrets file was not loaded. Make sure there is " + SECRETS_FILENAME + " in conf directory");
+        }
         return new GoogleAuthorizationCodeFlow.Builder(
                 httpTransport, jsonFactory, clientSecrets, SCOPES).setAccessType("offline").build();
     }
