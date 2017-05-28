@@ -99,8 +99,8 @@ public class Group {
                 String groupName = capitalizeFully(randomAlphabetic(length));
                 group.setName(groupName);
                 GroupType groupType;
-                if (i > 50) groupType = em.find(GroupType.class, GroupType.DefaultTypes.social);
-                else groupType = em.find(GroupType.class, GroupType.DefaultTypes.conversation);
+                if (i > 50) groupType = GroupType.GroupTypeList.social;
+                else groupType = GroupType.GroupTypeList.conversation;
                 group.setType(groupType);
                 length = randomLength.nextInt(15) + 5;
                 String description = capitalizeFully(randomAlphabetic(length));

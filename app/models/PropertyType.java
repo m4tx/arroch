@@ -1,6 +1,7 @@
 package models;
 
 import modules.preloader.DatabasePreloader;
+import modules.preloader.DefaultValue;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -56,14 +57,27 @@ public class PropertyType {
         return super.equals(obj);
     }
 
+    public static class PropertyTypeList {
+        @DefaultValue
+        public static PropertyType phoneNumber = new PropertyType("phoneNumber", "Phone number", "phone");
+
+        @DefaultValue
+        public static PropertyType workPhoneNumber = new PropertyType("workPhoneNumber", "Work phone number", "phone");
+
+        @DefaultValue
+        public static PropertyType birthdate = new PropertyType("birthdate", "Date of birth", "calendar");
+
+        @DefaultValue
+        public static PropertyType company = new PropertyType("company", "Company", "");
+
+        @DefaultValue
+        public static PropertyType education = new PropertyType("education", "Education", "");
+
+        @DefaultValue
+        public static PropertyType homeAddress = new PropertyType("homeAddress", "Home Address", "home");
+    }
+
     static {
-        DatabasePreloader.addDefault((em -> {
-            em.persist(new PropertyType("phoneNumber", "Phone number", "phone"));
-            em.persist(new PropertyType("workPhoneNumber", "Work phone number", "phone"));
-            em.persist(new PropertyType("birthdate", "Date of birth", "calendar"));
-            em.persist(new PropertyType("company", "Company", ""));
-            em.persist(new PropertyType("education", "Education", ""));
-            em.persist(new PropertyType("homeAddress", "Home Address", "home"));
-        }), 0);
+        DatabasePreloader.addDefault(0, PropertyTypeList.class);
     }
 }

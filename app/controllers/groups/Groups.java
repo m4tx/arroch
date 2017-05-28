@@ -16,7 +16,7 @@ public class Groups {
     @Transactional
     public Result get() {
         List<Group> groups = (new SimpleQuery<>(JPA.em(), Group.class)
-                .where("type", JPA.em().find(GroupType.class, GroupType.DefaultTypes.social))
+                .where("type", GroupType.GroupTypeList.social)
                 .orderByAsc("name")
         ).getResultList();
         return ok(groupList.render(groups));

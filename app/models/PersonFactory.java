@@ -8,7 +8,7 @@ import java.util.Objects;
 
 /**
  * Utility class to simplify creating {@link Person} instances.
- *
+ * <p>
  * This delegates set* methods from Person class and provides initial values for the fields and
  * has {@link #build()} method that makes the instance persistent. Note that you shouldn't
  * edit any fields after an instance is built.
@@ -26,10 +26,9 @@ public class PersonFactory {
         person.setFirstName("");
         person.setLastName("");
         person.setDisplayName("");
-
-        GroupType selfGroup = em.find(GroupType.class, GroupType.DefaultTypes.selfGroup);
+        ;
         this.selfGroup = new Group();
-        this.selfGroup.setType(selfGroup);
+        this.selfGroup.setType(GroupType.GroupTypeList.selfGroup);
         person.setSelfGroup(this.selfGroup);
     }
 

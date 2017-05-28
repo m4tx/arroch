@@ -2,7 +2,6 @@ package modules.preloader;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import models.DataSource;
 import play.Logger;
 import play.api.inject.ApplicationLifecycle;
 import play.db.jpa.JPAApi;
@@ -10,8 +9,8 @@ import play.db.jpa.JPAApi;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.AbstractMap;
 import java.util.Comparator;
 import java.util.Map.Entry;
@@ -21,17 +20,16 @@ import java.util.concurrent.CompletableFuture;
 @Singleton
 public class DatabasePreloader {
     private static DatabasePreloader singleton = null;
-    private static Boolean enabled = false;
     private static Boolean testEnabled = false;
 
-    private static ArrayList<Entry<Integer, Preloadable>> defaultTasks = new ArrayList<>();
+    private static ArrayList<Entry<Integer, Class<?>>> defaultTasks = new ArrayList<>();
     private static ArrayList<Entry<Integer, Preloadable>> testTasks = new ArrayList<>();
     private JPAApi jpa;
 
     @Inject
     DatabasePreloader(JPAApi jpa, ApplicationLifecycle lifecycle) {
         synchronized (DatabasePreloader.class) {
-            if(singleton != null) throw new IllegalStateException("Only one instance of a singleton allowed");
+            if (singleton != null) throw new IllegalStateException("Only one instance of a singleton allowed");
             this.jpa = jpa;
             singleton = this;
 
@@ -41,28 +39,18 @@ public class DatabasePreloader {
             });
 
             Config conf = ConfigFactory.load();
-            enabled = conf.hasPath("databasePreloader.enable") && conf.getBoolean("databasePreloader.enable");
             testEnabled = conf.hasPath("databasePreloader.addTestData") && conf.getBoolean("databasePreloader.addTestData");
-
-            if(!enabled) return;
 
             jpa.withTransaction(() -> {
                 EntityManager em = jpa.em();
-                CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
-                CriteriaQuery<Long> query = criteriaBuilder.createQuery(Long.class);
-                query.select(criteriaBuilder.count(query.from(DataSource.class)));
-                if (em.createQuery(query).getSingleResult() != 0) {
-                    Logger.info("Database not empty, skipping preload");
-                    enabled = false;
-                    return;
-                }
 
-                Logger.info("Preloading database");
+
                 defaultTasks.sort(Comparator.comparingInt(Entry::getKey));
-                for (Entry<Integer, Preloadable> a : defaultTasks) {
-                    a.getValue().run(em);
+                for (Entry<Integer, Class<?>> a : defaultTasks) {
+                    loadDefault(a.getValue(), em);
                 }
                 if (testEnabled) {
+                    Logger.info("Loading test data");
                     testTasks.sort(Comparator.comparingInt(Entry::getKey));
                     for (Entry<Integer, Preloadable> a : testTasks) {
                         a.getValue().run(em);
@@ -72,23 +60,33 @@ public class DatabasePreloader {
         }
     }
 
-    public static synchronized void addDefault(Preloadable task, int priority) {
+    public static synchronized void addDefault(int priority, Class<?> valueMap) {
         if (singleton != null)
             throw new RuntimeException("Cannot register register new default db preload after database initialization!");
-        defaultTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
+        defaultTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, valueMap));
 
     }
 
     public static synchronized void addTest(Preloadable task, int priority) {
         testTasks.add(new AbstractMap.SimpleImmutableEntry<>(priority, task));
-        if (singleton != null && enabled && testEnabled) singleton.loadTest(task);
+        if (singleton != null && testEnabled) singleton.loadTest(task);
     }
 
-    private void load(Preloadable task) {
-        jpa.withTransaction(() -> task.run(jpa.em()));
+    private void loadDefault(Class<?> valueMap, EntityManager em) {
+        Field[] declaredFields = valueMap.getDeclaredFields();
+        for (Field field : declaredFields) {
+            if (Modifier.isStatic(field.getModifiers()) && field.isAnnotationPresent(DefaultValue.class)) {
+                try {
+                    Object c = field.get(null);
+                    em.persist(c);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException("Cannot Access default model value field\n" + e.toString());
+                }
+            }
+        }
     }
 
     private void loadTest(Preloadable task) {
-        if (enabled && testEnabled) load(task);
+        if (testEnabled) jpa.withTransaction(() -> task.run(jpa.em()));
     }
 }

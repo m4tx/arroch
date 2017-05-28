@@ -1,17 +1,16 @@
 package models;
 
 import modules.preloader.DatabasePreloader;
+import modules.preloader.DefaultValue;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "sources")
 public class DataSource {
     @Id
-    @GeneratedValue
-    @Column(name = "source_id")
-    private long id;
+    @Column(name = "source_id", length = 15)
+    private String id;
 
     @Column(length = 30)
     private String name;
@@ -22,7 +21,17 @@ public class DataSource {
     @Column(length = 50)
     private String url;
 
-    public long getId() {
+    public DataSource() {
+    }
+
+    public DataSource(String id, String name, String icon, String url) {
+        this.id = id;
+        this.name = name;
+        this.icon = icon;
+        this.url = url;
+    }
+
+    public String getId() {
         return id;
     }
 
@@ -30,42 +39,26 @@ public class DataSource {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getIcon() {
         return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public static class DataSourceList {
+        @DefaultValue
+        public static DataSource arroch = new DataSource("arroch", "Arroch", "database", "#");
+
+        @DefaultValue
+        public static DataSource google = new DataSource("google", "Google", "google", "https://plus.google.com/");
+
+        @DefaultValue
+        public static DataSource facebook = new DataSource("facebook", "Facebook", "facebook", "https://www.facebook.com/");
     }
 
     static {
-        DatabasePreloader.addDefault(em -> {
-            DataSource d = new DataSource();
-            d.setName("Arroch");
-            d.setIcon("database");
-            em.persist(d);
-            d = new DataSource();
-            d.setName("Google");
-            d.setIcon("google");
-            d.setUrl("https://plus.google.com/");
-            em.persist(d);
-            d = new DataSource();
-            d.setName("Facebook");
-            d.setIcon("facebook");
-            d.setUrl("https://www.facebook.com/");
-            em.persist(d);
-        }, 0);
+        DatabasePreloader.addDefault(0, DataSourceList.class);
     }
 }

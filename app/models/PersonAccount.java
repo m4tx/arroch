@@ -51,17 +51,16 @@ public class PersonAccount {
     static {
         DatabasePreloader.addTest((em -> {
             List<Person> people = (new SimpleQuery<>(em, Person.class)).getResultList();
-            List<DataSource> sources = (new SimpleQuery<>(em, DataSource.class)).getResultList();
             for (Person p : people) {
                 PersonAccount a = new PersonAccount();
                 a.setPerson(p);
                 a.setAccount(randomAlphabetic(10));
-                a.setSource(sources.get(1));
+                a.setSource(DataSource.DataSourceList.google);
                 em.persist(a);
                 a = new PersonAccount();
                 a.setPerson(p);
                 a.setAccount(randomAlphabetic(15));
-                a.setSource(sources.get(2));
+                a.setSource(DataSource.DataSourceList.facebook);
                 em.persist(a);
             }
         }), 20);

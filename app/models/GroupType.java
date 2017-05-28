@@ -1,6 +1,7 @@
 package models;
 
 import modules.preloader.DatabasePreloader;
+import modules.preloader.DefaultValue;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -23,10 +24,6 @@ public class GroupType {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public GroupType() {
     }
 
@@ -35,17 +32,18 @@ public class GroupType {
         this.type = type;
     }
 
-    public static class DefaultTypes {
-        public static final String selfGroup = "selfGroup";
-        public static final String conversation = "conversation";
-        public static final String social = "social";
+    public static class GroupTypeList {
+        @DefaultValue
+        public static GroupType selfGroup = new GroupType("selfGroup", "Person Group");
+
+        @DefaultValue
+        public static GroupType conversation = new GroupType("conversation", "Conversation");
+
+        @DefaultValue
+        public static GroupType social = new GroupType("social", "Social group");
     }
 
     static {
-        DatabasePreloader.addDefault((em -> {
-            em.persist(new GroupType(DefaultTypes.selfGroup, "Person Group"));
-            em.persist(new GroupType(DefaultTypes.conversation, "Conversation"));
-            em.persist(new GroupType(DefaultTypes.social, "Social group"));
-        }), 0);
+        DatabasePreloader.addDefault(0, GroupTypeList.class);
     }
 }
