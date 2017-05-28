@@ -22,6 +22,7 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,14 +30,7 @@ import java.util.stream.Collectors;
 public class Google extends Controller {
     // fixme hardcoded server URL
     private static final String REDIRECT_URL = "http://localhost:9000/google/authenticated";
-    private static final Collection<String> SCOPES = Arrays.asList(
-            PeopleServiceScopes.CONTACTS_READONLY,
-            PeopleServiceScopes.USERINFO_PROFILE,
-            PeopleServiceScopes.USERINFO_EMAIL,
-            PeopleServiceScopes.USER_ADDRESSES_READ,
-            PeopleServiceScopes.USER_BIRTHDAY_READ,
-            PeopleServiceScopes.USER_PHONENUMBERS_READ
-    );
+    private static final Collection<String> SCOPES = Collections.singletonList(PeopleServiceScopes.CONTACTS_READONLY);
 
     private HttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
     private JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
