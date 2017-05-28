@@ -42,92 +42,102 @@ public class GooglePersonProcessor {
 
     private void processPhoneNumbers(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
         List<PhoneNumber> phoneNumbers = googlePerson.getPhoneNumbers();
-        if (phoneNumbers != null && !phoneNumbers.isEmpty()) {
-            for (PhoneNumber phoneNumber : phoneNumbers) {
-                PropertyType type;
-                switch (phoneNumber.getType()) {
-                    case "home":
-                        type = PropertyType.PropertyTypeList.homePhoneNumber;
-                        break;
-                    case "work":
-                        type = PropertyType.PropertyTypeList.workPhoneNumber;
-                        break;
-                    default:
-                        type = PropertyType.PropertyTypeList.phoneNumber;
-                }
+        if (phoneNumbers == null) {
+            return;
+        }
 
-                PersonInfo info = new PersonInfo(person, type, phoneNumber.getCanonicalForm());
-                person.getInfo().add(info);
-                em.persist(info);
+        for (PhoneNumber phoneNumber : phoneNumbers) {
+            PropertyType type;
+            switch (phoneNumber.getType()) {
+                case "home":
+                    type = PropertyType.PropertyTypeList.homePhoneNumber;
+                    break;
+                case "work":
+                    type = PropertyType.PropertyTypeList.workPhoneNumber;
+                    break;
+                default:
+                    type = PropertyType.PropertyTypeList.phoneNumber;
             }
+
+            PersonInfo info = new PersonInfo(person, type, phoneNumber.getCanonicalForm());
+            person.getInfo().add(info);
+            em.persist(info);
         }
     }
 
     private void processAddresses(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
         List<Address> addresses = googlePerson.getAddresses();
-        if (addresses != null && !addresses.isEmpty()) {
-            for (Address address : addresses) {
-                PropertyType type;
-                switch (address.getType()) {
-                    case "home":
-                        type = PropertyType.PropertyTypeList.homeAddress;
-                        break;
-                    case "work":
-                        type = PropertyType.PropertyTypeList.workAddress;
-                        break;
-                    default:
-                        type = PropertyType.PropertyTypeList.address;
-                }
+        if (addresses == null) {
+            return;
+        }
 
-                PersonInfo info = new PersonInfo(person, type, address.getFormattedValue());
-                person.getInfo().add(info);
-                em.persist(info);
+        for (Address address : addresses) {
+            PropertyType type;
+            String addressType = address.getType();
+
+            // Address type may be null
+            switch (addressType == null ? "other" : addressType) {
+                case "home":
+                    type = PropertyType.PropertyTypeList.homeAddress;
+                    break;
+                case "work":
+                    type = PropertyType.PropertyTypeList.workAddress;
+                    break;
+                default:
+                    type = PropertyType.PropertyTypeList.address;
             }
+
+            PersonInfo info = new PersonInfo(person, type, address.getFormattedValue());
+            person.getInfo().add(info);
+            em.persist(info);
         }
     }
 
     private void processEmailAddresses(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
         List<EmailAddress> emailAddresses = googlePerson.getEmailAddresses();
-        if (emailAddresses != null && !emailAddresses.isEmpty()) {
-            for (EmailAddress emailAddress : emailAddresses) {
-                PropertyType type;
-                String emailType = emailAddress.getType();
+        if (emailAddresses == null) {
+            return;
+        }
 
-                // Email type may be null
-                switch (emailType == null ? "other" : emailType) {
-                    case "home":
-                        type = PropertyType.PropertyTypeList.homeEmailAddress;
-                        break;
-                    case "work":
-                        type = PropertyType.PropertyTypeList.workEmailAddress;
-                        break;
-                    default:
-                        type = PropertyType.PropertyTypeList.emailAddress;
-                }
+        for (EmailAddress emailAddress : emailAddresses) {
+            PropertyType type;
+            String emailType = emailAddress.getType();
 
-                PersonInfo info = new PersonInfo(person, type, emailAddress.getValue());
-                person.getInfo().add(info);
-                em.persist(info);
+            // Email type may be null
+            switch (emailType == null ? "other" : emailType) {
+                case "home":
+                    type = PropertyType.PropertyTypeList.homeEmailAddress;
+                    break;
+                case "work":
+                    type = PropertyType.PropertyTypeList.workEmailAddress;
+                    break;
+                default:
+                    type = PropertyType.PropertyTypeList.emailAddress;
             }
+
+            PersonInfo info = new PersonInfo(person, type, emailAddress.getValue());
+            person.getInfo().add(info);
+            em.persist(info);
         }
     }
 
     private void processBirthdays(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
         List<Birthday> birthdays = googlePerson.getBirthdays();
-        System.out.println(birthdays);
-        if (birthdays != null && !birthdays.isEmpty()) {
-            for (Birthday birthday : birthdays) {
-                Date date = birthday.getDate();
-                String dateText = birthday.getText();
-                if (date != null && date.getYear() != null && date.getMonth() != null && date.getDay() != null) {
-                    dateText = new SimpleDateFormat("yyyy-MM-dd").format(
-                            new GregorianCalendar(date.getYear(), date.getMonth() - 1, date.getDay()).getTime());
-                }
+        if (birthdays == null) {
+            return;
+        }
 
-                PersonInfo info = new PersonInfo(person, PropertyType.PropertyTypeList.birthdate, dateText);
-                person.getInfo().add(info);
-                em.persist(info);
+        for (Birthday birthday : birthdays) {
+            Date date = birthday.getDate();
+            String dateText = birthday.getText();
+            if (date != null && date.getYear() != null && date.getMonth() != null && date.getDay() != null) {
+                dateText = new SimpleDateFormat("yyyy-MM-dd").format(
+                        new GregorianCalendar(date.getYear(), date.getMonth() - 1, date.getDay()).getTime());
             }
+
+            PersonInfo info = new PersonInfo(person, PropertyType.PropertyTypeList.birthdate, dateText);
+            person.getInfo().add(info);
+            em.persist(info);
         }
     }
 }
