@@ -68,6 +68,15 @@ public class PropertyType {
         public static PropertyType homePhoneNumber = new PropertyType("homePhoneNumber", "Home phone number", "phone");
 
         @DefaultValue
+        public static PropertyType emailAddress = new PropertyType("emailAddress", "Email Address", "mail");
+
+        @DefaultValue
+        public static PropertyType homeEmailAddress = new PropertyType("homeEmailAddress", "Home Email Address", "mail");
+
+        @DefaultValue
+        public static PropertyType workEmailAddress = new PropertyType("workEmailAddress", "Work Email Address", "mail");
+
+        @DefaultValue
         public static PropertyType birthdate = new PropertyType("birthdate", "Date of birth", "calendar");
 
         @DefaultValue

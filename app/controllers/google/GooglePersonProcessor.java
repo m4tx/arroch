@@ -1,6 +1,7 @@
 package controllers.google;
 
 import com.google.api.services.people.v1.model.Address;
+import com.google.api.services.people.v1.model.EmailAddress;
 import com.google.api.services.people.v1.model.Name;
 import com.google.api.services.people.v1.model.PhoneNumber;
 import models.Person;
@@ -24,6 +25,7 @@ public class GooglePersonProcessor {
         Person person = personFactory.build();
         processPhoneNumbers(person, googlePerson);
         processAddresses(person, googlePerson);
+        processEmailAddresses(person, googlePerson);
         return person;
     }
 
@@ -78,6 +80,32 @@ public class GooglePersonProcessor {
                 }
 
                 PersonInfo info = new PersonInfo(person, type, address.getFormattedValue());
+                person.getInfo().add(info);
+                em.persist(info);
+            }
+        }
+    }
+
+    private void processEmailAddresses(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
+        List<EmailAddress> emailAddresses = googlePerson.getEmailAddresses();
+        if (emailAddresses != null && !emailAddresses.isEmpty()) {
+            for (EmailAddress emailAddress : emailAddresses) {
+                PropertyType type;
+                String emailType = emailAddress.getType();
+
+                // Email type may be null
+                switch (emailType == null ? "other" : emailType) {
+                    case "home":
+                        type = PropertyType.PropertyTypeList.homeEmailAddress;
+                        break;
+                    case "work":
+                        type = PropertyType.PropertyTypeList.workEmailAddress;
+                        break;
+                    default:
+                        type = PropertyType.PropertyTypeList.emailAddress;
+                }
+
+                PersonInfo info = new PersonInfo(person, type, emailAddress.getValue());
                 person.getInfo().add(info);
                 em.persist(info);
             }
