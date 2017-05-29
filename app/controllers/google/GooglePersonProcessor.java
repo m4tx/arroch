@@ -1,7 +1,9 @@
 package controllers.google;
 
 import com.google.api.services.people.v1.model.*;
+import models.DataSource;
 import models.Person;
+import models.PersonAccount;
 import models.PersonFactory;
 import models.PersonInfo;
 import models.PropertyType;
@@ -22,11 +24,21 @@ public class GooglePersonProcessor {
         PersonFactory personFactory = new PersonFactory(em);
         processNames(personFactory, googlePerson);
         Person person = personFactory.build();
+        addGoogleAccount(person, googlePerson);
         processPhoneNumbers(person, googlePerson);
         processAddresses(person, googlePerson);
         processEmailAddresses(person, googlePerson);
         processBirthdays(person, googlePerson);
         return person;
+    }
+
+    private void addGoogleAccount(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
+        PersonAccount personAccount = new PersonAccount();
+        personAccount.setPerson(person);
+        personAccount.setSource(DataSource.DataSourceList.google);
+        personAccount.setAccount(googlePerson.getResourceName());
+        em.persist(personAccount);
+        person.getAccounts().add(personAccount);
     }
 
     private void processNames(PersonFactory personFactory, com.google.api.services.people.v1.model.Person googlePerson) {
