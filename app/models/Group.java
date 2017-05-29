@@ -15,6 +15,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
 
 @Entity
+@Cacheable
 @Table(name = "groups")
 public class Group {
     @Id

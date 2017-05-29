@@ -10,7 +10,8 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % "42.0.0",
   "com.h2database" % "h2" % "1.4.193",
   "dom4j" % "dom4j" % "1.6.1",
-  "org.hibernate" % "hibernate-core" % "5.2.10.Final"
+  "org.hibernate" % "hibernate-core" % "5.2.10.Final",
+  "org.hibernate" % "hibernate-ehcache" % "5.2.10.Final"
 ) //Hibernate ORM
 libraryDependencies += "org.fluentlenium" % "fluentlenium-core" % "3.2.0"
 libraryDependencies += "org.assertj" % "assertj-core" % "3.6.2"

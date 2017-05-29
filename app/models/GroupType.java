@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
+@Cacheable
 @Table(name = "group_types")
 public class GroupType {
     @Id

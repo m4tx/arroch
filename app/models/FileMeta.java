@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 
 @Entity
+@Cacheable
 @Table(name = "files")
 public class FileMeta {
     @Id

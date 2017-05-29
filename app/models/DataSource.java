@@ -6,6 +6,7 @@ import modules.preloader.DefaultValue;
 import javax.persistence.*;
 
 @Entity
+@Cacheable
 @Table(name = "sources")
 public class DataSource {
     @Id

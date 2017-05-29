@@ -2,7 +2,7 @@
 
 <a href="@people.routes.Person.get(person.getId)" class="uk-link-reset">
     @if(person.getPhoto == null) {
-        <span class="uk-icon" data-uk-icon="icon: user; ratio: 1"></span>
+        <span class="uk-icon" data-uk-icon="icon: user; ratio: 2.55"></span>
     } else {
         <img src="@routes.File.getPreview(person.getPhoto.getId)" width="50em">
         }

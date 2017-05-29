@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.lang.reflect.Field;
 
 @Entity
+@Cacheable
 @Table(name = "property_types")
 public class PropertyType {
     @Id
