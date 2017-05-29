@@ -12,8 +12,12 @@ import javax.persistence.EntityManager;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GooglePersonProcessor {
+    private static final Pattern GOOGLE_PLUS_REGEX = Pattern.compile("^https?://plus\\.google\\.com/(\\d+)");
+
     private EntityManager em;
 
     public GooglePersonProcessor(EntityManager entityManager) {
@@ -25,6 +29,7 @@ public class GooglePersonProcessor {
         processNames(personFactory, googlePerson);
         Person person = personFactory.build();
         addGoogleAccount(person, googlePerson);
+        processUrls(person, googlePerson);
         processPhoneNumbers(person, googlePerson);
         processAddresses(person, googlePerson);
         processEmailAddresses(person, googlePerson);
@@ -39,6 +44,30 @@ public class GooglePersonProcessor {
         personAccount.setAccount(googlePerson.getResourceName());
         em.persist(personAccount);
         person.getAccounts().add(personAccount);
+    }
+
+    private void processUrls(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
+        List<Url> urls = googlePerson.getUrls();
+        if (urls == null) {
+            return;
+        }
+
+        for (Url url : urls) {
+            String urlString = url.getValue();
+            if (urlString == null) {
+                continue;
+            }
+
+            Matcher matcher = GOOGLE_PLUS_REGEX.matcher(urlString);
+            if (matcher.matches()) {
+                PersonAccount personAccount = new PersonAccount();
+                personAccount.setAccount(matcher.group(1));
+                personAccount.setSource(DataSource.DataSourceList.googlePlus);
+                personAccount.setPerson(person);
+                em.persist(personAccount);
+                person.getAccounts().add(personAccount);
+            }
+        }
     }
 
     private void processNames(PersonFactory personFactory, com.google.api.services.people.v1.model.Person googlePerson) {
