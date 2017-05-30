@@ -30,11 +30,21 @@ public class Person {
 
     @Transactional
     public Result getFriends(Long id) {
-        return ok(personFriends.render(JPA.em().find(models.Person.class, id)));
+        return getFriendsPage(id, 1);
+    }
+
+    @Transactional
+    public Result getFriendsPage(Long id, int page) {
+        return ok(personFriends.render(JPA.em().find(models.Person.class, id),25, page));
     }
 
     @Transactional
     public Result getFriendOf(Long id) {
-        return ok(personFriendOf.render(JPA.em().find(models.Person.class, id)));
+        return getFriendOfPage(id, 1);
+    }
+
+    @Transactional
+    public Result getFriendOfPage(Long id, int page) {
+        return ok(personFriendOf.render(JPA.em().find(models.Person.class, id), 25, page));
     }
 }

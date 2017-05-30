@@ -2,7 +2,7 @@
 
 <ul class="uk-pagination uk-margin-bottom">
     @if(currentPage > 1) {
-        <li><a href="@(address + (currentPage - 1))"><span data-uk-pagination-previous></span></a></li>
+        <li><a href="@(address + (currentPage - 1) + "/")"><span data-uk-pagination-previous></span></a></li>
     }
     @if(currentPage > 4) {
         <li><a href="@(address + 1)">1</a></li>
@@ -11,23 +11,23 @@
         <li class="uk-disabled"><span>...</span></li>
     }
     @if(currentPage > 3) {
-        <li><a href="@(address + (currentPage - 3))">@(currentPage - 3)</a></li>
+        <li><a href="@(address + (currentPage - 3) + "/")">@(currentPage - 3)</a></li>
     }
     @if(currentPage > 2) {
-        <li><a href="@(address + (currentPage - 2))">@(currentPage - 2)</a></li>
+        <li><a href="@(address + (currentPage - 2) + "/")">@(currentPage - 2)</a></li>
     }
     @if(currentPage > 1) {
-        <li><a href="@(address + (currentPage - 1))">@(currentPage - 1)</a></li>
+        <li><a href="@(address + (currentPage - 1) + "/")">@(currentPage - 1)</a></li>
     }
 <li class="uk-active"><span>@currentPage</span></li>
     @if(currentPage < pages) {
-        <li><a href="@(address + (currentPage + 1))">@(currentPage + 1)</a></li>
+        <li><a href="@(address + (currentPage + 1) + "/")">@(currentPage + 1)</a></li>
     }
     @if(currentPage + 1 < pages) {
-        <li><a href="@(address + (currentPage + 2))">@(currentPage + 2)</a></li>
+        <li><a href="@(address + (currentPage + 2) + "/")">@(currentPage + 2)</a></li>
     }
     @if(currentPage + 2 < pages) {
-        <li><a href="@(address + (currentPage + 3))">@(currentPage + 3)</a></li>
+        <li><a href="@(address + (currentPage + 3) + "/")">@(currentPage + 3)</a></li>
     }
     @if(currentPage + 4 < pages) {
         <li class="uk-disabled"><span>...</span></li>
@@ -36,6 +36,6 @@
         <li><a href="@(address + pages)">@pages</a></li>
     }
     @if(currentPage < pages) {
-        <li><a href="@(address + (currentPage + 1))"><span data-uk-pagination-next></span></a></li>
+        <li><a href="@(address + (currentPage + 1) + "/")"><span data-uk-pagination-next></span></a></li>
     }
 </ul>

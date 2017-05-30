@@ -1,11 +1,15 @@
-@(person: Person)
+@(person: Person, step: Int, currentPage: Int)
+@pages = @{
+    (person.getFriendOf.length.toDouble / step).ceil.toInt
+}
 
 @personPage(person) {
     <div>
         <ul class="uk-list">
-        @for(friend <- person.getFriendOf) {
-            <li>@personEntry(friend)</li>
+        @for(friendOf <- person.getFriendOf.asScala.view(step * (currentPage - 1), step * currentPage)) {
+            <li>@personEntry(friendOf)</li>
         }
         </ul>
+        @pagination(pages, currentPage, people.routes.Person.getFriendOf(person.getId).absoluteURL)
     </div>
 }
