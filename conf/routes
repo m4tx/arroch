@@ -22,9 +22,10 @@ GET         /person/:id/friends/                    controllers.people.Person.ge
 GET         /person/:id/friends/:page/              controllers.people.Person.getFriendsPage(id: Long, page: Int)
 GET         /person/:id/friendOf/                   controllers.people.Person.getFriendOf(id: Long)
 GET         /person/:id/friendOf/:page/             controllers.people.Person.getFriendOfPage(id: Long, page: Int)
-GET         /person/:id/groups/                      controllers.people.Person.getGroups(id: Long)
-GET         /person/:id/conversations/               controllers.people.Person.getConversations(id: Long)
-GET         /person/:id/activity/                    controllers.people.Person.getActivity(id: Long)
+GET         /person/:id/groups/                     controllers.people.Person.getGroups(id: Long)
+GET         /person/:id/groups/:page/               controllers.people.Person.getGroupsPage(id: Long, page: Int)
+GET         /person/:id/conversations/              controllers.people.Person.getConversations(id: Long)
+GET         /person/:id/activity/                   controllers.people.Person.getActivity(id: Long)
 
 
 # Google
@@ -33,6 +34,7 @@ GET         /google/authenticated/                  controllers.google.Google.au
 
 # Groups
 GET         /groups/                                controllers.groups.Groups.get
+GET         /groups/:page/                          controllers.groups.Groups.getPage(page: Int)
 GET         /group/:id/                             controllers.groups.Group.get(id: Long)
 
 # File

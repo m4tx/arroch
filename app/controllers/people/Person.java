@@ -33,7 +33,7 @@ public class Person {
 
     @Transactional
     public Result getFriendsPage(Long id, int page) {
-        return ok(personFriends.render(JPA.em().find(models.Person.class, id),25, page));
+        return ok(personFriends.render(JPA.em().find(models.Person.class, id), 25, page));
     }
 
     @Transactional
@@ -58,10 +58,15 @@ public class Person {
 
     @Transactional
     public Result getGroups(Long id) {
+        return getGroupsPage(id, 1);
+    }
+
+    @Transactional
+    public Result getGroupsPage(Long id, int page) {
         models.Person person = JPA.em().find(models.Person.class, id);
         List<models.Group> groups = (new SimpleQuery<>(JPA.em(), models.Group.class))
                 .where("type", models.GroupType.GroupTypeList.social)
                 .getResultList();
-        return ok(personGroups.render(person, groups));
+        return ok(personGroups.render(person, groups, 25, page));
     }
 }
