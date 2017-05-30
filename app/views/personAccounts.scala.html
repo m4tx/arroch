@@ -4,7 +4,7 @@
     <div>
         <ul class="uk-list">
         @for(account <- person.getAccounts) {
-            <li><a class="uk-link-reset" href="@account.getSource.getUrl @account.getAccount"><span data-uk-icon="icon: @account.getSource.getIcon"></span>
+            <li><a class="uk-link-reset" href="@account.getSource.getUrl@account.getAccount"><span data-uk-icon="icon: @account.getSource.getIcon"></span>
                 @account.getAccount</a>
             </li>
         }
