@@ -5,7 +5,12 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import play.Logger;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
+import javax.imageio.stream.FileImageOutputStream;
 import javax.persistence.EntityManager;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -17,6 +22,8 @@ import static java.awt.RenderingHints.*;
 import static java.awt.RenderingHints.VALUE_INTERPOLATION_BILINEAR;
 
 public class FileManager {
+    public static final float THUMB_JPEG_QUALITY = .85f;
+
     private static String filePath = ConfigFactory.load().getString("filePath");
 
     public static FileMeta addFile(File data, EntityManager em) throws IOException {
@@ -70,7 +77,10 @@ public class FileManager {
         } else {
             width = (int)(height*inputAspect);
         }
-        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        int type = (orig.getTransparency() == Transparency.OPAQUE) ?
+                BufferedImage.TYPE_INT_RGB :
+                BufferedImage.TYPE_INT_ARGB;
+        BufferedImage img = new BufferedImage(width, height, type);
         Graphics2D g = (Graphics2D) img.getGraphics();
         g.setRenderingHint(KEY_INTERPOLATION, VALUE_INTERPOLATION_BILINEAR);
         g.drawImage(orig, 0, 0, width, height, null);
@@ -90,9 +100,15 @@ public class FileManager {
         File img = new File(getFilePath(meta));
         File thumbnail = new File(getThumbnailPath(meta));
         if (!thumbnail.exists() || (thumbnail.lastModified() < img.lastModified())) {
+            JPEGImageWriteParam jpegParams = new JPEGImageWriteParam(null);
+            jpegParams.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            jpegParams.setCompressionQuality(THUMB_JPEG_QUALITY);
+
             BufferedImage orig = ImageIO.read(img);
             BufferedImage thumb = minifyImg(orig, 100, 100);
-            ImageIO.write(thumb, "jpg", thumbnail);
+            ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
+            jpgWriter.setOutput(new FileImageOutputStream(thumbnail));
+            jpgWriter.write(null, new IIOImage(thumb, null, null), jpegParams);
         }
 
         return thumbnail;
