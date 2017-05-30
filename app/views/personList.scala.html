@@ -1,11 +1,15 @@
 @import java.util
-@(personList: util.List[Person], title: String)
+@(personList: util.List[Person], title: String, step: Int, page: Int)
+@pages = @{
+    (personList.length.toDouble / step).ceil.toInt
+}
 
 @main(title) {
     <h1 class="uk-heading-primary">@title</h1>
     <ul class="uk-list">
-    @for(person <- personList) {
+    @for(person <- personList.asScala.view(step * (page - 1), step * page)) {
         <li>@personEntry(person)</li>
     }
     </ul>
+    @_pagination(page, pages, people.routes.People.get.absoluteURL)
 }

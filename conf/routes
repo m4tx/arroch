@@ -7,6 +7,7 @@ GET         /                                      controllers.Application.index
 
 # People
 GET         /people/                               controllers.people.People.get
+GET         /people/:page                          controllers.people.People.getPage(page: Int)
 GET         /person/:id/edit                       controllers.people.EditPerson.get(id: Long)
 POST        /person/:id/edit                       controllers.people.EditPerson.post(id: Long)
 GET         /person/:id                            controllers.people.Person.get(id: Long)

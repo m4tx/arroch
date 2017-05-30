@@ -14,10 +14,15 @@ import static play.mvc.Results.ok;
 public class People {
     @Transactional
     public Result get() {
+        return getPage(1);
+    }
+
+    @Transactional
+    public Result getPage(int page) {
         List<Person> people = (new SimpleQuery<>(JPA.em(), Person.class)
                 .orderByAsc("lastName")
                 .orderByAsc("firstName"))
                 .getResultList();
-        return ok(personList.render(people, "People"));
+        return ok(personList.render(people, "People", 25, page));
     }
 }
