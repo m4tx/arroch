@@ -1,0 +1,6 @@
+@(group: Group)
+
+<a class="uk-link-reset" href="@groups.routes.Group.get(group.getId)">
+    <span class="uk-icon" data-uk-icon="icon: users; ratio: 2.55"></span>
+    @group.getName
+</a>

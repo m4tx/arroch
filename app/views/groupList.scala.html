@@ -3,9 +3,9 @@
 
 @main("Groups") {
     <h1 class="uk-heading-primary">Groups</h1>
-    <ul>
+    <ul class="uk-list">
     @for(group <- groupList) {
-        <li><a href="@groups.routes.Group.get(group.getId)">@group.getName</a></li>
+        <li>@groupEntry(group)</li>
     }
     </ul>
 }
