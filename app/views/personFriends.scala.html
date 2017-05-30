@@ -1,0 +1,11 @@
+@(person: Person)
+
+@personPage(person) {
+    <div>
+        <ul class="uk-list">
+        @for(friend <- person.getFriends) {
+            <li>@personEntry(friend)</li>
+        }
+        </ul>
+    </div>
+}

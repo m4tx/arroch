@@ -1,0 +1,43 @@
+@(person: Person)(text: Html)
+
+@main(person.getDisplayName) {
+    <h1 class="uk-heading-primary">
+        @person.getDisplayName
+        <a class="uk-icon-link" data-uk-icon="icon: pencil; ratio: 2" href="@people.routes.EditPerson.get(person.getId)"></a>
+    </h1>
+    <hr>
+    <div class="uk-flex">
+        <div class="uk-margin-right">
+        @if(person.getPhoto == null) {
+            <span class="uk-icon" data-uk-icon="icon: user; ratio: 10"></span>
+        } else {
+            <img src="@routes.File.get(person.getPhoto.getId)" width="200em">
+            }
+        </div>
+        <div class="uk-margin-left">
+            <dl class="uk-description-list">
+                @if(person.getFirstName) {
+                    <dt>First name</dt>
+                    <dd>@person.getFirstName</dd>
+                }
+                @if(person.getMiddleName) {
+                    <dt>Middle name</dt>
+                    <dd>@person.getMiddleName</dd>
+                }
+                @if(person.getLastName) {
+                    <dt>Last name</dt>
+                    <dd>@person.getLastName</dd>
+                }
+            </dl>
+        </div>
+    </div>
+    <ul class="uk-tab">
+        <li><a href="@people.routes.Person.getInfo(person.getId)">Info</a></li>
+        <li><a href="@people.routes.Person.getAccounts(person.getId)">Accounts</a></li>
+        <li><a href="@people.routes.Person.getFriends(person.getId)">Friends</a></li>
+        <li><a href="@people.routes.Person.getFriendOf(person.getId)">Friend of</a></li>
+    </ul>
+    <div>
+    @text
+    </div>
+}

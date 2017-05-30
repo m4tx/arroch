@@ -1,0 +1,18 @@
+@(person: Person)
+
+@personPage(person) {
+    <div>
+        <dl class="uk-description-list">
+            @for(property <- person.getInfo) {
+                <dt>
+                    @if(property.getType.getIcon) {
+                        <span data-uk-icon="icon: @property.getType.getIcon"></span>
+                    } @property.getType.getName
+                <a class="uk-icon-link" data-uk-icon="icon: pencil" href="@people.routes.EditPersonInfo.get(person.getId, property.getId)"></a>
+                </dt>
+                <dd>@property.getValue</dd>
+            }
+            <a class="uk-icon-link uk-margin" data-uk-icon="icon: plus-circle; ratio: 1.5" href="@people.routes.AddPersonInfo.get(person.getId)"></a>
+        </dl>
+    </div>
+}
