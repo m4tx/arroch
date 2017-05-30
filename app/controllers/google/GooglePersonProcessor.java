@@ -10,6 +10,7 @@ import models.PersonFactory;
 import models.PersonInfo;
 import models.PropertyType;
 import org.apache.commons.io.FileUtils;
+import play.Logger;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
@@ -203,7 +204,7 @@ public class GooglePersonProcessor {
                 FileUtils.copyToFile(urlConnection.getInputStream(), FileManager.getFile(fileMeta));
                 person.setPhoto(fileMeta);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                Logger.warn("Google: Could not download photo", e);
             }
         }
     }
