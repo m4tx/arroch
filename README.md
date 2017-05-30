@@ -12,6 +12,7 @@ Arroch
   * Wait until all dependencies are resolved and project indexed
   * In any class file in `app` choose `Run Play 2 App` from the context menu
 
+-Dwebdriver.firefox.bin=/home/m4tx/Programs/firefox-nightly/firefox
 
 ### Google People API Crawler
 In order to make it working:
@@ -20,6 +21,6 @@ In order to make it working:
 3. Enter API library and enable "Google People API"
 4. Enter credentials tab
 5. Click Create credentials ➜ OAuth Client ID ➜ Web Application
-6. In the form that showed up, enter the redirect URL: http://localhost:9000/google/authenticated and click Create
-7. Enter the newly created client ID and click "Download JSON"; put the file in conf/google_client_secrets.json
+6. In the form that showed up, enter the redirect URL: `http://localhost:9000/google/authenticated/` and click Create
+7. Enter the newly created client ID and click "Download JSON"; put the file in `conf/google_client_secrets.json`
 8. Visit http://localhost:9000/google and it should, after consent, import the People into the database

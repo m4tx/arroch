@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 public class Google extends Controller {
     // fixme hardcoded server URL
-    private static final String REDIRECT_URL = "http://localhost:9000/google/authenticated";
+    private static final String REDIRECT_URL = "http://localhost:9000" + routes.Google.authenticated();
     private static final Collection<String> SCOPES = Collections.singletonList(PeopleServiceScopes.CONTACTS_READONLY);
     private static final String SECRETS_FILENAME = "/google_client_secrets.json";
 
