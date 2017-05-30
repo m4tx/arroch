@@ -2,13 +2,19 @@ package controllers.google;
 
 import com.google.api.services.people.v1.model.*;
 import models.DataSource;
+import models.FileMeta;
+import models.FileManager;
 import models.Person;
 import models.PersonAccount;
 import models.PersonFactory;
 import models.PersonInfo;
 import models.PropertyType;
+import org.apache.commons.io.FileUtils;
 
 import javax.persistence.EntityManager;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -34,6 +40,7 @@ public class GooglePersonProcessor {
         processAddresses(person, googlePerson);
         processEmailAddresses(person, googlePerson);
         processBirthdays(person, googlePerson);
+        processPhotos(person, googlePerson);
         return person;
     }
 
@@ -179,6 +186,25 @@ public class GooglePersonProcessor {
             PersonInfo info = new PersonInfo(person, PropertyType.PropertyTypeList.birthdate, dateText);
             person.getInfo().add(info);
             em.persist(info);
+        }
+    }
+
+    private void processPhotos(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
+        List<Photo> photos = googlePerson.getPhotos();
+        if (photos == null) {
+            return;
+        }
+
+        for (Photo photo : photos) {
+            try {
+                URL url = new URL(photo.getUrl());
+                URLConnection urlConnection = url.openConnection();
+                FileMeta fileMeta = FileManager.createFile(url.getFile(), urlConnection.getContentType(), em);
+                FileUtils.copyToFile(urlConnection.getInputStream(), FileManager.getFile(fileMeta));
+                person.setPhoto(fileMeta);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }

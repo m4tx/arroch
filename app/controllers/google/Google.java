@@ -87,7 +87,8 @@ public class Google extends Controller {
                 "emailAddresses",
                 "phoneNumbers",
                 "addresses",
-                "birthdays"
+                "birthdays",
+                "photos"
         };
         return Arrays.stream(fields).map(x -> "person." + x).collect(Collectors.joining(","));
     }
