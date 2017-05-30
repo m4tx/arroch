@@ -12,8 +12,6 @@ Arroch
   * Wait until all dependencies are resolved and project indexed
   * In any class file in `app` choose `Run Play 2 App` from the context menu
 
--Dwebdriver.firefox.bin=/home/m4tx/Programs/firefox-nightly/firefox
-
 ### Google People API Crawler
 In order to make it working:
 1. Visit the [Google Developer Console](https://console.developers.google.com/)
