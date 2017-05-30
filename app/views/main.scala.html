@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 <html lang="en"
-    xmlns="http://www.w3.org/1999/xhtml">
+xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.22/css/uikit.min.css"/>
@@ -18,18 +18,18 @@
             <div class="uk-navbar-left">
                 <a class="uk-navbar-item uk-logo" href="/">Arroch</a>
                 <ul class="uk-navbar-nav">
-                    <li class="uk-active"><a href="/person/">People</a></li>
-                    <li class="uk-active"><a href="/group/">Groups</a></li>
+                    <li class=""><a href="@people.routes.People.get">People</a></li>
+                    <li class=""><a href="@groups.routes.Groups.get">Groups</a></li>
                 </ul>
             </div>
         </nav>
         <div class="uk-container">
-            @content
+        @content
         </div>
 
         @if(flash.containsKey("success")) {
             <script>
-                UIkit.notification("<span uk-icon='icon: check'></span> @flash.get("success")", {status:'success'});
+                    UIkit.notification("<span uk-icon='icon: check'></span> @flash.get("success")", {status: 'success'});
             </script>
         }
     </body>

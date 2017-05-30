@@ -164,7 +164,7 @@ public class Person {
                         .setFirstName(firstName)
                         .setLastName(lastName)
                         .setDisplayName(firstName + " " + lastName)
-                        .genPhoto(100, 100)
+                        .genPhoto(250, 250)
                         .build();
             }
 

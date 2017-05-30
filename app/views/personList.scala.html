@@ -1,8 +1,8 @@
 @import java.util
-@(personList: util.List[Person])
+@(personList: util.List[Person], title: String)
 
-@main("People") {
-    <h1 class="uk-heading-primary">People</h1>
+@main(title) {
+    <h1 class="uk-heading-primary">@title</h1>
     <ul class="uk-list">
     @for(person <- personList) {
         <li>@personEntry(person)</li>

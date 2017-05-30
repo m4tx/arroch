@@ -18,6 +18,6 @@ public class People {
                 .orderByAsc("lastName")
                 .orderByAsc("firstName"))
                 .getResultList();
-        return ok(personList.render(people));
+        return ok(personList.render(people, "People"));
     }
 }
