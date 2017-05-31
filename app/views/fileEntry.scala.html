@@ -1,6 +1,6 @@
 @(file: FileMeta)
 
-<a class="file-entry" href="@routes.File.get(file.getId)">
+<a class="file-entry uk-link-reset" href="@routes.File.get(file.getId)">
     <img src="@routes.File.getPreview(file.getId)">
     <span class="file-entry-name">@file.getOriginalName</span>
 </a>
