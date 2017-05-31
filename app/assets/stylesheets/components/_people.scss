@@ -1,0 +1,13 @@
+@import "../config";
+
+.person-entry {
+  img.person-photo {
+    width: $thumbnail-size;
+  }
+}
+
+.person-panel {
+  .person-photo {
+    width: 200px;
+  }
+}

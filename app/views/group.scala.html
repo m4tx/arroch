@@ -1,13 +1,13 @@
 @(group: Group)
 
 @main(group.getName) {
-    <h1 class="uk-heading-primary">
+    <h1 class="group-panel uk-heading-primary">
     @group.getName
     </h1>
     <hr>
     <div>
         @if(group.getPhoto != null) {
-            <img src="@routes.File.get(group.getPhoto.getId)" height="300em">
+            <img class="group-cover-image" src="@routes.File.get(group.getPhoto.getId)">
         }
         <dl class="uk-description-list">
         @if(group.getDescription) {
