@@ -51,11 +51,13 @@ public class Person {
     private List<PersonInfo> info = new ArrayList<>();
 
     @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Group> memberOf = new ArrayList<>();
+    private List<SocialGroup> memberOf = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "members", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ConversationGroup> inConversations = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(nullable = false, unique = true)
-    private Group selfGroup;
+    private SelfGroup selfGroup;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Message> messages = new ArrayList<>();
@@ -124,7 +126,7 @@ public class Person {
         return info;
     }
 
-    public List<Group> getMemeberOf() {
+    public List<SocialGroup> getMemeberOf() {
         return memberOf;
     }
 
@@ -140,7 +142,7 @@ public class Person {
         return selfGroup;
     }
 
-    public void setSelfGroup(Group selfGroup) {
+    public void setSelfGroup(SelfGroup selfGroup) {
         this.selfGroup = selfGroup;
     }
 
@@ -166,6 +168,10 @@ public class Person {
 
     public List<PersonAccount> getAccounts() {
         return accounts;
+    }
+
+    public List<ConversationGroup> getInConversations() {
+        return inConversations;
     }
 
     public static class DefaultPersons {

@@ -1,16 +1,15 @@
-@import java.util
-@(person: Person, groupList: util.List[Group], step: Int, currentPage: Int)
-@pages = @{
-    (groupList.length.toDouble / step).ceil.toInt
-}
+@(person: Person, step: Int, currentPage: Int)
+    @pages = @{
+        (person.getMemeberOf.length.toDouble / step).ceil.toInt
+    }
 
-@personPage(person) {
-    <div>
-        <ul class="uk-list">
-        @for(group <- groupList.asScala.view(step * (currentPage - 1), step * currentPage)) {
-            <li>@groupEntry(group)</li>
-        }
-        </ul>
-        @pagination(pages, currentPage, people.routes.Person.getGroups(person.getId).absoluteURL)
-    </div>
-}
+    @personPage(person) {
+        <div>
+            <ul class="uk-list">
+            @for(group <- person.getMemeberOf.asScala.view(step * (currentPage - 1), step * currentPage)) {
+                <li>@groupEntry(group)</li>
+            }
+            </ul>
+            @pagination(pages, currentPage, people.routes.Person.getGroups(person.getId).absoluteURL)
+        </div>
+    }

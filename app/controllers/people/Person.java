@@ -69,9 +69,6 @@ public class Person {
     @Transactional
     public Result getGroupsPage(Long id, int page) {
         models.Person person = JPA.em().find(models.Person.class, id);
-        List<models.Group> groups = (new SimpleQuery<>(JPA.em(), models.Group.class))
-                .where("type", models.GroupType.GroupTypeList.social)
-                .getResultList();
-        return ok(personGroups.render(person, groups, 25, page));
+        return ok(personGroups.render(person, 25, page));
     }
 }

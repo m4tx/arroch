@@ -1,7 +1,6 @@
 package controllers.groups;
 
-import models.Group;
-import models.GroupType;
+import models.SocialGroup;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
@@ -20,8 +19,7 @@ public class Groups {
 
     @Transactional
     public Result getPage(int page) {
-        List<Group> groups = (new SimpleQuery<>(JPA.em(), Group.class)
-                .where("type", GroupType.GroupTypeList.social)
+        List<? extends SocialGroup> groups = (new SimpleQuery<>(JPA.em(), SocialGroup.class)
                 .orderByAsc("name")
         ).getResultList();
         return ok(groupList.render(groups, 25, page));

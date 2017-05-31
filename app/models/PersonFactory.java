@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public class PersonFactory {
     private Person person;
-    private Group selfGroup;
+    private SelfGroup selfGroup;
     private boolean built = false;
 
     public PersonFactory() {
@@ -24,8 +24,7 @@ public class PersonFactory {
         person.setLastName("");
         person.setDisplayName("");
 
-        this.selfGroup = new Group();
-        this.selfGroup.setType(GroupType.GroupTypeList.selfGroup);
+        this.selfGroup = new SelfGroup();
         person.setSelfGroup(this.selfGroup);
     }
 
@@ -53,7 +52,7 @@ public class PersonFactory {
         return this;
     }
 
-    public PersonFactory setSelfGroup(Group selfGroup) {
+    public PersonFactory setSelfGroup(SelfGroup selfGroup) {
         assert !built;
         this.selfGroup = selfGroup;
         person.setSelfGroup(selfGroup);
@@ -79,7 +78,6 @@ public class PersonFactory {
 
     public Person build(EntityManager em) {
         if (!built) {
-            person.getSelfGroup().getMembers().add(person);
             em.persist(person);
             built = true;
         }
