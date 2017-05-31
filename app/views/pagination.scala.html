@@ -5,7 +5,7 @@
         <li><a href="@(address + (currentPage - 1) + "/")"><span data-uk-pagination-previous></span></a></li>
     }
     @if(currentPage > 4) {
-        <li><a href="@(address + 1)">1</a></li>
+        <li><a href="@(address + 1 + "/")">1</a></li>
     }
     @if(currentPage > 5) {
         <li class="uk-disabled"><span>...</span></li>
@@ -33,7 +33,7 @@
         <li class="uk-disabled"><span>...</span></li>
     }
     @if(currentPage + 3 < pages) {
-        <li><a href="@(address + pages)">@pages</a></li>
+        <li><a href="@(address + pages + "/")">@pages</a></li>
     }
     @if(currentPage < pages) {
         <li><a href="@(address + (currentPage + 1) + "/")"><span data-uk-pagination-next></span></a></li>
