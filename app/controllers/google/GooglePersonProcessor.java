@@ -86,6 +86,13 @@ public class GooglePersonProcessor {
             personFactory.setFirstName(name.getGivenName());
             personFactory.setMiddleName(name.getMiddleName());
             personFactory.setLastName(name.getFamilyName());
+        } else {
+            List<Organization> organizations = googlePerson.getOrganizations();
+            if (organizations != null && !organizations.isEmpty()) {
+                for (Organization organization : organizations) {
+                    personFactory.setDisplayName(organization.getName());
+                }
+            }
         }
     }
 

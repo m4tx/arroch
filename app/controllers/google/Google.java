@@ -83,6 +83,7 @@ public class Google extends Controller {
 
         String[] fields = {
                 "names",
+                "organizations",
                 "urls",
                 "emailAddresses",
                 "phoneNumbers",
