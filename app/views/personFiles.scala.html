@@ -1,0 +1,11 @@
+@(person: Person)
+
+@personPage(person) {
+    <div>
+        <ul class="uk-list">
+        @for(file <- person.getFiles) {
+            @fileEntry(file)
+        }
+        </ul>
+    </div>
+}

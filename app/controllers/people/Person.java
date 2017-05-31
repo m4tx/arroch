@@ -47,6 +47,11 @@ public class Person {
     }
 
     @Transactional
+    public Result getFiles(Long id) {
+        return ok(personFiles.render(JPA.em().find(models.Person.class, id)));
+    }
+
+    @Transactional
     public Result getActivity(Long id) {
         return ok(personActivity.render(JPA.em().find(models.Person.class, id)));
     }

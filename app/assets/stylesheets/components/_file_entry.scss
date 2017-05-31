@@ -1,0 +1,7 @@
+@import "../config";
+
+.file-entry {
+  & > img {
+    width: $thumbnail-size;
+  }
+}
