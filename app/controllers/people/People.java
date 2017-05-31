@@ -20,8 +20,7 @@ public class People {
     @Transactional
     public Result getPage(int page) {
         List<Person> people = (new SimpleQuery<>(JPA.em(), Person.class)
-                .orderByAsc("lastName")
-                .orderByAsc("firstName"))
+                .orderByAsc("displayName"))
                 .getResultList();
         return ok(personList.render(people, "People", 25, page));
     }
