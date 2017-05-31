@@ -1,23 +1,13 @@
 package models;
 
-import modules.preloader.DatabasePreloader;
-import utils.RandomUtils;
-import utils.SimpleQuery;
-
 import javax.persistence.*;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-
-import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
-import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
 
 @Entity
 @Cacheable
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type")
+@DiscriminatorColumn(name = "type", length = 16)
 @Table(name = "groups")
 abstract public class Group {
     @Id

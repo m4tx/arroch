@@ -15,7 +15,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
 
 @Entity
-@DiscriminatorValue("conversationGroup")
+@DiscriminatorValue("conversation")
 public class ConversationGroup extends Group {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
