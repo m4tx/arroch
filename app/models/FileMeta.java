@@ -3,8 +3,6 @@ package models;
 import modules.preloader.DatabasePreloader;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-import java.io.File;
 import java.io.IOException;
 
 @Entity
