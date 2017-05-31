@@ -1,6 +1,7 @@
 package models;
 
 import modules.preloader.DatabasePreloader;
+import modules.preloader.DefaultValue;
 import org.hibernate.annotations.OrderBy;
 import utils.SimpleQuery;
 
@@ -155,17 +156,24 @@ public class Person {
         return accounts;
     }
 
+    public static class DefaultPersons {
+        @DefaultValue
+        public static Person me = (new PersonFactory()).setDisplayName("Me").get();
+    }
+
     static {
+        DatabasePreloader.addDefault(20, DefaultPersons.class);
+
         DatabasePreloader.addTest((em -> {
             for (int i = 0; i < 100; i++) {
                 String firstName = capitalizeFully(randomAlphabetic(10));
                 String lastName = capitalizeFully(randomAlphabetic(10));
-                new PersonFactory(em)
+                new PersonFactory()
                         .setFirstName(firstName)
                         .setLastName(lastName)
                         .setDisplayName(firstName + " " + lastName)
-                        .genPhoto(250, 250)
-                        .build();
+                        .genPhoto(250, 250, em)
+                        .build(em);
             }
 
             List<Person> people = (new SimpleQuery<>(em, Person.class)).getResultList();

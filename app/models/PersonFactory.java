@@ -10,18 +10,15 @@ import java.util.Objects;
  * Utility class to simplify creating {@link Person} instances.
  * <p>
  * This delegates set* methods from Person class and provides initial values for the fields and
- * has {@link #build()} method that makes the instance persistent. Note that you shouldn't
+ * has {@link #build(EntityManager)} method that makes the instance persistent. Note that you shouldn't
  * edit any fields after an instance is built.
  */
 public class PersonFactory {
     private Person person;
     private Group selfGroup;
-    private EntityManager em;
     private boolean built = false;
 
-    public PersonFactory(EntityManager em) {
-        this.em = em;
-
+    public PersonFactory() {
         person = new Person();
         person.setFirstName("");
         person.setLastName("");
@@ -63,7 +60,7 @@ public class PersonFactory {
         return this;
     }
 
-    public PersonFactory genPhoto(int height, int width) {
+    public PersonFactory genPhoto(int height, int width, EntityManager em) {
         assert !built;
         FileMeta pic = FileManager.createFile(person.getDisplayName() + ".jpg", "image/jpeg", em);
         try {
@@ -75,7 +72,11 @@ public class PersonFactory {
         return this;
     }
 
-    public Person build() {
+    public Person get() {
+        return person;
+    }
+
+    public Person build(EntityManager em) {
         if (!built) {
             person.getSelfGroup().getMembers().add(person);
             em.persist(person);

@@ -22,12 +22,12 @@ public class EditPersonWebTests extends WithBrowserAndTestDatabase {
     private Person createTestPerson(JPAApi jpaApi) {
         final Person[] person = new Person[1];
         jpaApi.withTransaction(() -> {
-            person[0] = new PersonFactory(jpaApi.em())
+            person[0] = new PersonFactory()
                     .setFirstName(TEST_FIRST_NAME)
                     .setMiddleName(TEST_MIDDLE_NAME)
                     .setLastName(TEST_LAST_NAME)
                     .setDisplayName(TEST_DISPLAY_NAME)
-                    .build();
+                    .build(jpaApi.em());
         });
 
         return person[0];

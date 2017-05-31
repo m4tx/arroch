@@ -32,9 +32,9 @@ public class GooglePersonProcessor {
     }
 
     public Person processGooglePerson(com.google.api.services.people.v1.model.Person googlePerson) {
-        PersonFactory personFactory = new PersonFactory(em);
+        PersonFactory personFactory = new PersonFactory();
         processNames(personFactory, googlePerson);
-        Person person = personFactory.build();
+        Person person = personFactory.build(em);
         addGoogleAccount(person, googlePerson);
         processUrls(person, googlePerson);
         processPhoneNumbers(person, googlePerson);
