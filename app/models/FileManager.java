@@ -30,7 +30,7 @@ public class FileManager {
         FileMeta f = new FileMeta();
         f.setExtension(FilenameUtils.getExtension(data.getName()));
         f.setMimeType(Files.probeContentType(data.toPath()));
-        f.setOrignalName(data.getName());
+        f.setOriginalName(data.getName());
         em.persist(f);
         File dest = getFile(f);
         FileUtils.copyFile(data, dest);
@@ -50,7 +50,7 @@ public class FileManager {
         FileMeta f = new FileMeta();
         f.setExtension(FilenameUtils.getExtension(name));
         f.setMimeType(mimeType);
-        f.setOrignalName(name);
+        f.setOriginalName(name);
         em.persist(f);
         return f;
     }

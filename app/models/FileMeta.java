@@ -23,7 +23,7 @@ public class FileMeta {
     private String mimeType;
 
     @Column(name = "original_name", length = 260)
-    private String orignalName;
+    private String originalName;
 
     public long getId() {
         return id;
@@ -45,12 +45,12 @@ public class FileMeta {
         this.mimeType = mimeType;
     }
 
-    public String getOrignalName() {
-        return orignalName;
+    public String getOriginalName() {
+        return originalName;
     }
 
-    public void setOrignalName(String orignalName) {
-        this.orignalName = orignalName;
+    public void setOriginalName(String orignalName) {
+        this.originalName = orignalName;
     }
 
     static {
