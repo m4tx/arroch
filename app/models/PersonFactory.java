@@ -26,7 +26,7 @@ public class PersonFactory {
         person.setFirstName("");
         person.setLastName("");
         person.setDisplayName("");
-        ;
+
         this.selfGroup = new Group();
         this.selfGroup.setType(GroupType.GroupTypeList.selfGroup);
         person.setSelfGroup(this.selfGroup);
