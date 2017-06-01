@@ -20,6 +20,6 @@ public class File {
     public Result getPreview(Long id) throws IOException {
         models.FileMeta fileMeta = JPA.em().find(models.FileMeta.class, id);
         java.io.File file = models.FileManager.getThumbnail(fileMeta);
-        return ok(file).as(fileMeta.getMimeType());
+        return ok(file);
     }
 }
