@@ -8,7 +8,7 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
 import utils.SimpleQuery;
-import views.html.addPersonInfo;
+import views.html.pages.person.addPersonInfo;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;

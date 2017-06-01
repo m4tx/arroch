@@ -1,4 +1,7 @@
 @import java.util
+@import partials.personEntry
+@import partials.pagination
+
 @(personList: util.List[Person], title: String, step: Int, currentPage: Int)
 @pages = @{
     (personList.length.toDouble / step).ceil.toInt

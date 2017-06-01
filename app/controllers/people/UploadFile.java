@@ -7,7 +7,7 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Result;
-import views.html.uploadFile;
+import views.html.pages.person.uploadFile;
 
 import javax.persistence.EntityManager;
 import java.io.File;

@@ -1,3 +1,7 @@
+@import pages.person.personPage
+@import partials.personEntry
+@import partials.pagination
+
 @(person: Person, step: Int, currentPage: Int)
 @pages = @{
     (person.getFriends.length.toDouble / step).ceil.toInt

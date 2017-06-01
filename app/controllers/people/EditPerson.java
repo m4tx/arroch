@@ -5,7 +5,7 @@ import play.data.FormFactory;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
-import views.html.editPerson;
+import views.html.pages.person.editPerson;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;

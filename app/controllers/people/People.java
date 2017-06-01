@@ -5,7 +5,7 @@ import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
 import utils.SimpleQuery;
-import views.html.personList;
+import views.html.pages.person.personList;
 
 import java.util.List;
 

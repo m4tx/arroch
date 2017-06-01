@@ -1,4 +1,7 @@
 @import java.util
+@import partials.groupEntry
+@import partials.pagination
+
 @(groupList: util.List[_ <: Group], step: Int, currentPage: Int)
     @pages = @{
         (groupList.length.toDouble / step).ceil.toInt
