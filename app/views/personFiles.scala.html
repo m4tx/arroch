@@ -5,6 +5,10 @@
 
 @personPage(person) {
     <div>
+        <a href="@people.routes.UploadFile.get(person.getId)">
+            <span data-uk-icon="icon: plus-circle"></span>
+            Upload file
+        </a>
         <ul class="uk-list">
         @for(file <- person.getFiles.asScala.view(step * (currentPage - 1), step * currentPage)) {
             <li>@fileEntry(file)</li>

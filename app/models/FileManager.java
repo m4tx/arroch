@@ -26,15 +26,19 @@ public class FileManager {
 
     private static String filePath = ConfigFactory.load().getString("filePath");
 
-    public static FileMeta addFile(File data, EntityManager em) throws IOException {
+    public static FileMeta addFile(File data, String name, String mimeType, EntityManager em) throws IOException {
         FileMeta f = new FileMeta();
-        f.setExtension(FilenameUtils.getExtension(data.getName()));
-        f.setMimeType(Files.probeContentType(data.toPath()));
-        f.setOriginalName(data.getName());
+        f.setExtension(FilenameUtils.getExtension(name));
+        f.setMimeType(mimeType);
+        f.setOriginalName(name);
         em.persist(f);
         File dest = getFile(f);
         FileUtils.copyFile(data, dest);
         return f;
+    }
+
+    public static FileMeta addFile(File data, EntityManager em) throws IOException {
+        return addFile(data, data.getName(), Files.probeContentType(data.toPath()), em);
     }
 
     public static String getFilePath(FileMeta meta) {
