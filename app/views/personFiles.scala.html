@@ -1,11 +1,15 @@
-@(person: Person)
+@(person: Person, step: Int, currentPage: Int)
+@pages = @{
+    (person.getFiles.length.toDouble / step).ceil.toInt
+}
 
 @personPage(person) {
     <div>
         <ul class="uk-list">
-        @for(file <- person.getFiles) {
-           <li>@fileEntry(file)</li>
+        @for(file <- person.getFiles.asScala.view(step * (currentPage - 1), step * currentPage)) {
+            <li>@fileEntry(file)</li>
         }
         </ul>
+        @pagination(pages, currentPage, people.routes.Person.getFiles(person.getId).absoluteURL)
     </div>
 }

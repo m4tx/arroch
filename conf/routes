@@ -23,6 +23,7 @@ GET         /person/:id/friends/:page/              controllers.people.Person.ge
 GET         /person/:id/friendOf/                   controllers.people.Person.getFriendOf(id: Long)
 GET         /person/:id/friendOf/:page/             controllers.people.Person.getFriendOfPage(id: Long, page: Int)
 GET         /person/:id/files/                      controllers.people.Person.getFiles(id: Long)
+GET         /person/:id/files/:page/                controllers.people.Person.getFilesPage(id: Long, page: Int)
 GET         /person/:id/groups/                     controllers.people.Person.getGroups(id: Long)
 GET         /person/:id/groups/:page/               controllers.people.Person.getGroupsPage(id: Long, page: Int)
 GET         /person/:id/conversations/              controllers.people.Person.getConversations(id: Long)
