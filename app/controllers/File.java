@@ -13,7 +13,7 @@ public class File {
     public Result get(Long id) {
         models.FileMeta fileMeta = JPA.em().find(models.FileMeta.class, id);
         java.io.File file = models.FileManager.getFile(fileMeta);
-        return ok(file).as(fileMeta.getMimeType());
+        return ok(file, fileMeta.getOriginalName()).as(fileMeta.getMimeType());
     }
 
     @Transactional
