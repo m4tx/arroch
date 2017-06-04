@@ -1,6 +1,6 @@
 @import partials.personEntry
 
-@(group: Group)
+@(group: Group)(text: Html)
 
 @main(group.getName) {
     <h1 class="group-panel uk-heading-primary">
@@ -18,21 +18,11 @@
         }
         </dl>
     </div>
-    <ul data-uk-tab>
-        <li><a href="#">Activity</a></li>
-        <li><a href="#">Memebers</a></li>
+    <ul class="uk-tab">
+        <li><a href="@groups.routes.Group.getActivity(group.getId)">Activity</a></li>
+        <li><a href="@groups.routes.Group.getMembers(group.getId)">Members</a></li>
     </ul>
-    <div class="uk-switcher">
-        <div>
-            TODO
-        </div>
-        <div>
-            <ul class="uk-list">
-            @for(member <- group.getMembers) {
-                <li>@personEntry(member)</li>
-            }
-            </ul>
-        </div>
+    <div>
+        @text
     </div>
-
 }

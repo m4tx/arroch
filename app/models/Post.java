@@ -15,6 +15,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
 import static org.apache.commons.lang3.text.WordUtils.capitalizeFully;
 
 @Entity
+@Cacheable
 @Table(name = "posts")
 public class Post {
     @Id
@@ -90,6 +91,7 @@ public class Post {
                         int random = new Random().nextInt(members.size());
                         ThreadLocalRandom.current().ints(0, members.size())
                                 .distinct().limit(random).forEach(index -> thread.getTags().add(members.get(index)));
+                        random = new Random().nextInt(members.size());
                         ThreadLocalRandom.current().ints(0, members.size())
                                 .distinct().limit(random).forEach(index -> thread.getUpvotes().add(members.get(index)));
 

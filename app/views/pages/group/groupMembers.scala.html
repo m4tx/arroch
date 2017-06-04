@@ -1,0 +1,18 @@
+@import partials.personEntry
+@import partials.pagination
+
+@(group: Group, step: Int, currentPage: Int)
+@pages = @{
+    (group.getMembers.length.toDouble / step).ceil.toInt
+}
+
+@groupPage(group) {
+    <div>
+        <ul class="uk-list">
+        @for(friend <- group.getMembers.asScala.view(step * (currentPage - 1), step * currentPage)) {
+            <li>@personEntry(friend)</li>
+        }
+        </ul>
+        @pagination(pages, currentPage, groups.routes.Group.getMembers(group.getId).absoluteURL)
+    </div>
+}

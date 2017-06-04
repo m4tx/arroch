@@ -47,6 +47,10 @@ GET         /google/authenticated/                  controllers.google.Google.au
 GET         /groups/                                controllers.groups.Groups.get
 GET         /groups/:page/                          controllers.groups.Groups.getPage(page: Int)
 GET         /group/:id/                             controllers.groups.Group.get(id: Long)
+GET         /group/:id/activity/                    controllers.groups.Group.getActivity(id: Long)
+GET         /group/:id/activity/:page/              controllers.groups.Group.getActivityPage(id: Long, page: Int)
+GET         /group/:id/members/                     controllers.groups.Group.getMembers(id: Long)
+GET         /group/:id/members/:page/               controllers.groups.Group.getMembersPage(id: Long, page: Int)
 
 # File
 GET         /file/min/:id/                          controllers.File.getPreview(id: Long)

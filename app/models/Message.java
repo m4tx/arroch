@@ -8,6 +8,7 @@ import java.util.List;
 
 
 @Entity
+@Cacheable
 @Table(name = "messages")
 public class Message {
     @Id
