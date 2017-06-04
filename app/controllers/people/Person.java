@@ -62,11 +62,6 @@ public class Person {
     }
 
     @Transactional
-    public Result getConversations(Long id) {
-        return ok(personConversations.render(JPA.em().find(models.Person.class, id)));
-    }
-
-    @Transactional
     public Result getGroups(Long id) {
         return getGroupsPage(id, 1);
     }
@@ -75,5 +70,16 @@ public class Person {
     public Result getGroupsPage(Long id, int page) {
         models.Person person = JPA.em().find(models.Person.class, id);
         return ok(personGroups.render(person, 25, page));
+    }
+
+    @Transactional
+    public Result getConversations(Long id) {
+        return getConversationsPage(id, 1);
+    }
+
+    @Transactional
+    public Result getConversationsPage(Long id, int page) {
+        models.Person person = JPA.em().find(models.Person.class, id);
+        return ok(personConversations.render(person, 25, page));
     }
 }

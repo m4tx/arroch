@@ -29,6 +29,7 @@ GET         /person/:id/files/:page/                controllers.people.Person.ge
 GET         /person/:id/groups/                     controllers.people.Person.getGroups(id: Long)
 GET         /person/:id/groups/:page/               controllers.people.Person.getGroupsPage(id: Long, page: Int)
 GET         /person/:id/conversations/              controllers.people.Person.getConversations(id: Long)
+GET         /person/:id/conversations/:page/        controllers.people.Person.getConversationsPage(id: Long, page: Int)
 GET         /person/:id/activity/                   controllers.people.Person.getActivity(id: Long)
 
 # Post

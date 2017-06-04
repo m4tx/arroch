@@ -1,5 +1,18 @@
-@(person: Person)
+@import partials.groupEntry
+@import partials.pagination
+
+@(person: Person, step: Int, currentPage: Int)
+@pages = @{
+    (person.getInConversations.length.toDouble / step).ceil.toInt
+}
 
 @personPage(person) {
-TODO
+    <div>
+        <ul class="uk-list">
+        @for(group <- person.getInConversations.asScala.view(step * (currentPage - 1), step * currentPage)) {
+            <li>@groupEntry(group)</li>
+        }
+        </ul>
+        @pagination(pages, currentPage, people.routes.Person.getConversations(person.getId).absoluteURL)
+    </div>
 }

@@ -3,7 +3,7 @@ package controllers.groups;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
-import views.html.pages.group;
+import views.html.pages.group.group;
 
 import javax.persistence.EntityManager;
 
