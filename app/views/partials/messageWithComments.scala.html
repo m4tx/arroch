@@ -1,0 +1,13 @@
+@(comment: Message)
+
+<div>
+    @message(comment)
+</div>
+<hr>
+<div class="uk-margin-left">
+    <ul class="uk-list">
+    @for(reply <- comment.getComments) {
+        <li>@messageWithComments(reply)</li>
+    }
+    </ul>
+</div>

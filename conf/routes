@@ -31,6 +31,8 @@ GET         /person/:id/groups/:page/               controllers.people.Person.ge
 GET         /person/:id/conversations/              controllers.people.Person.getConversations(id: Long)
 GET         /person/:id/activity/                   controllers.people.Person.getActivity(id: Long)
 
+# Post
+GET         /post/:id/                              controllers.posts.Post.get(id: Long)
 
 # Google
 GET         /google/                                controllers.google.Google.redirectToGoogle

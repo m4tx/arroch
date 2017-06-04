@@ -1,0 +1,23 @@
+@(comment: Message)
+<article class="uk-comment message-panel">
+    <header class="uk-comment-header uk-grid-medium uk-flex-middle" data-uk-grid>
+        <div class="uk-width-auto">
+            <a class="uk-link-reset" href="@people.routes.Person.get(comment.getAuthor.getId)">
+            @if(comment.getAuthor.getPhoto == null) {
+                <span class="uk-icon" data-uk-icon="icon: user; ratio: 2.55"></span>
+            } else {
+                <img class="message-author-image" src="@routes.File.getPreview(comment.getAuthor.getPhoto.getId)">
+            </a>
+            }
+        </div>
+        <div class="uk-width-expand">
+            <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="@people.routes.Person.get(comment.getAuthor.getId)">@comment.getAuthor.getDisplayName</a></h4>
+            <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
+                <li>@comment.getTimestamp</li>
+            </ul>
+        </div>
+    </header>
+    <div class="uk-comment-body">
+        <p>@comment.getBody</p>
+    </div>
+</article>

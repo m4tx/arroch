@@ -1,6 +1,7 @@
 package models;
 
 import modules.preloader.DatabasePreloader;
+import modules.preloader.Preloadable;
 import utils.SimpleQuery;
 
 import javax.persistence.*;
@@ -22,7 +23,7 @@ public class Post {
     private long id;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "message_id", nullable = false)
+    @JoinColumn(name = "message_id")
     private Message thread;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -50,39 +51,58 @@ public class Post {
     }
 
     static {
-        DatabasePreloader.addTest((em -> {
-            Random generator = new Random();
+        DatabasePreloader.addTest((new Preloadable() {
+            private String genMessageBody() {
+                int blanks = new Random().nextInt(40) + 1;
+                StringBuilder body = new StringBuilder();
+                for(int j = 0; j <= blanks; j++){
+                    Random randomLength = new Random();
+                    int length = randomLength.nextInt(15) + 1;
+                    body.append(capitalizeFully(randomAlphabetic(length)));
+                    body.append(" ");
+                }
+                return body.toString();
+            }
 
-            List<Group> groups = (new SimpleQuery<>(em, Group.class)).getResultList();
-            for (Group group : groups) {
-                List<Person> members = group.getMembers();
+            @Override
+            public void run(EntityManager em) {
+                Random generator = new Random();
 
-                int randPosts = generator.nextInt(50);
-                for (; randPosts > 0; randPosts--) {
-                    Post post = new Post();
-                    post.setGroup(group);
+                List<Group> groups = (new SimpleQuery<>(em, Group.class)).getResultList();
+                for (Group group : groups) {
+                    List<Person> members = group.getMembers();
 
-                    Message thread = new Message();
-                    post.setThread(thread);
+                    int randPosts = generator.nextInt(50);
+                    for (; randPosts > 0; randPosts--) {
+                        Post post = new Post();
+                        post.setGroup(group);
+                        em.persist(post);
 
-                    thread.setAuthor(members.get(generator.nextInt(members.size())));
-                    thread.setBody(capitalizeFully(randomAlphabetic(generator.nextInt(500))));
-                    thread.setTimestamp(Timestamp.valueOf("2012-01-01 00:00:00"));
-                    em.persist(post);
-                    int random = new Random().nextInt(members.size());
-                    ThreadLocalRandom.current().ints(0, members.size())
-                            .distinct().limit(random).forEach(index -> thread.getTags().add(members.get(index)));
-                    ThreadLocalRandom.current().ints(0, members.size())
-                            .distinct().limit(random).forEach(index -> thread.getUpvotes().add(members.get(index)));
+                        Message thread = new Message();
+                        post.setThread(thread);
 
-                    int randComments = generator.nextInt(20);
-                    for (; randComments > 0; randComments--) {
-                        Message comment = new Message();
-                        comment.setAuthor(members.get(generator.nextInt(members.size())));
-                        comment.setBody(capitalizeFully(randomAlphabetic(generator.nextInt(500))));
-                        comment.setTimestamp(Timestamp.valueOf("2012-01-01 00:00:00"));
-                        comment.setParent(thread);
-                        em.persist(comment);
+                        thread.setAuthor(members.get(generator.nextInt(members.size())));
+                        thread.setBody(genMessageBody());
+                        thread.setTimestamp(Timestamp.valueOf("2012-01-01 00:00:00"));
+                        thread.setPost(post);
+                        em.persist(thread);
+
+                        int random = new Random().nextInt(members.size());
+                        ThreadLocalRandom.current().ints(0, members.size())
+                                .distinct().limit(random).forEach(index -> thread.getTags().add(members.get(index)));
+                        ThreadLocalRandom.current().ints(0, members.size())
+                                .distinct().limit(random).forEach(index -> thread.getUpvotes().add(members.get(index)));
+
+                        int randComments = generator.nextInt(20);
+                        for (; randComments > 0; randComments--) {
+                            Message comment = new Message();
+                            comment.setAuthor(members.get(generator.nextInt(members.size())));
+                            comment.setBody(genMessageBody());
+                            comment.setTimestamp(Timestamp.valueOf("2012-01-01 00:00:00"));
+                            comment.setParent(thread);
+                            comment.setPost(post);
+                            em.persist(comment);
+                        }
                     }
                 }
             }

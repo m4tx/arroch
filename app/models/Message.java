@@ -33,6 +33,10 @@ public class Message {
     @Column(length = 10000)
     private String body;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "tags",
@@ -103,5 +107,13 @@ public class Message {
 
     public List<Person> getUpvotes() {
         return upvotes;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }
