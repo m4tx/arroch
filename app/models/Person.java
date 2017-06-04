@@ -138,7 +138,7 @@ public class Person {
         this.photo = photo;
     }
 
-    public Group getSelfGroup() {
+    public SelfGroup getSelfGroup() {
         return selfGroup;
     }
 

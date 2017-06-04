@@ -38,9 +38,9 @@ public class ConversationGroup extends Group {
                 group.setName(capitalizeFully(randomAlphabetic(randomLength.nextInt(10) + 4)));
                 group.setDescription(capitalizeFully(randomAlphabetic(randomLength.nextInt(15) + 5)));
                 List<Person> people = (new SimpleQuery<>(em, Person.class)).getResultList();
-                int random = new Random().nextInt(people.size());
+                int random = new Random().nextInt(people.size() - 1);
                 ThreadLocalRandom.current().ints(0, people.size())
-                        .distinct().limit(random).forEach(index -> group.members.add(people.get(index)));
+                        .distinct().limit(random + 1).forEach(index -> group.members.add(people.get(index)));
                 FileMeta pic = FileManager.createFile(group.getName() + ".jpg", "image/jpeg", em);
                 try {
                     RandomUtils.randomImage(200, 800, FileManager.getFile(pic));

@@ -15,7 +15,6 @@ import java.util.Objects;
  */
 public class PersonFactory {
     private Person person;
-    private SelfGroup selfGroup;
     private boolean built = false;
 
     public PersonFactory() {
@@ -23,9 +22,8 @@ public class PersonFactory {
         person.setFirstName("");
         person.setLastName("");
         person.setDisplayName("");
-
-        this.selfGroup = new SelfGroup();
-        person.setSelfGroup(this.selfGroup);
+        person.setSelfGroup(new SelfGroup());
+        person.getSelfGroup().setMember(person);
     }
 
     public PersonFactory setFirstName(String firstName) {
@@ -49,13 +47,6 @@ public class PersonFactory {
     public PersonFactory setDisplayName(String displayName) {
         assert !built;
         person.setDisplayName(Objects.toString(displayName, ""));
-        return this;
-    }
-
-    public PersonFactory setSelfGroup(SelfGroup selfGroup) {
-        assert !built;
-        this.selfGroup = selfGroup;
-        person.setSelfGroup(selfGroup);
         return this;
     }
 
