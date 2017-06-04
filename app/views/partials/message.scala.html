@@ -14,6 +14,8 @@
             <h4 class="uk-comment-title uk-margin-remove"><a class="uk-link-reset" href="@people.routes.Person.get(comment.getAuthor.getId)">@comment.getAuthor.getDisplayName</a></h4>
             <ul class="uk-comment-meta uk-subnav uk-subnav-divider uk-margin-remove-top">
                 <li>@comment.getTimestamp</li>
+                <li><span class="uk-icon uk-margin-small-right" data-uk-icon="icon: heart; ratio: 0.75"></span> @comment.getUpvotes.size</li>
+                <li><span class="uk-icon uk-margin-small-right" data-uk-icon="icon: user; ratio: 0.75"></span> @comment.getTags.size</li>
             </ul>
         </div>
     </header>
