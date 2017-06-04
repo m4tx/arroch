@@ -55,7 +55,7 @@ public class Post {
             private String genMessageBody() {
                 int blanks = new Random().nextInt(40) + 1;
                 StringBuilder body = new StringBuilder();
-                for(int j = 0; j <= blanks; j++){
+                for (int j = 0; j <= blanks; j++) {
                     Random randomLength = new Random();
                     int length = randomLength.nextInt(15) + 1;
                     body.append(capitalizeFully(randomAlphabetic(length)));
@@ -101,6 +101,16 @@ public class Post {
                             comment.setTimestamp(Timestamp.valueOf("2012-01-01 00:00:00"));
                             comment.setParent(thread);
                             comment.setPost(post);
+                            random = new Random().nextInt(members.size() / 10 + 1);
+                            if (random > 0) {
+                                ThreadLocalRandom.current().ints(0, members.size())
+                                        .distinct().limit(random).forEach(index -> comment.getTags().add(members.get(index)));
+                            }
+                            random = new Random().nextInt(members.size() / 10 + 1);
+                            if (random > 0) {
+                                ThreadLocalRandom.current().ints(0, members.size())
+                                        .distinct().limit(random).forEach(index -> comment.getUpvotes().add(members.get(index)));
+                            }
                             em.persist(comment);
                         }
                     }

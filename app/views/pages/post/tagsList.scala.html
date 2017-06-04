@@ -1,0 +1,17 @@
+@import partials.personEntry
+@import partials.pagination
+
+@(comment: Message, step: Int, currentPage: Int)
+@pages = @{
+    (comment.getTags.length.toDouble / step).ceil.toInt
+}
+
+@main("Tags") {
+    <h1 class="uk-heading-primary">People tagged:</h1>
+    <ul class="uk-list">
+    @for(person <- comment.getTags.asScala.view(step * (currentPage - 1), step * currentPage)) {
+        <li>@personEntry(person)</li>
+    }
+    </ul>
+    @pagination(pages, currentPage, posts.routes.Message.getTags(comment.getId).absoluteURL)
+}

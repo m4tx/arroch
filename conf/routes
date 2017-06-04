@@ -33,6 +33,10 @@ GET         /person/:id/activity/                   controllers.people.Person.ge
 
 # Post
 GET         /post/:id/                              controllers.posts.Post.get(id: Long)
+GET         /message/:id/upvotes/                   controllers.posts.Message.getUpvotes(id: Long)
+GET         /message/:id/upvotes/:page/             controllers.posts.Message.getUpvotesPage(id: Long, page: Int)
+GET         /message/:id/tags/                      controllers.posts.Message.getTags(id: Long)
+GET         /message/:id/tags/:page/                controllers.posts.Message.getTagsPage(id: Long, page: Int)
 
 # Google
 GET         /google/                                controllers.google.Google.redirectToGoogle

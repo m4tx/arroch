@@ -1,0 +1,17 @@
+@import partials.personEntry
+@import partials.pagination
+
+@(comment: Message, step: Int, currentPage: Int)
+@pages = @{
+    (comment.getUpvotes.length.toDouble / step).ceil.toInt
+}
+
+@main("Upvotes") {
+    <h1 class="uk-heading-primary">Upvoted by:</h1>
+    <ul class="uk-list">
+    @for(person <- comment.getUpvotes.asScala.view(step * (currentPage - 1), step * currentPage)) {
+        <li>@personEntry(person)</li>
+    }
+    </ul>
+    @pagination(pages, currentPage, posts.routes.Message.getUpvotes(comment.getId).absoluteURL)
+}

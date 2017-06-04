@@ -19,6 +19,7 @@ public class Message {
     private Message parent;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OrderBy("timestamp ASC")
     private List<Message> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
