@@ -13,11 +13,13 @@ libraryDependencies ++= Seq(
   "org.hibernate" % "hibernate-core" % "5.2.10.Final",
   "org.hibernate" % "hibernate-ehcache" % "5.2.10.Final"
 ) //Hibernate ORM
-libraryDependencies += "org.fluentlenium" % "fluentlenium-core" % "3.2.0"
-libraryDependencies += "org.assertj" % "assertj-core" % "3.6.2"
-libraryDependencies += "org.seleniumhq.selenium" % "selenium-server" % "3.4.0"
-libraryDependencies += "org.seleniumhq.selenium" % "selenium-java" % "3.4.0"
-libraryDependencies += "org.seleniumhq.selenium" % "selenium-htmlunit-driver" % "2.52.0"
+libraryDependencies ++= Seq(
+  "org.fluentlenium" % "fluentlenium-core" % "3.2.0",
+  "org.assertj" % "assertj-core" % "3.6.2",
+  "org.seleniumhq.selenium" % "selenium-server" % "3.4.0",
+  "org.seleniumhq.selenium" % "selenium-java" % "3.4.0",
+  "org.seleniumhq.selenium" % "selenium-htmlunit-driver" % "2.52.0"
+) // Selenium and AssertJ
 libraryDependencies += "com.google.apis" % "google-api-services-people" % "v1-rev110-1.22.0"
 
 PlayKeys.externalizeResources := false
