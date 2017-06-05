@@ -1,6 +1,16 @@
 @(group: Group)
 
 <a class="uk-link-reset" href="@groups.routes.Group.get(group.getId)">
-    <span class="uk-icon" data-uk-icon="icon: users; ratio: 2.55"></span>
+    @group match {
+        case conversation: ConversationGroup => {
+            <span class="uk-icon" data-uk-icon="icon: comments; ratio: 2.55"></span>
+        }
+        case social: SocialGroup => {
+            <span class="uk-icon" data-uk-icon="icon: users; ratio: 2.55"></span>
+        }
+        case self: SelfGroup => {
+            <span class="uk-icon" data-uk-icon="icon: user; ratio: 2.55"></span>
+        }
+    }
     @group.getName
 </a>
