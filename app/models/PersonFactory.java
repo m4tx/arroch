@@ -59,7 +59,7 @@ public class PersonFactory {
             assert false;
         }
         person.setPhoto(pic);
-        person.getFiles().add(pic);
+        person.getSelfGroup().getFiles().add(pic);
         return this;
     }
 

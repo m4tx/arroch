@@ -1,0 +1,22 @@
+@import partials.fileEntry
+@import partials.pagination
+
+@(group: Group, step: Int, currentPage: Int)
+@pages = @{
+    (group.getFiles.length.toDouble / step).ceil.toInt
+}
+
+@groupPage(group) {
+    <div>
+        <a href="@groups.routes.UploadFile.get(group.getId)">
+            <span data-uk-icon="icon: plus-circle"></span>
+            Upload file
+        </a>
+        <ul class="uk-list">
+        @for(file <- group.getFiles.asScala.view(step * (currentPage - 1), step * currentPage)) {
+            <li>@fileEntry(file)</li>
+        }
+        </ul>
+        @pagination(pages, currentPage, groups.routes.Group.getFiles(group.getId).absoluteURL)
+    </div>
+}

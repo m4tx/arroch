@@ -1,0 +1,22 @@
+@import helper._
+@import forms.UIKitFieldConstructor._
+
+@(group: Group)
+
+@main(s"Upload file for ${group.getName}") {
+    <div class="subtitle-header">
+        <h1 class="uk-heading-primary">Upload file</h1>
+        <div class="subtitle">@group.getName</div>
+    </div>
+    @helper.form(action = groups.routes.UploadFile.post(group.getId),
+        args = 'enctype -> "multipart/form-data", 'class -> "uk-form-stacked") {
+        @CSRF.formField
+        <div class="uk-margin">
+            <label class="uk-form-label" for="file">File</label>
+            <div class="uk-form-controls">
+                <input type="file" id="file" name="file" class="uk-input"/>
+            </div>
+        </div>
+        <button class="uk-button uk-button-default" type="submit">Upload</button>
+    }
+}

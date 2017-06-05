@@ -3,7 +3,7 @@
 
 @(person: Person, step: Int, currentPage: Int)
 @pages = @{
-    (person.getFiles.length.toDouble / step).ceil.toInt
+    (person.getSelfGroup.getFiles.length.toDouble / step).ceil.toInt
 }
 
 @personPage(person) {
@@ -13,7 +13,7 @@
             Upload file
         </a>
         <ul class="uk-list">
-        @for(file <- person.getFiles.asScala.view(step * (currentPage - 1), step * currentPage)) {
+        @for(file <- person.getSelfGroup.getFiles.asScala.view(step * (currentPage - 1), step * currentPage)) {
             <li>@fileEntry(file)</li>
         }
         </ul>

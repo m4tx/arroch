@@ -38,14 +38,6 @@ public class Person {
     @OneToOne(fetch = FetchType.LAZY)
     private FileMeta photo;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "person_files",
-            joinColumns = {@JoinColumn(name = "person_id")},
-            inverseJoinColumns = {@JoinColumn(name = "file_id")}
-    )
-    private List<FileMeta> files = new ArrayList<>();
-
     @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy(clause = "type")
     private List<PersonInfo> info = new ArrayList<>();
@@ -126,7 +118,7 @@ public class Person {
         return info;
     }
 
-    public List<SocialGroup> getMemeberOf() {
+    public List<SocialGroup> getMemberOf() {
         return memberOf;
     }
 
@@ -160,10 +152,6 @@ public class Person {
 
     public List<Person> getFriendOf() {
         return friendOf;
-    }
-
-    public List<FileMeta> getFiles() {
-        return files;
     }
 
     public List<PersonAccount> getAccounts() {

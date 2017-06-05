@@ -210,7 +210,7 @@ public class GooglePersonProcessor {
                 FileMeta fileMeta = FileManager.createFile(url.getFile(), urlConnection.getContentType(), em);
                 FileUtils.copyToFile(urlConnection.getInputStream(), FileManager.getFile(fileMeta));
                 person.setPhoto(fileMeta);
-                person.getFiles().add(fileMeta);
+                person.getSelfGroup().getFiles().add(fileMeta);
             } catch (IOException e) {
                 Logger.warn("Google: Could not download photo", e);
             }

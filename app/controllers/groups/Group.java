@@ -34,4 +34,14 @@ public class Group {
     public Result getMembersPage(Long id, int page) {
         return ok(groupMembers.render(JPA.em().find(models.Group.class, id), 25, page));
     }
+
+    @Transactional
+    public Result getFiles(Long id) {
+        return getFilesPage(id, 1);
+    }
+
+    @Transactional
+    public Result getFilesPage(Long id, int page) {
+        return ok(groupFiles.render(JPA.em().find(models.Group.class, id), 25, page));
+    }
 }

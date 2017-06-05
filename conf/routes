@@ -51,6 +51,10 @@ GET         /group/:id/activity/                    controllers.groups.Group.get
 GET         /group/:id/activity/:page/              controllers.groups.Group.getActivityPage(id: Long, page: Int)
 GET         /group/:id/members/                     controllers.groups.Group.getMembers(id: Long)
 GET         /group/:id/members/:page/               controllers.groups.Group.getMembersPage(id: Long, page: Int)
+GET         /group/:id/files/                       controllers.groups.Group.getFiles(id: Long)
+GET         /group/:id/files/upload/                controllers.groups.UploadFile.get(id: Long)
+POST        /group/:id/files/upload/                controllers.groups.UploadFile.post(id: Long)
+GET         /group/:id/files/:page/                 controllers.groups.Group.getFilesPage(id: Long, page: Int)
 
 # File
 GET         /file/min/:id/                          controllers.File.getPreview(id: Long)

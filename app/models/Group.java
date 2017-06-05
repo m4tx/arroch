@@ -27,6 +27,14 @@ abstract public class Group {
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "group_files",
+            joinColumns = {@JoinColumn(name = "group_id")},
+            inverseJoinColumns = {@JoinColumn(name = "file_id")}
+    )
+    private List<FileMeta> files = new ArrayList<>();
+
     public long getId() {
         return id;
     }
@@ -59,5 +67,9 @@ abstract public class Group {
 
     public List<Post> getPosts() {
         return posts;
+    }
+
+    public List<FileMeta> getFiles() {
+        return files;
     }
 }

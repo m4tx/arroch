@@ -3,13 +3,13 @@
 
 @(person: Person, step: Int, currentPage: Int)
     @pages = @{
-        (person.getMemeberOf.length.toDouble / step).ceil.toInt
+        (person.getMemberOf.length.toDouble / step).ceil.toInt
     }
 
     @personPage(person) {
         <div>
             <ul class="uk-list">
-            @for(group <- person.getMemeberOf.asScala.view(step * (currentPage - 1), step * currentPage)) {
+            @for(group <- person.getMemberOf.asScala.view(step * (currentPage - 1), step * currentPage)) {
                 <li>@groupEntry(group)</li>
             }
             </ul>
