@@ -225,7 +225,9 @@ public class GooglePersonProcessor extends PersonProcessor<com.google.api.servic
                 FileMeta fileMeta = FileManager.createFile(
                         FilenameUtils.getName(url.getFile()), urlConnection.getContentType(), em);
                 FileUtils.copyToFile(urlConnection.getInputStream(), FileManager.getFile(fileMeta));
-                person.setPhoto(fileMeta);
+                if (person.getPhoto() == null) {
+                    person.setPhoto(fileMeta);
+                }
                 person.getSelfGroup().getFiles().add(fileMeta);
             } catch (IOException e) {
                 Logger.warn("Google: Could not download photo", e);
