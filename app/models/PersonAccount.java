@@ -40,6 +40,11 @@ public class PersonAccount implements Serializable {
         return 31 * account.hashCode() + source.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return String.format("PersonAccount(%s -> %s)", getSource().getName(), getAccount());
+    }
+
     public String getAccount() {
         return account;
     }
