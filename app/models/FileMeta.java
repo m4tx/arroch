@@ -23,6 +23,10 @@ public class FileMeta {
     @Column(name = "original_name", length = 260)
     private String originalName;
 
+    // SHA-512 hex-encoded digest
+    @Column(name = "digest", length = 128)
+    private String digest;
+
     public long getId() {
         return id;
     }
@@ -49,6 +53,21 @@ public class FileMeta {
 
     public void setOriginalName(String orignalName) {
         this.originalName = orignalName;
+    }
+
+    public String getDigest() {
+        if (digest == null) {
+            try {
+                digest = FileManager.getSha512Digest(FileManager.getFile(this));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return digest;
+    }
+
+    public void setDigest(String digest) {
+        this.digest = digest;
     }
 
     static {

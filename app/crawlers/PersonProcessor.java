@@ -1,12 +1,15 @@
 package crawlers;
 
-import models.Person;
-import models.PersonAccount;
-import models.PersonFactory;
-import models.PersonInfo;
+import models.*;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import utils.SimpleQuery;
 
 import javax.persistence.EntityManager;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 /**
@@ -94,5 +97,48 @@ public abstract class PersonProcessor<T> {
             em.persist(personInfo);
             person.getInfo().add(personInfo);
         }
+    }
+
+    /**
+     * Add given file if it does not yet exists for given {@link Person}
+     * and additionally set is as a photo for if the Person does not have it yet
+     *
+     * @param person Person object to add the photo to
+     * @param url URL of the photo to download and save
+     * @return {@link FileMeta} object if the photo was added; null otherwise
+     * @see #addFileIfNotExists(Person, URL)
+     * @throws IOException if an error occurred when reading the photo
+     */
+    protected FileMeta addPhotoIfNotExists(Person person, URL url) throws IOException {
+        FileMeta fileMeta = addFileIfNotExists(person, url);
+        if (person.getPhoto() == null && fileMeta != null) {
+            person.setPhoto(fileMeta);
+        }
+        return fileMeta;
+    }
+
+    /**
+     * Add given file if it does not yet exists for given {@link Person}
+     *
+     * @param person Person object to add the file to
+     * @param url URL of the file to download and save
+     * @return {@link FileMeta} object if the file was added; null otherwise
+     * @see #addPhotoIfNotExists(Person, URL)
+     * @throws IOException if an error occurred when reading the file
+     */
+    protected FileMeta addFileIfNotExists(Person person, URL url) throws IOException {
+        URLConnection urlConnection = url.openConnection();
+        byte[] fileData = IOUtils.toByteArray(urlConnection.getInputStream());
+        String digestString = FileManager.getSha512Digest(fileData);
+
+        if (person.getSelfGroup().getFiles().stream().noneMatch(x -> x.getDigest().equals(digestString))) {
+            FileMeta fileMeta = FileManager.createFile(
+                    FilenameUtils.getName(url.getFile()), urlConnection.getContentType(), em);
+            FileUtils.writeByteArrayToFile(FileManager.getFile(fileMeta), fileData);
+
+            person.getSelfGroup().getFiles().add(fileMeta);
+            return fileMeta;
+        }
+        return null;
     }
 }

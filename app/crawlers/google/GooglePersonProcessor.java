@@ -3,21 +3,13 @@ package crawlers.google;
 import com.google.api.services.people.v1.model.*;
 import com.google.api.services.people.v1.model.Date;
 import crawlers.PersonProcessor;
-import models.DataSource;
-import models.FileMeta;
-import models.FileManager;
+import models.*;
 import models.Person;
-import models.PersonAccount;
-import models.PersonInfo;
-import models.PropertyType;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 import play.Logger;
 
 import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -220,15 +212,7 @@ public class GooglePersonProcessor extends PersonProcessor<com.google.api.servic
 
         for (Photo photo : photos) {
             try {
-                URL url = new URL(photo.getUrl());
-                URLConnection urlConnection = url.openConnection();
-                FileMeta fileMeta = FileManager.createFile(
-                        FilenameUtils.getName(url.getFile()), urlConnection.getContentType(), em);
-                FileUtils.copyToFile(urlConnection.getInputStream(), FileManager.getFile(fileMeta));
-                if (person.getPhoto() == null) {
-                    person.setPhoto(fileMeta);
-                }
-                person.getSelfGroup().getFiles().add(fileMeta);
+                addPhotoIfNotExists(person, new URL(photo.getUrl()));
             } catch (IOException e) {
                 Logger.warn("Google: Could not download photo", e);
             }

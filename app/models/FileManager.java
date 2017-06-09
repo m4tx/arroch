@@ -1,6 +1,7 @@
 package models;
 
 import com.typesafe.config.ConfigFactory;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import play.Logger;
@@ -17,6 +18,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import static java.awt.RenderingHints.*;
 import static java.awt.RenderingHints.VALUE_INTERPOLATION_BILINEAR;
@@ -116,5 +119,20 @@ public class FileManager {
         }
 
         return thumbnail;
+    }
+
+    public static String getSha512Digest(File file) throws IOException {
+        return getSha512Digest(FileUtils.readFileToByteArray(file));
+    }
+
+    public static String getSha512Digest(byte[] fileData) {
+        MessageDigest messageDigest;
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-512");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] digest = messageDigest.digest(fileData);
+        return Hex.encodeHexString(digest);
     }
 }
