@@ -40,8 +40,8 @@ GET         /message/:id/tags/                      controllers.posts.Message.ge
 GET         /message/:id/tags/:page/                controllers.posts.Message.getTagsPage(id: Long, page: Int)
 
 # Google
-GET         /google/                                controllers.google.Google.redirectToGoogle
-GET         /google/authenticated/                  controllers.google.Google.authenticated
+GET         /google/                                controllers.crawlers.Google.redirectToGoogle
+GET         /google/authenticated/                  controllers.crawlers.Google.authenticated
 
 # Groups
 GET         /groups/                                controllers.groups.Groups.get

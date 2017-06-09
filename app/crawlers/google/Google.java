@@ -1,4 +1,4 @@
-package controllers.google;
+package crawlers.google;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
 import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
@@ -15,8 +15,6 @@ import com.google.api.services.people.v1.model.Person;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
-import play.mvc.Controller;
-import play.mvc.Result;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,9 +27,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class Google extends Controller {
+public class Google {
     // fixme hardcoded server URL
-    private static final String REDIRECT_URL = "http://localhost:9000" + routes.Google.authenticated();
+    private static final String REDIRECT_URL = "http://localhost:9000" +
+            controllers.crawlers.routes.Google.authenticated();
     private static final Collection<String> SCOPES = Collections.singletonList(PeopleServiceScopes.CONTACTS_READONLY);
     private static final String SECRETS_FILENAME = "/google_client_secrets.json";
 
@@ -43,7 +42,7 @@ public class Google extends Controller {
     }
 
     private GoogleClientSecrets loadClientSecrets() throws IOException {
-        InputStream secretsStream = Google.class.getResourceAsStream(SECRETS_FILENAME);
+        InputStream secretsStream = getClass().getResourceAsStream(SECRETS_FILENAME);
         if (secretsStream == null) {
             Logger.warn("Google: Could not load " + SECRETS_FILENAME);
             return null;
@@ -60,9 +59,8 @@ public class Google extends Controller {
                 httpTransport, jsonFactory, clientSecrets, SCOPES).setAccessType("offline").build();
     }
 
-    public Result redirectToGoogle() {
-        String requestUrl = getAuthCodeFlow().newAuthorizationUrl().setRedirectUri(REDIRECT_URL).build();
-        return redirect(requestUrl);
+    public String getAuthorizationUrl() {
+        return getAuthCodeFlow().newAuthorizationUrl().setRedirectUri(REDIRECT_URL).build();
     }
 
     private PeopleService createPeopleService(String code) throws IOException {
@@ -78,7 +76,7 @@ public class Google extends Controller {
         return new PeopleService.Builder(httpTransport, jsonFactory, credential).build();
     }
 
-    private String getRequestMaskIncludField() {
+    private String getRequestMaskIncludeField() {
         // Check available fields at: https://developers.google.com/people/api/rest/v1/people#resource-person
 
         String[] fields = {
@@ -95,13 +93,13 @@ public class Google extends Controller {
     }
 
     @Transactional
-    public Result authenticated() throws IOException {
+    public int processPeople(String code) throws IOException {
         GooglePersonProcessor processor = new GooglePersonProcessor(JPA.em());
-        PeopleService service = createPeopleService(request().getQueryString("code"));
+        PeopleService service = createPeopleService(code);
 
         ListConnectionsResponse response = service.people().connections()
                 .list("people/me")
-                .setRequestMaskIncludeField(getRequestMaskIncludField())
+                .setRequestMaskIncludeField(getRequestMaskIncludeField())
                 .setPageSize(2000)
                 .execute();
         List<Person> connections = response.getConnections();
@@ -110,6 +108,6 @@ public class Google extends Controller {
             processor.process(person);
         }
 
-        return ok("Processed " + connections.size() + " people");
+        return connections.size();
     }
 }

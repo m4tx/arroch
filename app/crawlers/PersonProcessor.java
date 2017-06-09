@@ -1,4 +1,4 @@
-package controllers;
+package crawlers;
 
 import models.Person;
 import models.PersonAccount;

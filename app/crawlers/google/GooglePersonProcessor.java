@@ -1,8 +1,8 @@
-package controllers.google;
+package crawlers.google;
 
 import com.google.api.services.people.v1.model.*;
 import com.google.api.services.people.v1.model.Date;
-import controllers.PersonProcessor;
+import crawlers.PersonProcessor;
 import models.DataSource;
 import models.FileMeta;
 import models.FileManager;
