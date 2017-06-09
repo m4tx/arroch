@@ -11,6 +11,7 @@ import models.PersonAccount;
 import models.PersonInfo;
 import models.PropertyType;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import play.Logger;
 
 import javax.persistence.EntityManager;
@@ -221,7 +222,8 @@ public class GooglePersonProcessor extends PersonProcessor<com.google.api.servic
             try {
                 URL url = new URL(photo.getUrl());
                 URLConnection urlConnection = url.openConnection();
-                FileMeta fileMeta = FileManager.createFile(url.getFile(), urlConnection.getContentType(), em);
+                FileMeta fileMeta = FileManager.createFile(
+                        FilenameUtils.getName(url.getFile()), urlConnection.getContentType(), em);
                 FileUtils.copyToFile(urlConnection.getInputStream(), FileManager.getFile(fileMeta));
                 person.setPhoto(fileMeta);
                 person.getSelfGroup().getFiles().add(fileMeta);
