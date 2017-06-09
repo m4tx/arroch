@@ -107,7 +107,7 @@ public class Google extends Controller {
         List<Person> connections = response.getConnections();
 
         for (Person person : connections) {
-            processor.processGooglePerson(person);
+            processor.process(person);
         }
 
         return ok("Processed " + connections.size() + " people");

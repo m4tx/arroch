@@ -1,12 +1,13 @@
 package controllers.google;
 
 import com.google.api.services.people.v1.model.*;
+import com.google.api.services.people.v1.model.Date;
+import controllers.PersonProcessor;
 import models.DataSource;
 import models.FileMeta;
 import models.FileManager;
 import models.Person;
 import models.PersonAccount;
-import models.PersonFactory;
 import models.PersonInfo;
 import models.PropertyType;
 import org.apache.commons.io.FileUtils;
@@ -17,49 +18,50 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GooglePersonProcessor {
+public class GooglePersonProcessor extends PersonProcessor<com.google.api.services.people.v1.model.Person> {
     private static final Pattern GOOGLE_PLUS_REGEX = Pattern.compile("^https?://plus\\.google\\.com/(\\d+)");
 
-    private EntityManager em;
-
     public GooglePersonProcessor(EntityManager entityManager) {
-        this.em = entityManager;
+        super(entityManager);
     }
 
-    public Person processGooglePerson(com.google.api.services.people.v1.model.Person googlePerson) {
-        PersonFactory personFactory = new PersonFactory();
-        processNames(personFactory, googlePerson);
-        Person person = personFactory.build(em);
-        addGoogleAccount(person, googlePerson);
-        processUrls(person, googlePerson);
+    @Override
+    protected void processWithPerson(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
+        processNames(person, googlePerson);
         processPhoneNumbers(person, googlePerson);
         processAddresses(person, googlePerson);
         processEmailAddresses(person, googlePerson);
         processBirthdays(person, googlePerson);
         processPhotos(person, googlePerson);
-        return person;
     }
 
-    private void addGoogleAccount(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
+    @Override
+    protected List<PersonAccount> getAccounts(com.google.api.services.people.v1.model.Person googlePerson) {
+        List<PersonAccount> accounts = new ArrayList<>();
+        accounts.add(getGoogleAccount(googlePerson));
+        accounts.addAll(getGooglePlusAccounts(googlePerson));
+        return accounts;
+    }
+
+    private static PersonAccount getGoogleAccount(com.google.api.services.people.v1.model.Person googlePerson) {
         PersonAccount personAccount = new PersonAccount();
-        personAccount.setPerson(person);
         personAccount.setSource(DataSource.DataSourceList.google);
         personAccount.setAccount(googlePerson.getResourceName());
-        em.persist(personAccount);
-        person.getAccounts().add(personAccount);
+        return personAccount;
     }
 
-    private void processUrls(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
+    private static Collection<PersonAccount> getGooglePlusAccounts(
+            com.google.api.services.people.v1.model.Person googlePerson) {
         List<Url> urls = googlePerson.getUrls();
         if (urls == null) {
-            return;
+            return Collections.emptyList();
         }
 
+        List<PersonAccount> accounts = new ArrayList<>();
         for (Url url : urls) {
             String urlString = url.getValue();
             if (urlString == null) {
@@ -71,26 +73,26 @@ public class GooglePersonProcessor {
                 PersonAccount personAccount = new PersonAccount();
                 personAccount.setAccount(matcher.group(1));
                 personAccount.setSource(DataSource.DataSourceList.googlePlus);
-                personAccount.setPerson(person);
-                em.persist(personAccount);
-                person.getAccounts().add(personAccount);
+                accounts.add(personAccount);
             }
         }
+
+        return accounts;
     }
 
-    private void processNames(PersonFactory personFactory, com.google.api.services.people.v1.model.Person googlePerson) {
+    private void processNames(Person person, com.google.api.services.people.v1.model.Person googlePerson) {
         List<Name> names = googlePerson.getNames();
         if (names != null && !names.isEmpty()) {
             Name name = names.get(0);
-            personFactory.setDisplayName(name.getDisplayName());
-            personFactory.setFirstName(name.getGivenName());
-            personFactory.setMiddleName(name.getMiddleName());
-            personFactory.setLastName(name.getFamilyName());
+            person.setDisplayName(name.getDisplayName());
+            person.setFirstName(name.getGivenName());
+            person.setMiddleName(name.getMiddleName());
+            person.setLastName(name.getFamilyName());
         } else {
             List<Organization> organizations = googlePerson.getOrganizations();
             if (organizations != null && !organizations.isEmpty()) {
                 for (Organization organization : organizations) {
-                    personFactory.setDisplayName(organization.getName());
+                    person.setDisplayName(organization.getName());
                 }
             }
         }
@@ -115,9 +117,7 @@ public class GooglePersonProcessor {
                     type = PropertyType.PropertyTypeList.phoneNumber;
             }
 
-            PersonInfo info = new PersonInfo(person, type, phoneNumber.getCanonicalForm());
-            person.getInfo().add(info);
-            em.persist(info);
+            addPersonInfo(person, new PersonInfo(person, type, phoneNumber.getCanonicalForm()));
         }
     }
 
@@ -143,9 +143,7 @@ public class GooglePersonProcessor {
                     type = PropertyType.PropertyTypeList.address;
             }
 
-            PersonInfo info = new PersonInfo(person, type, address.getFormattedValue());
-            person.getInfo().add(info);
-            em.persist(info);
+            addPersonInfo(person, new PersonInfo(person, type, address.getFormattedValue()));
         }
     }
 
@@ -171,9 +169,7 @@ public class GooglePersonProcessor {
                     type = PropertyType.PropertyTypeList.emailAddress;
             }
 
-            PersonInfo info = new PersonInfo(person, type, emailAddress.getValue());
-            person.getInfo().add(info);
-            em.persist(info);
+            addPersonInfo(person, new PersonInfo(person, type, emailAddress.getValue()));
         }
     }
 
@@ -191,9 +187,7 @@ public class GooglePersonProcessor {
                         new GregorianCalendar(date.getYear(), date.getMonth() - 1, date.getDay()).getTime());
             }
 
-            PersonInfo info = new PersonInfo(person, PropertyType.PropertyTypeList.birthdate, dateText);
-            person.getInfo().add(info);
-            em.persist(info);
+            addPersonInfo(person, new PersonInfo(person, PropertyType.PropertyTypeList.birthdate, dateText));
         }
     }
 

@@ -71,7 +71,7 @@ public class Person {
     @ManyToMany(mappedBy = "friends", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Person> friendOf = new ArrayList<>();
 
-    @OneToMany(mappedBy = "person", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "person", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<PersonAccount> accounts = new ArrayList<>();
 
     public long getId() {

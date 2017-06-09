@@ -4,6 +4,7 @@ import modules.preloader.DatabasePreloader;
 import utils.SimpleQuery;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 import static org.apache.commons.lang3.RandomStringUtils.randomAlphabetic;
@@ -11,7 +12,7 @@ import static org.apache.commons.lang3.RandomStringUtils.randomNumeric;
 
 @Entity
 @Table(name = "people_map")
-public class PersonAccount {
+public class PersonAccount implements Serializable {
     @Column
     @Id
     private String account;
@@ -20,9 +21,24 @@ public class PersonAccount {
     @JoinColumn(name = "person_id", nullable = false)
     private Person person;
 
+    @Id
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "source_id", nullable = false)
     private DataSource source;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof PersonAccount)) {
+            return false;
+        }
+        PersonAccount other = (PersonAccount) obj;
+        return account.equals(other.account) && source.equals(other.source);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31 * account.hashCode() + source.hashCode();
+    }
 
     public String getAccount() {
         return account;
