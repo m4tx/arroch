@@ -59,6 +59,9 @@ public class DataSource {
         public static DataSource googlePlus = new DataSource("googlePlus", "Google Plus", "google-plus", "https://plus.google.com/");
 
         @DefaultValue
+        public static DataSource email = new DataSource("email", "Email Address", "mail", "mailto:");
+
+        @DefaultValue
         public static DataSource facebook = new DataSource("facebook", "Facebook", "facebook", "https://www.facebook.com/");
     }
 

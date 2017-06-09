@@ -44,6 +44,7 @@ public class GooglePersonProcessor extends PersonProcessor<com.google.api.servic
         List<PersonAccount> accounts = new ArrayList<>();
         accounts.add(getGoogleAccount(googlePerson));
         accounts.addAll(getGooglePlusAccounts(googlePerson));
+        accounts.addAll(getEmailAccounts(googlePerson));
         return accounts;
     }
 
@@ -75,6 +76,25 @@ public class GooglePersonProcessor extends PersonProcessor<com.google.api.servic
                 personAccount.setSource(DataSource.DataSourceList.googlePlus);
                 accounts.add(personAccount);
             }
+        }
+
+        return accounts;
+    }
+
+    private static Collection<PersonAccount> getEmailAccounts(
+            com.google.api.services.people.v1.model.Person googlePerson) {
+        List<EmailAddress> emailAddresses = googlePerson.getEmailAddresses();
+        if (emailAddresses == null) {
+            return Collections.emptyList();
+        }
+
+        List<PersonAccount> accounts = new ArrayList<>();
+
+        for (EmailAddress emailAddress : emailAddresses) {
+            PersonAccount personAccount = new PersonAccount();
+            personAccount.setSource(DataSource.DataSourceList.email);
+            personAccount.setAccount(emailAddress.getValue());
+            accounts.add(personAccount);
         }
 
         return accounts;
