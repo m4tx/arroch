@@ -77,12 +77,12 @@ public class FileManager {
     }
 
     private static BufferedImage minifyImg(BufferedImage orig, int height, int width) {
-        double outputAspect = 1.0*width/height;
-        double inputAspect = 1.0*orig.getWidth()/orig.getHeight();
+        double outputAspect = 1.0 * width / height;
+        double inputAspect = 1.0 * orig.getWidth() / orig.getHeight();
         if (outputAspect < inputAspect) {
-            height = (int)(width/inputAspect);
+            height = (int) (width / inputAspect);
         } else {
-            width = (int)(height*inputAspect);
+            width = (int) (height * inputAspect);
         }
         int type = (orig.getTransparency() == Transparency.OPAQUE) ?
                 BufferedImage.TYPE_INT_RGB :
