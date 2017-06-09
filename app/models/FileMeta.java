@@ -51,8 +51,8 @@ public class FileMeta {
         return originalName;
     }
 
-    public void setOriginalName(String orignalName) {
-        this.originalName = orignalName;
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName;
     }
 
     public String getDigest() {
