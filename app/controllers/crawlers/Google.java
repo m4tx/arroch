@@ -21,6 +21,7 @@ public class Google extends Controller {
 
     @Transactional
     public Result authenticated() throws IOException {
-        return ok("Processed " + crawler.processPeople(request().getQueryString("code")) + " people");
+        flash("success", "Processed " + crawler.processPeople(request().getQueryString("code")) + " people");
+        return redirect(controllers.people.routes.People.get());
     }
 }
