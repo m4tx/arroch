@@ -45,8 +45,7 @@ GET         /google/                                controllers.crawlers.Google.
 GET         /google/authenticated/                  controllers.crawlers.Google.authenticated
 
 # Facebook
-GET         /facebook/                              controllers.crawlers.Facebook.getStatus
-GET         /facebook/test/                         controllers.crawlers.Facebook.fetchIndex
+GET         /facebook/                              controllers.crawlers.Facebook.fetchPeople
 
 # Groups
 GET         /groups/                                controllers.groups.Groups.get

@@ -4,8 +4,9 @@
 *.iml
 *.ipr
 
-# Google API client secrets file
+# API client secrets file
 conf/google_client_secrets.json
+conf/facebook_cookies
 
 build/
 dist/

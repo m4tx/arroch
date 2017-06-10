@@ -1,10 +1,12 @@
 package controllers.crawlers;
 
+import play.db.jpa.Transactional;
 import play.mvc.Result;
 
 import java.io.IOException;
 
-import static play.mvc.Results.ok;
+import static play.mvc.Controller.flash;
+import static play.mvc.Results.redirect;
 
 public class Facebook {
     private crawlers.facebook.Facebook crawler;
@@ -13,11 +15,10 @@ public class Facebook {
         crawler = new crawlers.facebook.Facebook();
     }
 
-    public Result getStatus() {
-        return ok();
+    @Transactional
+    public Result fetchPeople() throws IOException {
+        flash("success", "Processed " + crawler.processPeople());
+        return redirect(controllers.people.routes.People.get());
     }
 
-    public Result fetchIndex() throws IOException {
-        return ok(crawler.testFetchPage("https://mbasic.facebook.com/home.php")).as("text/html");
-    }
 }
