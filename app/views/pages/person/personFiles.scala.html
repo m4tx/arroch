@@ -1,5 +1,7 @@
 @import partials.fileEntry
 @import partials.pagination
+@import models.FileManager
+@import helper._
 
 @(person: Person, step: Int, currentPage: Int)
 @pages = @{
@@ -14,7 +16,16 @@
         </a>
         <ul class="uk-list">
         @for(file <- person.getSelfGroup.getFiles.asScala.view(step * (currentPage - 1), step * currentPage)) {
-            <li>@fileEntry(file)</li>
+            <li>
+                @fileEntry(file)
+                @if(FileManager.isImage(file)) {
+                    @helper.form(action = people.routes.EditPerson.postPhoto(person.getId), args = 'class -> "uk-float-right")  {
+                        @CSRF.formField
+                        <input type="hidden" name="fileId" value="@file.getId"/>
+                        <button class="uk-button-default" type="submit"><span data-uk-icon="icon: camera"></span></button>
+                    }
+                }
+            </li>
         }
         </ul>
         @pagination(pages, currentPage, people.routes.Person.getFiles(person.getId).absoluteURL)

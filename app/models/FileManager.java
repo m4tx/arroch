@@ -99,8 +99,12 @@ public class FileManager {
         return filePath + "/min/" + meta.getId() + '.' + meta.getExtension();
     }
 
+    public static boolean isImage(FileMeta meta) {
+        return (meta.getMimeType().equals("image/jpeg") || meta.getMimeType().equals("image/png"));
+    }
+
     public static File getThumbnail(FileMeta meta) throws IOException {
-        if (!meta.getMimeType().equals("image/jpeg") && !meta.getMimeType().equals("image/png")) {
+        if (!isImage(meta)) {
             return new File("public/images/file.svg");
         }
 

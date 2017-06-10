@@ -1,5 +1,7 @@
 package controllers.people;
 
+import models.FileMeta;
+import play.data.DynamicForm;
 import play.data.Form;
 import play.data.FormFactory;
 import play.db.jpa.JPA;
@@ -11,6 +13,8 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import static play.mvc.Controller.flash;
+import static play.mvc.Controller.request;
+import static play.mvc.Http.Status.FORBIDDEN;
 import static play.mvc.Results.ok;
 import static play.mvc.Results.redirect;
 
@@ -43,5 +47,15 @@ public class EditPerson {
         person.setDisplayName(newPerson.getDisplayName());
         flash("success", "The person has been edited");
         return redirect(controllers.people.routes.Person.get(id));
+    }
+
+    @Transactional
+    public Result postPhoto(Long id) {
+        EntityManager em = JPA.em();
+        DynamicForm form = formFactory.form().bindFromRequest();
+        Long fileId = Long.parseLong(form.get("fileId"));
+        models.Person person = em.find(models.Person.class, id);
+        person.setPhoto(em.find(models.FileMeta.class, fileId));
+        return redirect(controllers.people.routes.Person.getFiles(id));
     }
 }

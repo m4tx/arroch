@@ -10,6 +10,7 @@ GET         /people/                                controllers.people.People.ge
 GET         /people/:page/                          controllers.people.People.getPage(page: Int)
 GET         /person/:id/edit/                       controllers.people.EditPerson.get(id: Long)
 POST        /person/:id/edit/                       controllers.people.EditPerson.post(id: Long)
+POST        /person/:id/photo/                      controllers.people.EditPerson.postPhoto(id: Long)
 GET         /person/:id/                            controllers.people.Person.get(id: Long)
 GET         /person/:id/info/                       controllers.people.Person.getInfo(id: Long)
 GET         /person/:id/info/add/                   controllers.people.AddPersonInfo.get(id: Long)
