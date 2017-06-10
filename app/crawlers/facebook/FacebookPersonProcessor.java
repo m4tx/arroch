@@ -55,8 +55,11 @@ public class FacebookPersonProcessor extends PersonProcessor<FacebookPerson> {
     private void processName(Person person, FacebookPerson sourceObject) {
         String name = sourceObject.about.select("strong").first().text();
         person.setDisplayName(name);
-        person.setLastName(name.substring(name.lastIndexOf(" ") + 1));
-        person.setFirstName(name.substring(0, name.lastIndexOf(" ")));
+        int spacePos = name.lastIndexOf(" ");
+        person.setLastName(name.substring(spacePos + 1));
+        if (spacePos != -1) {
+            person.setFirstName(name.substring(0, name.lastIndexOf(" ")));
+        }
     }
 
     private void processPhoto(Person person, FacebookPerson sourceObject, FacebookSession session) {
