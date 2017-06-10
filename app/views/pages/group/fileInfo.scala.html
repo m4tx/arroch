@@ -1,0 +1,26 @@
+@import org.apache.commons.io.FileUtils
+
+@(file: FileMeta, fileLength: Long)
+
+@main(file.getOriginalName) {
+    <h1 class="uk-heading-primary">
+    @file.getOriginalName
+    </h1>
+    <hr>
+    <div class="person-panel uk-flex">
+        <div class="uk-margin-right">
+            <img class="person-photo" src="@routes.File.getPreview(file.getId)">
+        </div>
+        <div class="uk-margin-left">
+            <dl class="uk-description-list">
+                <dt>MIME Type</dt>
+                <dd>@file.getMimeType</dd>
+                <dt>Size</dt>
+                <dd>@FileUtils.byteCountToDisplaySize(fileLength)</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="uk-text-center">
+        <a class="uk-button uk-button-primary uk-button-large" href="@routes.File.get(file.getId)">Download</a>
+    </div>
+}
