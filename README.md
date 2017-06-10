@@ -22,3 +22,8 @@ In order to make it working:
 6. In the form that showed up, enter the redirect URL: `http://localhost:9000/google/authenticated/` and click Create
 7. Enter the newly created client ID and click "Download JSON"; put the file in `conf/google_client_secrets.json`
 8. Visit http://localhost:9000/google and it should, after consent, import the People into the database
+
+### Facebook Crawler
+1. Login to https://mbasic.facebook.com/home.php
+2. Extract facebook cookies form browser and put them in file `conf/facebook_cookies`
+3. Do not logout
