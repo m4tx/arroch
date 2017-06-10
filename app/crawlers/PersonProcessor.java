@@ -133,7 +133,7 @@ public abstract class PersonProcessor<T> {
 
         if (person.getSelfGroup().getFiles().stream().noneMatch(x -> x.getDigest().equals(digestString))) {
             FileMeta fileMeta = FileManager.createFile(
-                    FilenameUtils.getName(url.getFile()), urlConnection.getContentType(), em);
+                    FilenameUtils.getName(url.getPath()), urlConnection.getContentType(), em);
             FileUtils.writeByteArrayToFile(FileManager.getFile(fileMeta), fileData);
 
             person.getSelfGroup().getFiles().add(fileMeta);
