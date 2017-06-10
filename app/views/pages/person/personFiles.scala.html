@@ -22,7 +22,7 @@
                     @helper.form(action = people.routes.EditPerson.postPhoto(person.getId), args = 'class -> "uk-float-right")  {
                         @CSRF.formField
                         <input type="hidden" name="fileId" value="@file.getId"/>
-                        <button class="uk-button-default" type="submit"><span data-uk-icon="icon: camera"></span></button>
+                        <button class="uk-button-default" type="submit" title="Set this as person photo"><span data-uk-icon="icon: camera"></span></button>
                     }
                 }
             </li>

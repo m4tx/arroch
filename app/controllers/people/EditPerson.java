@@ -56,6 +56,7 @@ public class EditPerson {
         Long fileId = Long.parseLong(form.get("fileId"));
         models.Person person = em.find(models.Person.class, id);
         person.setPhoto(em.find(models.FileMeta.class, fileId));
+        flash("success", "The person's photo has been changed");
         return redirect(controllers.people.routes.Person.getFiles(id));
     }
 }
