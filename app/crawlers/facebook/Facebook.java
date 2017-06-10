@@ -13,7 +13,7 @@ public class Facebook {
 
     @Transactional
     public int processPeople() throws IOException {
-        FacebookPersonProcessor processor = new FacebookPersonProcessor(JPA.em());
+        FacebookPersonProcessor processor = new FacebookPersonProcessor(JPA.em(), session);
         String myId = processMe(processor);
         return processFriendsOf(myId, processor);
     }
