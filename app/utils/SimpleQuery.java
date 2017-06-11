@@ -3,9 +3,12 @@ package utils;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.SingularAttribute;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SimpleQuery<T> {
     private EntityManager em;
@@ -34,6 +37,15 @@ public class SimpleQuery<T> {
 
     public SimpleQuery<T> where(String attribute, Object value) {
         query = query.where(builder.equal(from.get(attribute), value));
+        return this;
+    }
+
+    public SimpleQuery<T> whereAllEqual(Map<String, Object> values) {
+        ArrayList<Predicate> predicates = new ArrayList<>();
+        for(Map.Entry<String, Object> v : values.entrySet()) {
+            predicates.add(builder.equal(from.get(v.getKey()), v.getValue()));
+        }
+        query = query.where(predicates.toArray(new Predicate[0]));
         return this;
     }
 

@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -88,10 +89,13 @@ public abstract class PersonProcessor<T> {
      */
     protected void addPersonInfo(Person person, PersonInfo personInfo) {
         // Check if person info already exists
+        HashMap<String, Object> where = new HashMap<>(3);
+        where.put("person", person);
+        where.put("type", personInfo.getType());
+        where.put("value", personInfo.getValue());
+
         if (new SimpleQuery<>(em, PersonInfo.class)
-                .where("person", person)
-                .where("type", personInfo.getType())
-                .where("value", personInfo.getValue())
+                .whereAllEqual(where)
                 .getResultList()
                 .isEmpty()) {
             em.persist(personInfo);
@@ -104,10 +108,10 @@ public abstract class PersonProcessor<T> {
      * and additionally set is as a photo for if the Person does not have it yet
      *
      * @param person Person object to add the photo to
-     * @param url URL of the photo to download and save
+     * @param url    URL of the photo to download and save
      * @return {@link FileMeta} object if the photo was added; null otherwise
-     * @see #addFileIfNotExists(Person, URL)
      * @throws IOException if an error occurred when reading the photo
+     * @see #addFileIfNotExists(Person, URL)
      */
     protected FileMeta addPhotoIfNotExists(Person person, URL url) throws IOException {
         FileMeta fileMeta = addFileIfNotExists(person, url);
@@ -121,10 +125,10 @@ public abstract class PersonProcessor<T> {
      * Add given file if it does not yet exists for given {@link Person}
      *
      * @param person Person object to add the file to
-     * @param url URL of the file to download and save
+     * @param url    URL of the file to download and save
      * @return {@link FileMeta} object if the file was added; null otherwise
-     * @see #addPhotoIfNotExists(Person, URL)
      * @throws IOException if an error occurred when reading the file
+     * @see #addPhotoIfNotExists(Person, URL)
      */
     protected FileMeta addFileIfNotExists(Person person, URL url) throws IOException {
         URLConnection urlConnection = url.openConnection();
