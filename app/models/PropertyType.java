@@ -94,6 +94,24 @@ public class PropertyType {
 
         @DefaultValue
         public static PropertyType workAddress = new PropertyType("workAddress", "Work Address", "home");
+
+        @DefaultValue
+        public static PropertyType contactAddress = new PropertyType("contactAddress", "Contact Address", "home");
+
+        @DefaultValue
+        public static PropertyType gender = new PropertyType("gender", "Gender", "");
+
+        @DefaultValue
+        public static PropertyType orientation = new PropertyType("orientation", "Interested in", "");
+
+        @DefaultValue
+        public static PropertyType languages = new PropertyType("languages", "Languages", "comment");
+
+        @DefaultValue
+        public static PropertyType political = new PropertyType("political", "Political Views", "");
+
+        @DefaultValue
+        public static PropertyType website = new PropertyType("website", "Website", "link");
     }
 
     static {
