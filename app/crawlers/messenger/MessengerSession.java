@@ -63,10 +63,16 @@ public class MessengerSession {
 
         InputStream secretsStream = getClass().getResourceAsStream(COOKIES_FILENAME);
 
+        if(secretsStream==null) {
+            Logger.warn("Cannot find Messenger cookies file " + COOKIES_FILENAME);
+            return;
+        }
+
         try {
             cookies = IOUtils.toString(secretsStream, "UTF-8").trim();
         } catch (IOException e) {
-            Logger.warn("Cannot open Facebook cookies file " + COOKIES_FILENAME);
+            Logger.warn("Cannot open Messenger cookies file " + COOKIES_FILENAME);
+            return;
         }
 
         try {
