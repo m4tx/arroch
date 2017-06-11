@@ -2,9 +2,11 @@ package models;
 
 import modules.preloader.DatabasePreloader;
 import modules.preloader.Preloadable;
+import utils.RandomUtils;
 import utils.SimpleQuery;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -86,6 +88,17 @@ public class Post {
                         thread.setBody(genMessageBody());
                         thread.setTimestamp(Timestamp.valueOf("2012-01-01 00:00:00"));
                         thread.setPost(post);
+
+                        if(Math.random() < 0.5) {
+                            FileMeta attachment = FileManager.createFile("photo.jpg", "image/jpeg", em);
+                            try {
+                                RandomUtils.randomImage(100, 200, FileManager.getFile(attachment));
+                            } catch (IOException e) {
+                                assert false;
+                            }
+                            thread.getMessageAttachment().add(attachment);
+                        }
+
                         em.persist(thread);
 
                         int random = new Random().nextInt(members.size());
@@ -104,6 +117,17 @@ public class Post {
                             comment.setParent(thread);
                             comment.setPost(post);
                             random = new Random().nextInt(members.size() / 10 + 1);
+
+                            if(Math.random() < 0.1) {
+                                FileMeta attachment = FileManager.createFile("photo.jpg", "image/jpeg", em);
+                                try {
+                                    RandomUtils.randomImage(50, 100, FileManager.getFile(attachment));
+                                } catch (IOException e) {
+                                    assert false;
+                                }
+                                thread.getMessageAttachment().add(attachment);
+                            }
+
                             if (random > 0) {
                                 ThreadLocalRandom.current().ints(0, members.size())
                                         .distinct().limit(random).forEach(index -> comment.getTags().add(members.get(index)));

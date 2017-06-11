@@ -59,9 +59,9 @@ public class Message {
     @JoinTable(
             name = "message_attachments",
             joinColumns = {@JoinColumn(name = "message_id")},
-            inverseJoinColumns = {@JoinColumn(name = "person_id")}
+            inverseJoinColumns = {@JoinColumn(name = "file_id")}
     )
-    private List<Person> messageAttachment = new ArrayList<>();
+    private List<FileMeta> messageAttachment = new ArrayList<>();
 
     public long getId() {
         return id;
@@ -117,5 +117,9 @@ public class Message {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+
+    public List<FileMeta> getMessageAttachment() {
+        return messageAttachment;
     }
 }
