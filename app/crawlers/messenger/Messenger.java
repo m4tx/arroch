@@ -89,7 +89,7 @@ public class Messenger {
 
             messagesLoaded += messages.getMessageList().length;
             Logger.info("Loaded " + messagesLoaded + " messages, earliest at " + before);
-            if (messagesLoaded >= 8000 && !messagesLeft) {
+            if (messagesLoaded >= 8000 && messagesLeft) {
                 Logger.info("Over 8k messages loaded, aborting");
                 messagesLeft = false;
             }
