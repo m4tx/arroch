@@ -1,10 +1,12 @@
 @(person: Person)
 
 <a href="@people.routes.Person.get(person.getId)" class="person-entry uk-link-reset">
-    @if(person.getPhoto == null) {
-        <span class="uk-icon" data-uk-icon="icon: user; ratio: 2.55"></span>
-    } else {
-        <img class="person-photo" src="@routes.File.getPreview(person.getPhoto.getId)">
-    }
-@person.getDisplayName
+    <div class="img-container">
+        @if(person.getPhoto == null) {
+            <span class="uk-icon" data-uk-icon="icon: user; ratio: 2.55"></span>
+        } else {
+            <img class="person-photo" src="@routes.File.getPreview(person.getPhoto.getId)">
+            }
+    </div>
+    @person.getDisplayName
 </a>

@@ -2,12 +2,21 @@
 
 .person-entry {
   img.person-photo {
+    max-width: $thumbnail-size;
+    max-height: $thumbnail-size;
+  }
+
+  .img-container {
     width: $thumbnail-size;
+    height: $thumbnail-size;
+    display: inline-block;
+    text-align: center;
   }
 }
 
 .person-panel {
   .person-photo {
-    width: 200px;
+    max-width: 200px;
+    max-height: 200px;
   }
 }
