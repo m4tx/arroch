@@ -17,7 +17,7 @@ public class PersonAccount implements Serializable {
     @Id
     private String account;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "person_id", nullable = false)
     private Person person;
 

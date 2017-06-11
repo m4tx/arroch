@@ -48,6 +48,15 @@ public class DataSource {
         return url;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof DataSource)) {
+            return false;
+        }
+        DataSource other = (DataSource) obj;
+        return this.id.equals(other.id);
+    }
+
     public static class DataSourceList {
         @DefaultValue
         public static DataSource arroch = new DataSource("arroch", "Arroch", "database", "#");

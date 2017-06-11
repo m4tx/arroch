@@ -97,6 +97,7 @@ public class DatabasePreloader {
                     Object oldVal = em.find(val.getClass(), emUtils.getIdentifier(val));
                     if(oldVal == null) {
                         em.persist(val);
+                        field.set(null, em.find(val.getClass(), emUtils.getIdentifier(val)));
                     } else {
                         field.set(null, oldVal);
                     }
