@@ -1,11 +1,20 @@
 package controllers.groups;
 
+import models.Message;
+import models.Post;
 import play.db.jpa.JPA;
 import play.db.jpa.Transactional;
 import play.mvc.Result;
+import utils.SimpleQuery;
 import views.html.pages.group.*;
 
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
+
+import java.util.List;
 
 import static play.mvc.Results.ok;
 
@@ -22,7 +31,17 @@ public class Group {
 
     @Transactional
     public Result getActivityPage(Long id, int page) {
-        return ok(groupActivity.render(JPA.em().find(models.Group.class, id), 5, page));
+        EntityManager em = JPA.em();
+        models.Group g = em.find(models.Group.class, id);
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Post> query = cb.createQuery(Post.class);
+        Root<Post> posts = query.from(Post.class);
+        Join<Post, Message> messages = posts.join("thread");
+        query.where(cb.equal(posts.get("group"), g));
+        query.orderBy(cb.desc(messages.get("timestamp")));
+        List<Post> p = em.createQuery(query).getResultList();
+        return ok(groupActivity.render(g, p, 5, page));
     }
 
     @Transactional

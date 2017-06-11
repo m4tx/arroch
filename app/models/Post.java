@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -25,7 +26,7 @@ public class Post {
     @Column(name = "post_id")
     private long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "message_id")
     private Message thread;
 
@@ -84,9 +85,11 @@ public class Post {
                         Message thread = new Message();
                         post.setThread(thread);
 
+                        Date postDate = RandomUtils.randomTimestamp(Timestamp.valueOf("2012-01-01 00:00:00"), Timestamp.valueOf("2017-01-01 00:00:00"));
+
                         thread.setAuthor(members.get(generator.nextInt(members.size())));
                         thread.setBody(genMessageBody());
-                        thread.setTimestamp(Timestamp.valueOf("2012-01-01 00:00:00"));
+                        thread.setTimestamp(postDate);
                         thread.setPost(post);
 
                         if(Math.random() < 0.5) {
@@ -113,7 +116,7 @@ public class Post {
                             Message comment = new Message();
                             comment.setAuthor(members.get(generator.nextInt(members.size())));
                             comment.setBody(genMessageBody());
-                            comment.setTimestamp(Timestamp.valueOf("2012-01-01 00:00:00"));
+                            comment.setTimestamp(RandomUtils.randomTimestamp(postDate, Timestamp.valueOf("2017-01-01 00:00:00")));
                             comment.setParent(thread);
                             comment.setPost(post);
                             random = new Random().nextInt(members.size() / 10 + 1);

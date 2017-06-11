@@ -1,16 +1,17 @@
 @import partials.pagination
 @import partials.messageWithComments
+@import java.util.List
 
-@(group: Group, step: Int, currentPage: Int)
+@(group: Group, posts: List[Post], step: Int, currentPage: Int)
 
 @pages = @{
-    (group.getPosts.length.toDouble / step).ceil.toInt
+    (posts.length.toDouble / step).ceil.toInt
 }
 
 @groupPage(group) {
     <div>
         <ul class="uk-list">
-        @for(post <- group.getPosts.asScala.view(step * (currentPage - 1), step * currentPage)) {
+        @for(post <- posts.asScala.view(step * (currentPage - 1), step * currentPage)) {
             <li>@messageWithComments(post.getThread)</li>
         }
         </ul>

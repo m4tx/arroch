@@ -41,4 +41,11 @@ public class RandomUtils {
 
         ImageIO.write(img, "jpg", saveTo);
     }
+
+    public static Date randomTimestamp(Date min, Date max) {
+        long start = min.getTime();
+        long end = max.getTime();
+        long diff = end - start + 1;
+        return new Date(start + (long)(Math.random() * diff));
+    }
 }
