@@ -8,7 +8,7 @@ import views.html.pages.index;
 
 public class Application extends Controller {
     public Result index() {
-        return ok(index.render("System started"));
+        return ok(index.render());
     }
 
 }
