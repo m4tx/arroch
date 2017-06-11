@@ -125,7 +125,7 @@ public class Post {
                                 } catch (IOException e) {
                                     assert false;
                                 }
-                                thread.getMessageAttachment().add(attachment);
+                                comment.getMessageAttachment().add(attachment);
                             }
 
                             if (random > 0) {
