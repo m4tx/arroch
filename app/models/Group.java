@@ -8,7 +8,7 @@ import java.util.List;
 @Cacheable
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", length = 16)
-@Table(name = "groups")
+@Table(name = "groups", uniqueConstraints={@UniqueConstraint(columnNames={"source_id", "external_id"})})
 abstract public class Group {
     @Id
     @GeneratedValue
@@ -26,6 +26,13 @@ abstract public class Group {
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "source_id")
+    private DataSource source;
+
+    @Column(name = "external_id", length = 255)
+    private String externalId;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
@@ -67,6 +74,22 @@ abstract public class Group {
 
     public List<Post> getPosts() {
         return posts;
+    }
+
+    public DataSource getSource() {
+        return source;
+    }
+
+    public void setSource(DataSource source) {
+        this.source = source;
+    }
+
+    public String getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(String externalId) {
+        this.externalId = externalId;
     }
 
     public List<FileMeta> getFiles() {

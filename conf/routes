@@ -47,6 +47,9 @@ GET         /google/authenticated/                  controllers.crawlers.Google.
 # Facebook
 GET         /facebook/                              controllers.crawlers.Facebook.fetchPeople
 
+# Messenger
+GET         /messenger/                             controllers.crawlers.Messenger.fetchThreads
+
 # Groups
 GET         /groups/                                controllers.groups.Groups.get
 GET         /groups/:page/                          controllers.groups.Groups.getPage(page: Int)

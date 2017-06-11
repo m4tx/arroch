@@ -22,6 +22,7 @@ libraryDependencies ++= Seq(
 ) // Selenium and AssertJ
 libraryDependencies += "com.google.apis" % "google-api-services-people" % "v1-rev110-1.22.0"
 libraryDependencies += "org.jsoup" % "jsoup" % "1.10.2"
+libraryDependencies += "com.google.code.gson" % "gson" % "2.8.1"
 
 PlayKeys.externalizeResources := false
 

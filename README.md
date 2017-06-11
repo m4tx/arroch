@@ -28,3 +28,8 @@ In order to make it working:
 1. Login to https://mbasic.facebook.com/home.php
 2. Extract Facebook cookies from browser and put them in file `conf/facebook_cookies`
 3. Do not logout
+
+### Messenger
+1. Login to https://www.messenger.com
+2. Extract Messenger cookies from browser and put them in file `conf/messenger_cookies`
+3. Do not logout

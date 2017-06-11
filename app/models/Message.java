@@ -32,7 +32,7 @@ public class Message {
     @Past
     private Date timestamp;
 
-    @Column(length = 10000)
+    @Column(length = 200000)
     private String body;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

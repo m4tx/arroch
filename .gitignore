@@ -7,6 +7,7 @@
 # API client secrets file
 conf/google_client_secrets.json
 conf/facebook_cookies
+conf/messenger_cookies
 
 build/
 dist/
