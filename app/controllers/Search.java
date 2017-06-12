@@ -36,6 +36,7 @@ public class Search extends Controller {
         javax.persistence.Query jpaQuery =
                 fullTextEntityManager.createFullTextQuery(luceneQuery, Message.class);
 
+        @SuppressWarnings("unchecked")
         List<Message> results = (List<Message>) jpaQuery.getResultList();
         return ok(search.render(results));
     }

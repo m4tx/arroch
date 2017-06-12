@@ -48,6 +48,7 @@ public class ConversationGroup extends Group {
                     assert false;
                 }
                 group.setPhoto(pic);
+                group.getFiles().add(pic);
                 em.persist(group);
             }
         }), 30);
