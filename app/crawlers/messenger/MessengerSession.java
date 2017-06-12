@@ -63,7 +63,7 @@ public class MessengerSession {
 
         InputStream secretsStream = getClass().getResourceAsStream(COOKIES_FILENAME);
 
-        if(secretsStream==null) {
+        if (secretsStream == null) {
             Logger.warn("Cannot find Messenger cookies file " + COOKIES_FILENAME);
             return;
         }

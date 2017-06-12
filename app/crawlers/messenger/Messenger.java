@@ -15,6 +15,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Messenger {
+    /** Maximum number of messages to download for each conversation, -1 means download all */
+    private static final int MESSAGES_TO_LOAD = 8000;
+
     private MessengerSession session = new MessengerSession();
     private MessengerPersonProcessor personProcessor;
 
@@ -89,8 +92,8 @@ public class Messenger {
 
             messagesLoaded += messages.getMessageList().length;
             Logger.info("Loaded " + messagesLoaded + " messages, earliest at " + before);
-            if (messagesLoaded >= 8000 && messagesLeft) {
-                Logger.info("Over 8k messages loaded, aborting");
+            if (MESSAGES_TO_LOAD != -1 && messagesLoaded >= MESSAGES_TO_LOAD && messagesLeft) {
+                Logger.info("Over " + MESSAGES_TO_LOAD + " messages loaded, aborting");
                 messagesLeft = false;
             }
         } while (messagesLeft);

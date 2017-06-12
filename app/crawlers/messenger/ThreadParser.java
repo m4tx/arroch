@@ -37,6 +37,8 @@ public class ThreadParser {
 
     private String readMessagesJson(InputStream is) throws IOException {
         String content = IOUtils.toString(is, "UTF-8");
+        // Messenger returns invalid JSON (two objects), so we need to ignore
+        // everything after the last {
         return content.substring(0, content.lastIndexOf('{'));
     }
 
