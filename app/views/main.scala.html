@@ -44,14 +44,14 @@ xmlns="http://www.w3.org/1999/xhtml">
         @content
         </div>
 
-        @if(flash.containsKey("success")) {
+        @if(flash.containsKey("success") || flash.containsKey("error")) {
             <script>
+                @if(flash.containsKey("success")) {
                     UIkit.notification("<span uk-icon='icon: check'></span> @flash.get("success")", {status: 'success'});
-            </script>
-        }
-        @if(flash.containsKey("error")) {
-            <script>
+                }
+                @if(flash.containsKey("error")) {
                     UIkit.notification("<span uk-icon='icon: close'></span> @flash.get("error")");
+                }
             </script>
         }
     </body>
