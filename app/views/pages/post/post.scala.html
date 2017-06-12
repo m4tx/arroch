@@ -3,5 +3,6 @@
 @(post: Post)
 
 @main("Post") {
+    <p><a class="uk-link-reset uk-text-large" href="@groups.routes.Group.get(post.getGroup.getId)"><span data-uk-icon="icon: link; ratio: 1.5"></span> Go to Group</a></p>
     @messageWithComments(post.getThread)
 }
