@@ -104,10 +104,10 @@ public class Post {
 
                         em.persist(thread);
 
-                        int random = new Random().nextInt(members.size());
+                        int random = new Random().nextInt(Math.min(members.size(), 10));
                         ThreadLocalRandom.current().ints(0, members.size())
                                 .distinct().limit(random).forEach(index -> thread.getTags().add(members.get(index)));
-                        random = new Random().nextInt(members.size());
+                        random = new Random().nextInt(Math.min(members.size(), 20));
                         ThreadLocalRandom.current().ints(0, members.size())
                                 .distinct().limit(random).forEach(index -> thread.getUpvotes().add(members.get(index)));
 
@@ -119,7 +119,7 @@ public class Post {
                             comment.setTimestamp(RandomUtils.randomTimestamp(postDate, Timestamp.valueOf("2017-01-01 00:00:00")));
                             comment.setParent(thread);
                             comment.setPost(post);
-                            random = new Random().nextInt(members.size() / 10 + 1);
+                            random = new Random().nextInt(Math.min(members.size(), 5));
 
                             if(Math.random() < 0.1) {
                                 FileMeta attachment = FileManager.createFile("photo.jpg", "image/jpeg", em);
@@ -135,7 +135,7 @@ public class Post {
                                 ThreadLocalRandom.current().ints(0, members.size())
                                         .distinct().limit(random).forEach(index -> comment.getTags().add(members.get(index)));
                             }
-                            random = new Random().nextInt(members.size() / 10 + 1);
+                            random = new Random().nextInt(Math.min(members.size(), 5));
                             if (random > 0) {
                                 ThreadLocalRandom.current().ints(0, members.size())
                                         .distinct().limit(random).forEach(index -> comment.getUpvotes().add(members.get(index)));
