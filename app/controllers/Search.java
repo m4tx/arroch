@@ -38,6 +38,6 @@ public class Search extends Controller {
 
         @SuppressWarnings("unchecked")
         List<Message> results = (List<Message>) jpaQuery.getResultList();
-        return ok(search.render(results));
+        return ok(search.render(results, queryString));
     }
 }
