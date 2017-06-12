@@ -41,7 +41,7 @@ public class Group {
         query.where(cb.equal(posts.get("group"), g));
         query.orderBy(cb.desc(messages.get("timestamp")));
         List<Post> p = em.createQuery(query).getResultList();
-        return ok(groupActivity.render(g, p, 5, page));
+        return ok(groupActivity.render(g, p, g instanceof models.ConversationGroup ? 25 : 5, page));
     }
 
     @Transactional
