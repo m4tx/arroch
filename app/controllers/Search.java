@@ -15,6 +15,12 @@ import java.util.List;
 public class Search extends Controller {
     @Transactional
     public Result search() {
+        String queryString = request().getQueryString("q");
+        if (queryString.length() < 2) {
+            flash("error", "Please enter at least 2 characters");
+            return redirect(routes.Application.index());
+        }
+
         EntityManager em = JPA.em();
         FullTextEntityManager fullTextEntityManager =
                 org.hibernate.search.jpa.Search.getFullTextEntityManager(em);
@@ -24,7 +30,7 @@ public class Search extends Controller {
         org.apache.lucene.search.Query luceneQuery = qb
                 .keyword()
                 .onFields("body")
-                .matching(request().getQueryString("q"))
+                .matching(queryString)
                 .createQuery();
 
         javax.persistence.Query jpaQuery =

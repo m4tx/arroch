@@ -1,5 +1,6 @@
 @import "../config";
 
 .uk-notification-message {
+  color: $notification-text-color;
   background-color: $notification-background;
 }
