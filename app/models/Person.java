@@ -162,14 +162,7 @@ public class Person {
         return inConversations;
     }
 
-    public static class DefaultPersons {
-        @DefaultValue
-        public static Person me = (new PersonFactory()).setDisplayName("Me").get();
-    }
-
     static {
-        DatabasePreloader.addDefault(20, DefaultPersons.class);
-
         DatabasePreloader.addTest((em -> {
             for (int i = 0; i < 100; i++) {
                 String firstName = capitalizeFully(randomAlphabetic(10));

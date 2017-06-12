@@ -57,13 +57,13 @@ public class DatabasePreloader {
                 if (em.createQuery(query).getSingleResult() != 0) {
                     Logger.info("Database not empty, skipping preload");
                     testEnabled = false;
-                    return;
                 }
 
                 defaultTasks.sort(Comparator.comparingInt(Entry::getKey));
                 for (Entry<Integer, Class<?>> a : defaultTasks) {
                     loadDefault(a.getValue(), em);
                 }
+
                 if (testEnabled) {
                     Logger.info("Loading test data");
                     testTasks.sort(Comparator.comparingInt(Entry::getKey));

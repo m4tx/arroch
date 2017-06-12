@@ -44,7 +44,7 @@ public class MessengerSession {
     private static final Pattern DTSG_REGEX = Pattern.compile("\"DTSGInitialData\".*?,\\{\"token\":\"(.+?)\"}");
     private static final String ACCEPT_LANGUAGE = "en-US,en;q=0.5";
     private static final String USER_AGENT =
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.86 Safari/537.36";
+            "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
 
     private CloseableHttpClient httpClient;
     private ThreadParser parser = new ThreadParser();
