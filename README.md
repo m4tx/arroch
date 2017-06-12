@@ -1,6 +1,23 @@
 Arroch
 ======
 
+## Quickstart
+* Requirements: 
+  * Oracle JDK (OpenJDK is not supported)
+  * sbt (Scala)
+* Steps:
+  * Clone project from Git
+  * In main project directory `sbt run`
+  * Go to http://localhost:9000
+  
+## Database settings
+Database configuration in conf/application.conf
+
+## Test data generator
+To fill the database with random data:
+* (For persistent database only) Drop tables from database (or switch to H2 in mem db provider)
+* In conf/application.conf set `databasePreloader.addTestData` to `true`
+* Run the application (generation occurs on start, so it may take a few minutes for the first page to load)
 
 ## IntelliJ IDEA quickstart
 * Requirements: 
