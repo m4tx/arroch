@@ -17,6 +17,11 @@ class FacebookSession {
     FacebookSession() {
         InputStream secretsStream = getClass().getResourceAsStream(COOKIES_FILENAME);
 
+        if (secretsStream == null) {
+            Logger.warn("Cannot find Facebook cookies file " + COOKIES_FILENAME);
+            return;
+        }
+
         try {
             cookies = IOUtils.toString(secretsStream, "utf8").trim();
         } catch (IOException e) {
