@@ -1,11 +1,20 @@
 @main("Home") {
     <h3>Run crawler</h3>
     <ul class="uk-list">
-        <li><a class="uk-link-reset" href="@crawlers.routes.Google.redirectToGoogle"><span uk-icon="icon: google; ratio: 2"></span>
-            Google contacts</a></li>
-        <li><a class="uk-link-reset" href="@crawlers.routes.Facebook.fetchPeople"><span uk-icon="icon: facebook; ratio: 2"></span>
-            Facebook friends</a></li>
-        <li><a class="uk-link-reset" href="@crawlers.routes.Messenger.fetchThreads()"><span uk-icon="icon: facebook; ratio: 2"></span>
-            Messenger conversations</a></li>
+        <li>
+            <a class="uk-link-reset" href="@crawlers.routes.Google.redirectToGoogle">
+                <span uk-icon="icon: google; ratio: 2"></span>Google contacts
+            </a>
+        </li>
+        <li>
+            <a class="uk-link-reset" href="@crawlers.routes.Facebook.fetchPeople">
+                <span uk-icon="icon: facebook; ratio: 2"></span>Facebook friends
+            </a>
+        </li>
+        <li>
+            <a class="uk-link-reset" href="@crawlers.routes.Messenger.fetchThreads">
+                <span uk-icon="icon: facebook; ratio: 2"></span>Messenger conversations
+            </a>
+        </li>
     </ul>
 }

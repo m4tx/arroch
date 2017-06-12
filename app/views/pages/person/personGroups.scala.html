@@ -2,17 +2,18 @@
 @import partials.pagination
 
 @(person: Person, step: Int, currentPage: Int)
-    @pages = @{
-        (person.getMemberOf.length.toDouble / step).ceil.toInt
-    }
 
-    @personPage(person) {
-        <div>
-            <ul class="uk-list">
-            @for(group <- person.getMemberOf.asScala.view(step * (currentPage - 1), step * currentPage)) {
-                <li>@groupEntry(group)</li>
-            }
-            </ul>
-            @pagination(pages, currentPage, people.routes.Person.getGroups(person.getId).absoluteURL)
-        </div>
-    }
+@pages = @{
+    (person.getMemberOf.length.toDouble / step).ceil.toInt
+}
+
+@personPage(person) {
+    <div>
+        <ul class="uk-list">
+        @for(group <- person.getMemberOf.asScala.view(step * (currentPage - 1), step * currentPage)) {
+            <li>@groupEntry(group)</li>
+        }
+        </ul>
+        @pagination(pages, currentPage, people.routes.Person.getGroups(person.getId).absoluteURL)
+    </div>
+}
