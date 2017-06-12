@@ -14,6 +14,8 @@
             <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>
             <property name="hibernate.cache.use_second_level_cache" value="true"/>
             <property name="hibernate.cache.use_query_cache" value="true"/>
+            <property name="hibernate.search.default.directory_provider" value="filesystem"/>
+            <property name="hibernate.search.default.indexBase" value="./lucene/"/>
         </properties>
     </persistence-unit>
 

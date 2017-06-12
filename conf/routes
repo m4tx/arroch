@@ -5,6 +5,9 @@
 # Home page
 GET         /                                       controllers.Application.index
 
+# Search
+GET         /search/                                controllers.Search.search
+
 # People
 GET         /people/                                controllers.people.People.get
 GET         /people/:page/                          controllers.people.People.getPage(page: Int)

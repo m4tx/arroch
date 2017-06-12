@@ -1,3 +1,5 @@
+@import helper._
+
 @(title: String)(content: Html)
 
 <!DOCTYPE html>
@@ -14,13 +16,28 @@ xmlns="http://www.w3.org/1999/xhtml">
         <title>@title - Arroch</title>
     </head>
     <body>
-        <nav class="uk-navbar-container" data-uk-sticky>
-            <div class="uk-navbar-left">
+        <nav class="uk-navbar-container" data-uk-sticky data-uk-navbar>
+            <div class="nav-overlay uk-navbar-left">
                 <a class="uk-navbar-item uk-logo" href="/">Arroch</a>
                 <ul class="uk-navbar-nav">
                     <li class=""><a href="@people.routes.People.get">People</a></li>
                     <li class=""><a href="@groups.routes.Groups.get">Groups</a></li>
                 </ul>
+            </div>
+
+            <div class="nav-overlay uk-navbar-right">
+                <a class="uk-navbar-toggle" data-uk-search-icon data-uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+            </div>
+
+            <div class="nav-overlay uk-navbar-left uk-flex-1" hidden>
+                <div class="uk-navbar-item uk-width-expand">
+                    @form(action = routes.Search.search, args = 'class -> "uk-search uk-search-navbar uk-width-1-1") {
+                        <input class="uk-search-input" type="search" placeholder="Search..." name="q" autofocus>
+                    }
+                </div>
+
+                <a class="uk-navbar-toggle" data-uk-close data-uk-toggle="target: .nav-overlay; animation: uk-animation-fade" href="#"></a>
+
             </div>
         </nav>
         <div class="uk-container">

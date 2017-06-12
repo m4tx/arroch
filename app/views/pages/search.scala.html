@@ -1,0 +1,18 @@
+@import partials.message
+@import java.util.List
+
+@(messages: List[Message])
+
+@main("Search Results") {
+    <h1 class="uk-heading-primary">Search Results</h1>
+    <div>
+        <ul class="uk-list">
+        @for(msg <- messages) {
+            <li>
+                @message(msg)
+            <p><a class="uk-link-reset uk-text-large" href="@posts.routes.Post.get(msg.getPost.getId)"><span data-uk-icon="icon: link; ratio: 1.5"></span> Go to Post</a></p>
+            </li>
+        }
+        </ul>
+    </div>
+}

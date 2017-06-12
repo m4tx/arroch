@@ -1,5 +1,8 @@
 package models;
 
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+
 import javax.persistence.*;
 import javax.validation.constraints.Past;
 import java.util.ArrayList;
@@ -10,6 +13,7 @@ import java.util.List;
 @Entity
 @Cacheable
 @Table(name = "messages")
+@Indexed
 public class Message {
     @Id
     @GeneratedValue
@@ -33,6 +37,7 @@ public class Message {
     private Date timestamp;
 
     @Column(length = 200000)
+    @Field
     private String body;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

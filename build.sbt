@@ -11,7 +11,8 @@ libraryDependencies ++= Seq(
   "com.h2database" % "h2" % "1.4.193",
   "dom4j" % "dom4j" % "1.6.1",
   "org.hibernate" % "hibernate-core" % "5.2.10.Final",
-  "org.hibernate" % "hibernate-ehcache" % "5.2.10.Final"
+  "org.hibernate" % "hibernate-ehcache" % "5.2.10.Final",
+  "org.hibernate" % "hibernate-search" % "5.7.1.Final"
 ) //Hibernate ORM
 libraryDependencies ++= Seq(
   "org.fluentlenium" % "fluentlenium-core" % "3.2.0" % "test",
