@@ -8,8 +8,12 @@
         <non-jta-data-source>DefaultDS</non-jta-data-source>
         <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
         <properties>
-            <!-- <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect"/> -->
-            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+
+            <!-- SQL DIALECT -->
+            <!--<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL82Dialect"/>--> <!--Postgres-->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/> <!--H2-->
+            <!--SQL  DIALECT -->
+
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>
             <property name="hibernate.cache.use_second_level_cache" value="true"/>
