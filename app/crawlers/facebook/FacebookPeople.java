@@ -43,6 +43,11 @@ class FacebookPeople {
     static String getMyId(FacebookSession session) throws IOException {
         Document page = session.getDocument(Facebook.FB_URL + "home.php");
         Element nav = page.select("div[role=navigation]").first();
+
+        if (nav == null) {
+            throw new FacebookAuthException();
+        }
+
         String myId = nav.select("a").get(1).attr("href");
         Pattern pattern;
         if (myId.startsWith("/profile.php?")) {
